@@ -1,0 +1,56 @@
+* { box-sizing: border-box; }
+body { font-family: "Segoe UI", Arial, sans-serif; margin: 0; background: #f4f6f8; color: #222; }
+header { background: #0b5394; color: #fff; padding: 12px 24px; display: flex; align-items: center; gap: 24px; }
+header h1 { font-size: 20px; margin: 0; }
+header nav a { color: #cfe3f5; text-decoration: none; margin-right: 16px; font-weight: 600; }
+header nav a:hover { color: #fff; }
+main { padding: 20px 24px; max-width: 1200px; margin: 0 auto; }
+.card { background: #fff; border: 1px solid #dde3ea; border-radius: 8px; padding: 16px; margin-bottom: 16px; }
+button, .btn { background: #0b5394; color: #fff; border: none; border-radius: 6px; padding: 7px 14px; cursor: pointer; font-size: 14px; text-decoration: none; display: inline-block; }
+button.secondary, .btn.secondary { background: #6c757d; }
+button.danger { background: #c0392b; }
+button:hover { filter: brightness(1.1); }
+input, select, textarea { font-size: 14px; padding: 6px 8px; border: 1px solid #c5cdd6; border-radius: 6px; }
+label { font-size: 13px; color: #444; display: block; margin-bottom: 2px; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+table { border-collapse: collapse; width: 100%; }
+th, td { border: 1px solid #e0e5ea; padding: 6px 10px; text-align: left; font-size: 14px; }
+th { background: #eef2f6; }
+.badge { border-radius: 4px; padding: 2px 7px; font-size: 12px; font-weight: 600; white-space: nowrap; }
+.badge.X { background: #f8d7da; color: #721c24; }
+.badge.ONC { background: #ffc107; color: #533f03; }
+.badge.O { background: #d1ecf1; color: #0c5460; }
+.badge.PRQ { background: #721c24; color: #fff; }
+.badge.NA { background: #e2e3e5; color: #555; }
+.badge.AJO { background: #6f42c1; color: #fff; }
+.badge.stale { background: #ffeeba; color: #7a5c00; }
+.st-TODO { color: #888; } .st-IN_PROGRESS { color: #0b5394; } .st-EVIDENCE_MISSING { color: #b06000; }
+.st-NON_COMPLIANT { color: #c0392b; font-weight: 700; } .st-VALIDATED { color: #1e7e34; font-weight: 700; }
+.gauge { background: #e9ecef; border-radius: 8px; height: 26px; position: relative; margin: 6px 0 2px; overflow: hidden; }
+.gauge > .fill { height: 100%; background: #28a745; }
+.gauge > .fill.warn { background: #ffc107; }
+.gauge > .fill.bad { background: #dc3545; }
+.gauge > .marker { position: absolute; top: 0; bottom: 0; width: 2px; background: #721c24; }
+.gauge-label { font-size: 13px; color: #444; }
+.verdict { font-size: 18px; font-weight: 700; padding: 8px 14px; border-radius: 6px; display: inline-block; }
+.verdict.ok { background: #d4edda; color: #155724; }
+.verdict.ko { background: #f8d7da; color: #721c24; }
+.crit { background: #fff; border: 1px solid #dde3ea; border-radius: 8px; margin-bottom: 8px; }
+.crit > .head { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; flex-wrap: wrap; }
+.crit > .head .title { flex: 1; font-size: 14px; }
+.crit > .body { padding: 0 14px 14px; border-top: 1px solid #eee; }
+.crit-id { font-weight: 700; color: #0b5394; min-width: 44px; }
+.chapter-title { font-size: 17px; color: #0b5394; margin: 22px 0 8px; border-bottom: 2px solid #0b5394; padding-bottom: 4px; }
+.section-title { font-size: 14px; font-weight: 700; color: #555; margin: 14px 0 6px; }
+.ev-chip { display: inline-flex; align-items: center; gap: 6px; background: #eef2f6; border: 1px solid #d0d7de; border-radius: 6px; padding: 4px 8px; margin: 3px 6px 3px 0; font-size: 13px; }
+.ev-chip a { color: #0b5394; }
+.ev-chip button { padding: 1px 7px; font-size: 12px; }
+.filters { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+.star-btns button { margin-right: 6px; }
+.star-btns button.active { background: #ffc107; color: #222; }
+.blockers { background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 6px; padding: 10px 14px; margin: 10px 0; }
+.muted { color: #777; font-size: 13px; }
+.row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+textarea { width: 100%; min-height: 60px; }
+.topbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 14px; }
+.flash { position: fixed; top: 12px; right: 12px; background: #333; color: #fff; padding: 10px 16px; border-radius: 6px; z-index: 10; }
