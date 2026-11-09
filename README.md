@@ -1,10 +1,16 @@
-# ⭐ Prépa Classement Camping & PRL (Atout France)
+# Hpa Rating
 
-Outil **local** (aucune donnée ne quitte la machine) pour préparer un dossier de
+**Camp Compagnon**
+
+Espace privé sur invitation fonctionnant en local pour préparer un dossier de
 classement en étoiles (1★–5★) d'un terrain de camping / caravanage ou d'un PRL,
 selon le tableau de classement officiel (arrêté du 10 avril 2019, annexe I).
 
 ## Fonctionnalités
+
+Chaque dossier suit cinq étapes obligatoires : **Profil → Prérequis → Critères → Justificatifs → Synthèse et export**. Confirmer le profil (au moins le nombre total d’emplacements) ouvre le premier numéro applicable. Les fiches sont renseignées une à une dans l’ordre du référentiel ; enregistrer un constat autre que « À traiter » ouvre la suivante, même si le constat est défavorable. Les critères non applicables sont sautés. Les boutons **?** expliquent la démarche et ses effets.
+
+Il est possible de corriger une réponse antérieure. Remettre un critère « À traiter » ou modifier les données d’applicabilité recalcule le point de reprise sans effacer les réponses ni les pièces. La revue explicite des justificatifs ouvre la synthèse et les exports, sans déclarer un dossier éligible. La synthèse signale les blocages ; la simulation ne modifie pas le parcours.
 
 - **Moteur de calcul réglementaire** (`app/scoring.py`, pur + testé) :
   - prérequis (PRQ) bloquants ;
@@ -34,30 +40,41 @@ selon le tableau de classement officiel (arrêté du 10 avril 2019, annexe I).
 
 ## Lancement
 
-```bash
-python3 run.py            # http://127.0.0.1:8000
-python3 run.py --port 9000
+L’espace invité et la console d’administration sont deux applications indépendantes. Elles peuvent être démarrées et arrêtées séparément. Avec Python 3.10+ sous Windows, installer les dépendances une fois :
+
+```powershell
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
 ```
 
-Zéro dépendance externe (Python 3.10+ standard library uniquement).
-Données dans `data/` (base SQLite + preuves + exports).
+1. **Espace invité** : lancer `.venv\Scripts\python run.py`, puis ouvrir [Mes dossiers](http://localhost:8000/espace). Seul ce service ouvre les dossiers, pièces, synthèses et exports.
+2. **Console privée** : dans un autre terminal, lancer `.venv\Scripts\python run_admin.py`, puis ouvrir [la console](http://127.0.0.1:8001/). Aucun lien vers elle ne figure dans l’espace invité. L’ancienne adresse sur le port 8000 ne sert plus de page.
+3. **Première configuration uniquement** : si l’administrateur n’a pas encore de mot de passe, lancer `.venv\Scripts\python run_admin.py --setup-key ..\configuration-hpa.txt`. La fiche est privée, valable 24 heures et doit avoir un nouveau nom. Saisir la clé dans la console, choisir un mot de passe, associer l’application d’authentification, puis conserver les huit codes de secours. Un administrateur déjà configuré garde son mot de passe et son second facteur.
+
+Dans la console, générer un code puis copier l’invitation pour l’envoyer soi-même. Le lien copié pointe sur **l’espace invité** ; pour un port personnalisé, configurer `HPA_GUEST_ORIGIN` avant de lancer la console. La révocation et le remplacement d’un code invalident les sessions correspondantes. Ils ne suppriment aucun dossier.
+
+Pour rattacher d’anciens dossiers sans propriétaire à un accès d’essai, la distribution complète comprend la commande locale facultative `.venv\Scripts\python init_local.py ..\acces-essai.txt`. Elle ne tourne dans aucun des deux serveurs. Les dossiers déjà rattachés conservent leur propriétaire.
+
+SQLite et les pièces restent dans le répertoire privé `data/`. Lors d’une installation dans deux répertoires différents, définir `HPA_DATA_DIR` sur le même chemin absolu pour les deux processus. Le registre des invitations garde les mêmes identifiants et empreintes. Les sessions invitées sont stockées dans `guest-sessions.sqlite3` ; le compte opérateur et ses sessions restent dans `access.sqlite3`, avec un autre cookie et une autre clé de signature. Lors du passage à cette version, les sessions invitées valides sont reprises sans les informations d’administration. Les deux serveurs écoutent uniquement en local ; fermer la console n’empêche pas un invité de travailler.
 
 ## Tests
 
-```bash
-python3 -m unittest discover -s tests -v
+```powershell
+.venv\Scripts\python -m unittest discover -s tests -v
 ```
 
 ## Référentiel
 
-`data/referentiel.json` est seedé à partir du PDF officiel Atout France
-(critères 1–52, extraits, marqués `"validated": false`). **À faire avant usage
-en production** : compléter et valider critère par critère depuis le PDF
-(champ `"validated": true`, source + page), le fichier est rechargé à chaud.
+`data/referentiel.json` contient les 195 lignes numérotées du tableau Camping et PRL, avec les cinq catégories, les points, les seuils chiffrés, les précisions et la page source. Les valeurs ont été recoupées avec l’annexe I de l’arrêté du 10 avril 2019. Le critère 132 porte la mention AJO dans l’annexe. L’application demande donc une pièce pour ce critère. [Tableau Atout France](https://www.atout-france.fr/sites/default/files/2025-12/R%C3%A9f%C3%A9rentiel%20de%20classement%20-%20Camping%20%26%20PRL.pdf) · [Annexe I sur Légifrance](https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000038365246)
+
+Les données du profil déterminent les exclusions. Les exigences qualitatives et les quantités d’équipement doivent être vérifiées sur place avant de valider. Les critères 22, 24, 115 et 131 permettent de saisir de 1 à 5 points. La simulation demande une nouvelle validation lorsqu’une catégorie supérieure impose un seuil différent.
+
+Les anciens dossiers contenant des statuts ou des pièces restent associés à `data/referentiel-v1.json` pour conserver la signification de leurs numéros. Un nouveau dossier utilise la grille complète. Supprimer le dernier justificatif d’un critère AJO le fait repasser à « Preuve manquante ».
 
 ## Limites connues (V1)
 
-- Référentiel partiel (à compléter/valider) ; pas d'édition des critères dans l'UI.
 - Pas de conversion HEIC→JPG automatique (installer Pillow si besoin) : les photos
   iPhone en .heic sont stockées telles quelles.
-- Utilisateur unique local (pas d'authentification) : lancer en `127.0.0.1` par défaut.
+- L’accès distant en HTTPS relève d’une livraison ultérieure. Une invitation contenant `localhost` fonctionne sur le poste qui héberge le serveur.
+
+Visuel de l’espace invité : [camping en bord de mer, BusterTravel sur Pinterest](https://fr.pinterest.com/pin/1098878377851832416/). Logo fourni par le propriétaire de CampCompagnon.

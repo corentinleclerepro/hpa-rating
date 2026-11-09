@@ -3,3 +3,10 @@ data/dossiers/
 data/exports/
 __pycache__/
 *.pyc
+.venv/
+data/*.sqlite3*
+data/*.key
+data/.bootstrap*
+data/migration-backups/
+data/.removed/
+data/app.db-*

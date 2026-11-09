@@ -1,0 +1,17 @@
+from functools import lru_cache
+from hpa_shared.registry import Store, copy_limits, legacy_columns
+
+
+def initialize(conn, old):
+    conn.execute("CREATE TABLE local_setup (id INTEGER PRIMARY KEY CHECK (id=1), digest TEXT NOT NULL, expires INTEGER NOT NULL)")
+    conn.execute("CREATE TABLE recovery_codes (digest TEXT PRIMARY KEY, user_id INTEGER NOT NULL)")
+    if legacy_columns(old, "local_setup"):
+        conn.executemany("INSERT INTO local_setup VALUES(?,?,?)", old.execute("SELECT id,digest,expires FROM local_setup"))
+    if legacy_columns(old, "recovery_codes"):
+        conn.executemany("INSERT INTO recovery_codes VALUES(?,?)", old.execute("SELECT digest,user_id FROM recovery_codes"))
+    copy_limits(conn, old)
+
+
+@lru_cache(maxsize=1)
+def private_store():
+    return Store("console-state.sqlite3", initialize)

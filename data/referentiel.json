@@ -1,80 +1,3763 @@
 {
   "meta": {
     "titre": "Tableau de classement des terrains de camping et de caravanage et des parcs résidentiels de loisirs",
+    "version": "atout-france-2019-195",
     "source_url": "https://www.atout-france.fr/sites/default/files/2025-12/R%C3%A9f%C3%A9rentiel%20de%20classement%20-%20Camping%20%26%20PRL.pdf",
-    "texte_reference": "Arrêté du 10 avril 2019 (annexe I), en vigueur depuis le 1er juillet 2019",
-    "codes": {
-      "PRQ": "Prérequis (bloquant, non compensable)",
-      "X": "Obligatoire",
-      "ONC": "Obligatoire non compensable",
-      "O": "À la carte",
-      "NA": "Non applicable",
-      "AJO": "À justifier obligatoirement lors de l'inspection"
-    },
-    "regles_calcul": {
-      "obligatoires": "Au moins 95 % des points des critères X applicables doivent être atteints",
-      "compensation": "Chaque point X non atteint (dans la limite des 5 %) est compensé par 3 points O supplémentaires",
-      "seuils_a_la_carte": {"1": "5 %", "2": "10 %", "3": "20 %", "4": "30 %", "5": "40 %"},
-      "onc": "Tout critère ONC non atteint rend la catégorie non atteignable"
-    },
-    "validated": false,
-    "note": "Extrait partiel (critères 1-52) à valider/compléter critère par critère depuis le PDF officiel avant usage en production."
+    "annexe_url": "https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000038365246",
+    "texte_reference": "Arrêté du 10 avril 2019, annexe I, tableau B. Mise en application le 1er juillet 2019.",
+    "validated": true,
+    "notes_sources": "Atout France, tableau Camping & PRL, recoupé avec l’annexe I de l’arrêté du 10 avril 2019. Les numéros de page renvoient au tableau Atout France."
   },
   "chapters": [
-    {"id": 0, "titre": "Prérequis"},
-    {"id": 1, "titre": "Équipements"},
-    {"id": 2, "titre": "Service au client"},
-    {"id": 3, "titre": "Accessibilité et développement durable"}
+    {
+      "id": 0,
+      "titre": "Prérequis"
+    },
+    {
+      "id": 1,
+      "titre": "Équipements"
+    },
+    {
+      "id": 2,
+      "titre": "Service au client"
+    },
+    {
+      "id": 3,
+      "titre": "Accessibilité et développement durable"
+    }
   ],
   "criteria": [
-    {"id": "1", "chapter": 0, "section": "Prérequis", "title": "Capacité d'accueil supérieure à 20 personnes ou plus de 6 hébergements (tentes, caravanes, RML, HLL)", "precisions": "Article R. 421-19 c) du code de l'urbanisme", "na_prl": true, "rules": {"1": {"code": "PRQ", "points": 0}, "2": {"code": "PRQ", "points": 0}, "3": {"code": "PRQ", "points": 0}, "4": {"code": "PRQ", "points": 0}, "5": {"code": "PRQ", "points": 0}}, "evidence_types": ["PDF"], "validated": false},
-    {"id": "2", "chapter": 0, "section": "Prérequis", "title": "Nombre d'emplacements de la demande conforme au permis d'aménager et aux emplacements réels (+10 % max)", "precisions": "Articles R. 421-19 e) CU, D. 332-4 et D. 333-5-3 du code du tourisme", "rules": {"1": {"code": "PRQ", "points": 0}, "2": {"code": "PRQ", "points": 0}, "3": {"code": "PRQ", "points": 0}, "4": {"code": "PRQ", "points": 0}, "5": {"code": "PRQ", "points": 0}}, "evidence_types": ["PDF"], "validated": false},
-    {"id": "3", "chapter": 0, "section": "Prérequis", "title": "PRL exploité sous régime hôtelier (propriété/jouissance et exploitation par une seule personne)", "precisions": "Article D. 333-5 du code du tourisme ; double condition de l'article D. 333-4", "na_camping": true, "ajo_prl": true, "rules": {"1": {"code": "PRQ", "points": 0}, "2": {"code": "PRQ", "points": 0}, "3": {"code": "PRQ", "points": 0}, "4": {"code": "PRQ", "points": 0}, "5": {"code": "PRQ", "points": 0}}, "evidence_types": ["PDF", "URL"], "validated": false},
-    {"id": "5", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Les parties communes sont éclairées", "precisions": "", "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "X", "points": 3}, "3": {"code": "X", "points": 3}, "4": {"code": "X", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "6", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Le parc et la végétation sont correctement entretenus", "precisions": "", "rules": {"1": {"code": "X", "points": 5}, "2": {"code": "X", "points": 5}, "3": {"code": "X", "points": 5}, "4": {"code": "X", "points": 5}, "5": {"code": "X", "points": 5}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "7", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Places de parking à l'entrée ou dans l'enceinte du terrain", "precisions": "Rayon max 150 m par rapport à l'entrée", "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "O", "points": 3}, "3": {"code": "O", "points": 3}, "4": {"code": "X", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "8", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Parc et végétation entretenus (allées)", "precisions": "", "rules": {"1": {"code": "X", "points": 5}, "2": {"code": "X", "points": 5}, "3": {"code": "X", "points": 5}, "4": {"code": "X", "points": 5}, "5": {"code": "X", "points": 5}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "9", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Places de parking à l'entrée ou dans l'enceinte", "precisions": "Rayon max 150 m", "rules": {"1": {"code": "X", "points": 5}, "2": {"code": "X", "points": 5}, "3": {"code": "X", "points": 5}, "4": {"code": "X", "points": 5}, "5": {"code": "X", "points": 5}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "10", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Accès véhicules sécurisé à l'entrée", "precisions": "Barrières de sécurité ou personnel dédié", "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "O", "points": 3}, "3": {"code": "O", "points": 3}, "4": {"code": "X", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "11", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Présence permanente 24h/24", "precisions": "Optionnel en 3*, 4*, 5* de catégorie loisirs", "loisirs_becomes": "O", "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "O", "points": 3}, "3": {"code": "O", "points": 3}, "4": {"code": "X", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "12", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Les sols des allées sont propres, stabilisés et en bon état", "precisions": "Absence de nids de poule, pierres, branches", "rules": {"1": {"code": "X", "points": 5}, "2": {"code": "O", "points": 5}, "3": {"code": "X", "points": 5}, "4": {"code": "X", "points": 5}, "5": {"code": "X", "points": 5}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "13", "chapter": 1, "section": "Extérieurs & sécurité", "title": "L'ensemble du terrain est clôturé", "precisions": "Absence de rupture dans la clôture naturelle ou artificielle", "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "X", "points": 3}, "3": {"code": "X", "points": 3}, "4": {"code": "X", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "14", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Les espaces communs sont indiqués par un parcours fléché", "precisions": "Optionnel pour 4* et 5* de moins de 200 emplacements ; obligatoire à partir de 200 emplacements", "conditions": {"nb_emplacements_gte_200": true}, "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "O", "points": 3}, "3": {"code": "O", "points": 3}, "4": {"code": "O", "points": 3}, "5": {"code": "O", "points": 3}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "15", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Balisage nocturne des voies intérieures", "precisions": "", "rules": {"1": {"code": "X", "points": 1}, "2": {"code": "X", "points": 1}, "3": {"code": "X", "points": 1}, "4": {"code": "X", "points": 1}, "5": {"code": "X", "points": 1}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "16", "chapter": 1, "section": "Extérieurs & sécurité", "title": "L'enseigne et la signalétique intérieure sont propres et en bon état", "precisions": "", "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "X", "points": 3}, "3": {"code": "NA", "points": 0}, "4": {"code": "NA", "points": 0}, "5": {"code": "NA", "points": 0}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "17", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Accueil / orientation des clients par tout moyen (signalétique, mobilier, végétation, topologie)", "precisions": "", "ajo": true, "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "O", "points": 3}, "3": {"code": "X", "points": 3}, "4": {"code": "X", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "18", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Poste téléphonique d'urgence disponible sur place", "precisions": "", "ajo": true, "rules": {"1": {"code": "X", "points": 5}, "2": {"code": "O", "points": 5}, "3": {"code": "X", "points": 5}, "4": {"code": "X", "points": 5}, "5": {"code": "X", "points": 5}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "19", "chapter": 1, "section": "Extérieurs & sécurité", "title": "Tous les emplacements du terrain sont propres et entretenus", "precisions": "Sol, végétation, haies", "rules": {"1": {"code": "ONC", "points": 5}, "2": {"code": "ONC", "points": 5}, "3": {"code": "ONC", "points": 5}, "4": {"code": "ONC", "points": 5}, "5": {"code": "ONC", "points": 5}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "20", "chapter": 1, "section": "Emplacements", "title": "Respect des dimensions minimales des emplacements", "precisions": "70 m2 en 1*-2*, 80 m2 en 3*-5* (tolérance 50 cm)", "ajo": true, "rules": {"1": {"code": "X", "points": 1}, "2": {"code": "X", "points": 1}, "3": {"code": "X", "points": 1}, "4": {"code": "X", "points": 1}, "5": {"code": "X", "points": 1}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "21", "chapter": 1, "section": "Emplacements", "title": "Surface minimale des emplacements en camping", "precisions": "NA en PRL", "na_prl": true, "ajo": true, "rules": {"1": {"code": "X", "points": 5}, "2": {"code": "ONC", "points": 5}, "3": {"code": "ONC", "points": 5}, "4": {"code": "ONC", "points": 5}, "5": {"code": "ONC", "points": 5}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "22", "chapter": 1, "section": "Emplacements", "title": "Bonification si au moins la moitié des emplacements ont une superficie supérieure de 10% à 50%", "precisions": "1 point par tranche de 10 %, plafonné à 5 points", "rules": {"1": {"code": "O", "points": 5}, "2": {"code": "O", "points": 5}, "3": {"code": "O", "points": 5}, "4": {"code": "O", "points": 5}, "5": {"code": "O", "points": 5}}, "evidence_types": ["PDF"], "validated": false},
-    {"id": "23", "chapter": 1, "section": "Emplacements", "title": "Pourcentage d'emplacements équipés (raccordements)", "precisions": "NA en PRL ; coffrets électriques à proximité immédiate des emplacements", "na_prl": true, "rules": {"1": {"code": "X", "points": 5}, "2": {"code": "O", "points": 5}, "3": {"code": "O", "points": 5}, "4": {"code": "O", "points": 5}, "5": {"code": "O", "points": 5}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "24", "chapter": 1, "section": "Emplacements", "title": "Majoration du pourcentage d'emplacements équipés", "precisions": "1 point par tranche de 10 % supplémentaire, plafonné à 5 points", "na_prl": true, "rules": {"1": {"code": "O", "points": 5}, "2": {"code": "O", "points": 5}, "3": {"code": "O", "points": 5}, "4": {"code": "O", "points": 5}, "5": {"code": "O", "points": 5}}, "evidence_types": ["PDF"], "validated": false},
-    {"id": "25", "chapter": 1, "section": "Emplacements", "title": "Intensité minimale de 16 ampères sur au moins la moitié des emplacements", "precisions": "NA en PRL", "na_prl": true, "rules": {"1": {"code": "O", "points": 3}, "2": {"code": "O", "points": 3}, "3": {"code": "O", "points": 3}, "4": {"code": "O", "points": 3}, "5": {"code": "O", "points": 3}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "26", "chapter": 1, "section": "Emplacements", "title": "Superficie moyenne des parcelles en PRL (HLL et RML)", "precisions": "80/80/89/100/114 m2 selon la catégorie ; NA en camping", "na_camping": true, "ajo": true, "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "X", "points": 3}, "3": {"code": "X", "points": 3}, "4": {"code": "X", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PDF"], "validated": false},
-    {"id": "27", "chapter": 1, "section": "Emplacements", "title": "Raccordements électriques des emplacements par tranche de 100 en PRL", "precisions": "NA en camping", "na_camping": true, "ajo": true, "rules": {"1": {"code": "X", "points": 5}, "2": {"code": "X", "points": 5}, "3": {"code": "X", "points": 5}, "4": {"code": "X", "points": 5}, "5": {"code": "X", "points": 5}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "28", "chapter": 1, "section": "Emplacements", "title": "100 % des parcelles équipées de HLL et RML raccordées à l'électricité", "precisions": "80/80/90/100/100 % selon la catégorie ; NA en camping si pas de ce type d'emplacements", "na_camping": true, "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "X", "points": 3}, "3": {"code": "X", "points": 3}, "4": {"code": "X", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "29", "chapter": 1, "section": "Emplacements", "title": "Identification des emplacements (numérotation, délimitation sommaire)", "precisions": "", "ajo": true, "rules": {"1": {"code": "X", "points": 5}, "2": {"code": "X", "points": 5}, "3": {"code": "X", "points": 5}, "4": {"code": "X", "points": 5}, "5": {"code": "X", "points": 5}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "30", "chapter": 1, "section": "Emplacements", "title": "100 % des parcelles HLL et RML alimentées individuellement en eau potable", "precisions": "NA en camping", "na_camping": true, "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "X", "points": 3}, "3": {"code": "X", "points": 3}, "4": {"code": "X", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "31", "chapter": 1, "section": "Emplacements", "title": "100 % des parcelles HLL et RML raccordées individuellement aux eaux vannes", "precisions": "NA en camping", "na_camping": true, "rules": {"1": {"code": "X", "points": 3}, "2": {"code": "X", "points": 3}, "3": {"code": "X", "points": 3}, "4": {"code": "X", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "32", "chapter": 1, "section": "Équipements communs", "title": "Présence d'un point de ravitaillement dans l'enceinte du terrain", "precisions": "NA en PRL", "na_prl": true, "rules": {"1": {"code": "X", "points": 1}, "2": {"code": "O", "points": 1}, "3": {"code": "O", "points": 1}, "4": {"code": "O", "points": 1}, "5": {"code": "O", "points": 1}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "33", "chapter": 1, "section": "Équipements communs", "title": "Présence d'un point de restauration sur place", "precisions": "Exemple : snack ; NA en PRL", "na_prl": true, "rules": {"1": {"code": "X", "points": 4}, "2": {"code": "X", "points": 4}, "3": {"code": "X", "points": 4}, "4": {"code": "X", "points": 4}, "5": {"code": "X", "points": 4}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "34", "chapter": 1, "section": "Équipements communs", "title": "Présence d'un restaurant avec service le midi et/ou le soir", "precisions": "Service à table obligatoire ; si validé, le critère précédent est validé ; NA en PRL", "na_prl": true, "rules": {"1": {"code": "O", "points": 3}, "2": {"code": "O", "points": 3}, "3": {"code": "O", "points": 3}, "4": {"code": "O", "points": 3}, "5": {"code": "X", "points": 3}}, "evidence_types": ["PHOTO", "URL"], "validated": false},
-    {"id": "35", "chapter": 1, "section": "Équipements communs", "title": "Présence d'un point de ravitaillement à proximité de l'établissement", "precisions": "Rayon de 1000 m maximum ; NA en PRL", "na_prl": true, "rules": {"1": {"code": "X", "points": 2}, "2": {"code": "O", "points": 2}, "3": {"code": "O", "points": 2}, "4": {"code": "O", "points": 2}, "5": {"code": "X", "points": 2}}, "evidence_types": ["PHOTO", "URL"], "validated": false},
-    {"id": "36", "chapter": 1, "section": "Équipements communs", "title": "Existence d'un système de collecte d'ordures ménagères à l'abri des regards", "precisions": "", "rules": {"1": {"code": "X", "points": 2}, "2": {"code": "X", "points": 2}, "3": {"code": "X", "points": 2}, "4": {"code": "X", "points": 2}, "5": {"code": "X", "points": 2}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "37", "chapter": 1, "section": "Équipements communs", "title": "Ramassage quotidien des déchets ménagers", "precisions": "", "rules": {"1": {"code": "X", "points": 2}, "2": {"code": "X", "points": 2}, "3": {"code": "X", "points": 2}, "4": {"code": "X", "points": 2}, "5": {"code": "X", "points": 2}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "38", "chapter": 1, "section": "Équipements communs", "title": "Présence d'un bureau d'accueil (PRL)", "precisions": "NA en camping ; installation mobile acceptée", "na_camping": true, "rules": {"1": {"code": "X", "points": 4}, "2": {"code": "X", "points": 4}, "3": {"code": "X", "points": 4}, "4": {"code": "X", "points": 4}, "5": {"code": "X", "points": 4}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "39", "chapter": 1, "section": "Équipements communs", "title": "Présence d'un bureau d'accueil (camping)", "precisions": "NA en PRL ; installation mobile acceptée", "na_prl": true, "rules": {"1": {"code": "X", "points": 4}, "2": {"code": "O", "points": 4}, "3": {"code": "O", "points": 4}, "4": {"code": "X", "points": 4}, "5": {"code": "X", "points": 4}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "40", "chapter": 1, "section": "Équipements communs", "title": "Le bureau d'accueil est propre et en bon état", "precisions": "Passe NA en PRL 1* et 2* en l'absence de bureau d'accueil", "rules": {"1": {"code": "ONC", "points": 5}, "2": {"code": "ONC", "points": 5}, "3": {"code": "X", "points": 5}, "4": {"code": "ONC", "points": 5}, "5": {"code": "ONC", "points": 5}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "41", "chapter": 1, "section": "Équipements communs", "title": "Possibilité de dépôt de valeur", "precisions": "Optionnel en 3*, 4*, 5* de catégorie loisirs", "loisirs_becomes": "O", "rules": {"1": {"code": "X", "points": 1}, "2": {"code": "O", "points": 1}, "3": {"code": "O", "points": 1}, "4": {"code": "X", "points": 1}, "5": {"code": "X", "points": 1}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "42", "chapter": 1, "section": "Équipements communs", "title": "Présence d'une trousse de secours", "precisions": "", "rules": {"1": {"code": "X", "points": 4}, "2": {"code": "X", "points": 4}, "3": {"code": "X", "points": 4}, "4": {"code": "X", "points": 4}, "5": {"code": "X", "points": 4}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "43", "chapter": 1, "section": "Équipements communs", "title": "Présence d'un bar sur place", "precisions": "Obligatoire en 4* uniquement en saison touristique", "rules": {"1": {"code": "X", "points": 2}, "2": {"code": "O", "points": 2}, "3": {"code": "O", "points": 2}, "4": {"code": "O", "points": 2}, "5": {"code": "X", "points": 2}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "44", "chapter": 1, "section": "Équipements communs", "title": "Présence d'un espace restauration (exemple : snack)", "precisions": "", "rules": {"1": {"code": "O", "points": 3}, "2": {"code": "O", "points": 3}, "3": {"code": "O", "points": 3}, "4": {"code": "O", "points": 3}, "5": {"code": "O", "points": 3}}, "evidence_types": ["PHOTO"], "validated": false},
-    {"id": "47", "chapter": 1, "section": "Télécommunication", "title": "Accès internet par réseau local sans fil (WiFi) dans 100 % des emplacements", "precisions": "Bas débit suffisant (consultation de courriels) ; NA si positionnement « sans Wifi » avéré ou impossibilité technique justifiée", "ajo": true, "rules": {"1": {"code": "X", "points": 2}, "2": {"code": "O", "points": 2}, "3": {"code": "X", "points": 2}, "4": {"code": "X", "points": 2}, "5": {"code": "X", "points": 2}}, "evidence_types": ["PHOTO", "PDF", "URL"], "validated": false},
-    {"id": "48", "chapter": 1, "section": "Télécommunication", "title": "Accès internet par réseau local sans fil (WiFi) dans les parties communes", "precisions": "", "ajo": true, "rules": {"1": {"code": "X", "points": 2}, "2": {"code": "O", "points": 2}, "3": {"code": "X", "points": 2}, "4": {"code": "X", "points": 2}, "5": {"code": "X", "points": 2}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "49", "chapter": 1, "section": "Télécommunication", "title": "Accès internet par réseau local haut débit dans 100 % des emplacements", "precisions": "", "rules": {"1": {"code": "O", "points": 1}, "2": {"code": "O", "points": 1}, "3": {"code": "O", "points": 1}, "4": {"code": "O", "points": 1}, "5": {"code": "O", "points": 1}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "50", "chapter": 1, "section": "Télécommunication", "title": "WiFi gratuit dans les parties communes", "precisions": "Bas débit suffisant", "rules": {"1": {"code": "O", "points": 1}, "2": {"code": "O", "points": 1}, "3": {"code": "O", "points": 1}, "4": {"code": "O", "points": 1}, "5": {"code": "O", "points": 1}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "51", "chapter": 1, "section": "Télécommunication", "title": "WiFi gratuit dans 100 % des emplacements", "precisions": "Bas débit suffisant", "rules": {"1": {"code": "O", "points": 1}, "2": {"code": "O", "points": 1}, "3": {"code": "O", "points": 1}, "4": {"code": "O", "points": 1}, "5": {"code": "O", "points": 1}}, "evidence_types": ["PHOTO", "PDF"], "validated": false},
-    {"id": "52", "chapter": 1, "section": "Télécommunication", "title": "Autres moyens de connexion / services numériques", "precisions": "", "rules": {"1": {"code": "O", "points": 1}, "2": {"code": "O", "points": 1}, "3": {"code": "O", "points": 1}, "4": {"code": "O", "points": 1}, "5": {"code": "O", "points": 1}}, "evidence_types": ["URL", "PDF"], "validated": false}
+    {
+      "id": "1",
+      "chapter": 0,
+      "section": "Prérequis",
+      "title": "Capacité d'accueil supérieure à vingt personnes ou de plus de six hébergements constitués de tentes, caravanes, de résidences mobiles de loisirs ou d'habitations légères de loisirs (article R. 421-19 c) du code de l'urbanisme)",
+      "source_page": 1,
+      "source_status": "PRQ NA PRL",
+      "source_points": "/",
+      "precisions": "",
+      "validated": true,
+      "applies_to": ["camping"],
+      "rules": {
+        "1": {"code":"PRQ","points":0,"source_code":"PRQ NA PRL"},
+        "2": {"code":"PRQ","points":0,"source_code":"PRQ NA PRL"},
+        "3": {"code":"PRQ","points":0,"source_code":"PRQ NA PRL"},
+        "4": {"code":"PRQ","points":0,"source_code":"PRQ NA PRL"},
+        "5": {"code":"PRQ","points":0,"source_code":"PRQ NA PRL"}
+      }
+    },
+    {
+      "id": "2",
+      "chapter": 0,
+      "section": "Prérequis",
+      "title": "Le nombre d'emplacements indiqué dans la demande de classement doit correspondre au nombre d'emplacements autorisés par le permis d'aménager ainsi qu'au nombre d'emplacements réellement présents sur le terrain dans la limite de l'augmentation de 10 % autorisée (article R. 421-19 e) du code de l'urbanisme et articles D. 332-4 et D. 333-5-3 du code du tourisme)",
+      "source_page": 1,
+      "source_status": "PRQ AJO",
+      "source_points": "/",
+      "precisions": "Si le nombre d'emplacements autorisés par le permis d'aménager est supérieur au nombre d'emplacements effectivement exploités, alors le critère est validé. A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"PRQ","points":0},
+        "2": {"code":"PRQ","points":0},
+        "3": {"code":"PRQ","points":0},
+        "4": {"code":"PRQ","points":0},
+        "5": {"code":"PRQ","points":0}
+      }
+    },
+    {
+      "id": "3",
+      "chapter": 0,
+      "section": "Prérequis",
+      "title": "Le classement est exclusivement réservé aux PRL exploités sous régime hôtelier (article D. 333-5 du code du tourisme). Un PRL ne peut être exploité sous régime hôtelier qu'à la double condition (article D. 333-4 du code du tourisme) : - qu'une seule personne physique ou morale ait la propriété ou la jouissance du terrain - que l'exploitation en soit assurée par une seule personne physique ou morale",
+      "source_page": 1,
+      "source_status": "PRQ NA TC AJO",
+      "source_points": "/",
+      "precisions": "AJO: A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "applies_to": ["prl"],
+      "rules": {
+        "1": {"code":"PRQ","points":0,"source_code":"PRQ NA TC"},
+        "2": {"code":"PRQ","points":0,"source_code":"PRQ NA TC"},
+        "3": {"code":"PRQ","points":0,"source_code":"PRQ NA TC"},
+        "4": {"code":"PRQ","points":0,"source_code":"PRQ NA TC"},
+        "5": {"code":"PRQ","points":0,"source_code":"PRQ NA TC"}
+      }
+    },
+    {
+      "id": "4",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "L'enseigne et la signalétique intérieure sont propres et en bon état",
+      "source_page": 1,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "5",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Balisage nocturne des voies intérieures",
+      "source_page": 1,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "6",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Les parties communes sont éclairées",
+      "source_page": 1,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "7",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Les espaces communs sont propres et correctement entretenus",
+      "source_page": 1,
+      "source_status": "X ONC",
+      "source_points": "5",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"ONC","points":5},
+        "2": {"code":"ONC","points":5},
+        "3": {"code":"ONC","points":5},
+        "4": {"code":"ONC","points":5},
+        "5": {"code":"ONC","points":5}
+      }
+    },
+    {
+      "id": "8",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Le parc et la végétation sont correctement entretenus",
+      "source_page": 1,
+      "source_status": "X",
+      "source_points": "5",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":5},
+        "2": {"code":"X","points":5},
+        "3": {"code":"X","points":5},
+        "4": {"code":"X","points":5},
+        "5": {"code":"X","points":5}
+      }
+    },
+    {
+      "id": "9",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Places de parking à l'entrée ou dans l'enceinte du terrain",
+      "source_page": 1,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "Les places de parking doivent se situer dans un rayon maximum de 150m par rapport à l'entrée de l'établissement.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "10",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Accès véhicules sécurisé à l'entrée",
+      "source_page": 1,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "Le critère est validé en présence de barrières de sécurité ou par la présence d'un personnel dédié.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "11",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Présence permanente 24h/24",
+      "source_page": 1,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "Critère optionnel en 3*, 4*, 5* de catégorie loisirs",
+      "validated": true,
+      "loisirs_becomes": "O",
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "12",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Les sols des allées sont propres, stabilisés et en bon état",
+      "source_page": 1,
+      "source_status": "X ou O",
+      "source_points": "5",
+      "precisions": "Absence de nids de poule, pierres, branches...",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"X","points":5},
+        "3": {"code":"X","points":5},
+        "4": {"code":"X","points":5},
+        "5": {"code":"X","points":5}
+      }
+    },
+    {
+      "id": "13",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "L'ensemble du terrain est clôturé",
+      "source_page": 2,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "Absence de rupture dans la clôture naturelle ou artificielle",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "14",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Les espaces communs sont indiqués par un parcours fléché",
+      "source_page": 2,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "Le critère est optionnel pour les 4* et 5* de moins de 200 emplacements. Il devient obligatoire à partir de 200 emplacements.",
+      "validated": true,
+      "optional_below_pitches": 200,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"X","points":3,"source_code":"X/ O -200emp"},
+        "5": {"code":"X","points":3,"source_code":"X/ O -200emp"}
+      }
+    },
+    {
+      "id": "15",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Présence d'un poste téléphonique d'urgence disponible sur place",
+      "source_page": 2,
+      "source_status": "X",
+      "source_points": "1",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":1},
+        "2": {"code":"X","points":1},
+        "3": {"code":"X","points":1},
+        "4": {"code":"X","points":1},
+        "5": {"code":"X","points":1}
+      }
+    },
+    {
+      "id": "16",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Délimitation sommaire",
+      "source_page": 2,
+      "source_status": "X ou NA",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"NA","points":0},
+        "3": {"code":"NA","points":0},
+        "4": {"code":"NA","points":0},
+        "5": {"code":"NA","points":0}
+      }
+    },
+    {
+      "id": "17",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Identification des emplacements",
+      "source_page": 2,
+      "source_status": "X ou O AJO",
+      "source_points": "3",
+      "precisions": "Par tout moyen. Exemples : signalétique, mobilier, végétation, topologie du terrain… AJO: A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "18",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Numérotation des emplacements",
+      "source_page": 2,
+      "source_status": "X ou O AJO",
+      "source_points": "5",
+      "precisions": "AJO: A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"X","points":5},
+        "3": {"code":"X","points":5},
+        "4": {"code":"X","points":5},
+        "5": {"code":"X","points":5}
+      }
+    },
+    {
+      "id": "19",
+      "chapter": 1,
+      "section": "Extérieurs et sécurité",
+      "title": "Tous les emplacements du terrain sont propres et entretenus",
+      "source_page": 2,
+      "source_status": "X ONC",
+      "source_points": "5",
+      "precisions": "Sol, végétation, haies...",
+      "validated": true,
+      "rules": {
+        "1": {"code":"ONC","points":5},
+        "2": {"code":"ONC","points":5},
+        "3": {"code":"ONC","points":5},
+        "4": {"code":"ONC","points":5},
+        "5": {"code":"ONC","points":5}
+      }
+    },
+    {
+      "id": "20",
+      "chapter": 1,
+      "section": "Surface des emplacements en camping",
+      "title": "Respect des dimensions minimales des emplacements",
+      "source_page": 2,
+      "source_status": "X ONC AJO",
+      "source_points": "/",
+      "precisions": "Respect du prérequis. AJO: A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "applies_to": ["camping"],
+      "rules": {
+        "1": {"code":"ONC","points":0,"exigence":"70 m²"},
+        "2": {"code":"ONC","points":0,"exigence":"70 m²"},
+        "3": {"code":"ONC","points":0,"exigence":"80 m²"},
+        "4": {"code":"ONC","points":0,"exigence":"80 m²"},
+        "5": {"code":"ONC","points":0,"exigence":"80 m²"}
+      }
+    },
+    {
+      "id": "21",
+      "chapter": 1,
+      "section": "Surface des emplacements en camping",
+      "title": "Superficie moyenne des emplacements",
+      "source_page": 2,
+      "source_status": "X AJO",
+      "source_points": "1",
+      "precisions": "AJO: A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "applies_to": ["camping"],
+      "rules": {
+        "1": {"code":"X","points":1,"exigence":"80 m²"},
+        "2": {"code":"X","points":1,"exigence":"80 m²"},
+        "3": {"code":"X","points":1,"exigence":"89 m²"},
+        "4": {"code":"X","points":1,"exigence":"100 m²"},
+        "5": {"code":"X","points":1,"exigence":"114 m²"}
+      }
+    },
+    {
+      "id": "22",
+      "chapter": 1,
+      "section": "Surface des emplacements en camping",
+      "title": "Bonification si au moins la moitié des emplacements ont une superficie supérieure de 10% à 50% par rapport à la superficie indiquée",
+      "source_page": 2,
+      "source_status": "O",
+      "source_points": "1 à 5",
+      "precisions": "Bonification de 1 point par tranche de 10% de superficie supplémentaire pour au moins la moitié des emplacements, plafonné à 5 points.",
+      "validated": true,
+      "points_min": 1,
+      "applies_to": ["camping"],
+      "bonus_basis": "21",
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"O","points":5},
+        "3": {"code":"O","points":5},
+        "4": {"code":"O","points":5},
+        "5": {"code":"O","points":5}
+      }
+    },
+    {
+      "id": "23",
+      "chapter": 1,
+      "section": "Raccordements électriques en camping",
+      "title": "Pourcentage d'emplacements équipés",
+      "source_page": 2,
+      "source_status": "X ou O",
+      "source_points": "5",
+      "precisions": "Pour valider le critère, les coffrets électriques doivent se situer à proximité immédiate des emplacements. Coffrets individuels ou communs à plusieurs emplacements.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"10%"},
+        "2": {"code":"O","points":5,"exigence":"10%"},
+        "3": {"code":"X","points":5,"exigence":"10% (2 ampères mini)"},
+        "4": {"code":"X","points":5,"exigence":"30% (10 ampères mini)"},
+        "5": {"code":"X","points":5,"exigence":"50% (10 ampères mini)"}
+      }
+    },
+    {
+      "id": "24",
+      "chapter": 1,
+      "section": "Raccordements électriques en camping",
+      "title": "Majoration du pourcentage d'emplacements équipés",
+      "source_page": 2,
+      "source_status": "O",
+      "source_points": "1 à 5",
+      "precisions": "Bonification de 1 point par tranche de 10% d'emplacements équipés supplémentaires au seuil indiqué aux critères précédents, plafonné à 5 points.",
+      "validated": true,
+      "points_min": 1,
+      "applies_to": ["camping"],
+      "bonus_basis": "23",
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"O","points":5},
+        "3": {"code":"O","points":5},
+        "4": {"code":"O","points":5},
+        "5": {"code":"O","points":5}
+      }
+    },
+    {
+      "id": "25",
+      "chapter": 1,
+      "section": "Raccordements électriques en camping",
+      "title": "Intensité minimale de 16 ampères sur au moins la moitié des emplacements",
+      "source_page": 2,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "applies_to": ["camping"],
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "26",
+      "chapter": 1,
+      "section": "Surface moyenne des parcelles en PRL",
+      "title": "Superficie moyenne des emplacements caravanes & camping-car",
+      "source_page": 2,
+      "source_status": "X AJO",
+      "source_points": "5",
+      "precisions": "Si le PRL ne dispose pas de ce type d'emplacements, le critère est non applicable. AJO: A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"X","points":5,"exigence":"mini 100 m²"},
+        "2": {"code":"X","points":5,"exigence":"mini 100 m²"},
+        "3": {"code":"X","points":5,"exigence":"mini 100 m²"},
+        "4": {"code":"X","points":5,"exigence":"mini 110 m²"},
+        "5": {"code":"X","points":5,"exigence":"mini 120 m²"}
+      }
+    },
+    {
+      "id": "27",
+      "chapter": 1,
+      "section": "Surface moyenne des parcelles en PRL",
+      "title": "Superficie moyenne des parcelles équipées de HLL et RML",
+      "source_page": 2,
+      "source_status": "X AJO",
+      "source_points": "5",
+      "precisions": "Si le PRL ne dispose pas de ce type d'emplacements, le critère est non applicable. AJO: A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "applies_to": ["prl"],
+      "profile_group": "hll_rml",
+      "rules": {
+        "1": {"code":"X","points":5,"exigence":"mini 200 m²"},
+        "2": {"code":"X","points":5,"exigence":"mini 200 m²"},
+        "3": {"code":"X","points":5,"exigence":"mini 200 m²"},
+        "4": {"code":"X","points":5,"exigence":"mini 210 m²"},
+        "5": {"code":"X","points":5,"exigence":"mini 220 m²"}
+      }
+    },
+    {
+      "id": "28",
+      "chapter": 1,
+      "section": "Raccordements électriques en PRL",
+      "title": "100% des parcelles équipées de HLL et RML sont raccordées à l'électricité",
+      "source_page": 2,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "Si le PRL ne dispose pas de ce type d'emplacements, le critère est non applicable.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "hll_rml",
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "29",
+      "chapter": 1,
+      "section": "Raccordements électriques en PRL",
+      "title": "% d'emplacements caravanes & camping-car raccordés",
+      "source_page": 2,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "Si le PRL ne dispose pas de ce type d'emplacements, le critère est non applicable.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"X","points":3,"exigence":"80%"},
+        "2": {"code":"X","points":3,"exigence":"80%"},
+        "3": {"code":"X","points":3,"exigence":"90%"},
+        "4": {"code":"X","points":3,"exigence":"100%"},
+        "5": {"code":"X","points":3,"exigence":"100%"}
+      }
+    },
+    {
+      "id": "30",
+      "chapter": 1,
+      "section": "Eau et assainissement des parcelles HLL et RML",
+      "title": "100% des parcelles équipées de HLL et RML sont alimentées individuellement en eau potable",
+      "source_page": 3,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "Si le PRL ne dispose pas de ce type d'emplacements, le critère est non applicable.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "hll_rml",
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "31",
+      "chapter": 1,
+      "section": "Eau et assainissement des parcelles HLL et RML",
+      "title": "100% des parcelles équipées de HLL et RML sont raccordées individuellement aux eaux vannes",
+      "source_page": 3,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "Si le PRL ne dispose pas de ce type d'emplacements, le critère est non applicable.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "hll_rml",
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "32",
+      "chapter": 1,
+      "section": "Eau et assainissement des emplacements caravanes et camping-cars",
+      "title": "Aires de points d'eau aménagées avec évacuation par tranche de 100",
+      "source_page": 3,
+      "source_status": "X",
+      "source_points": "1",
+      "precisions": "Si le PRL ne dispose pas de ce type d'emplacements, le critère est non applicable.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"X","points":1,"exigence":"3"},
+        "2": {"code":"X","points":1,"exigence":"3"},
+        "3": {"code":"X","points":1,"exigence":"4"},
+        "4": {"code":"X","points":1,"exigence":"5"},
+        "5": {"code":"X","points":1,"exigence":"6"}
+      }
+    },
+    {
+      "id": "33",
+      "chapter": 1,
+      "section": "Eau et assainissement des emplacements caravanes et camping-cars",
+      "title": "% d'emplacements caravanes & camping-car disposant d'un branchement d'eau individuel",
+      "source_page": 3,
+      "source_status": "X",
+      "source_points": "1",
+      "precisions": "Si le PRL ne dispose pas de ce type d'emplacements, le critère est non applicable.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"X","points":1,"exigence":"80%"},
+        "2": {"code":"X","points":1,"exigence":"80%"},
+        "3": {"code":"X","points":1,"exigence":"90%"},
+        "4": {"code":"X","points":1,"exigence":"100%"},
+        "5": {"code":"X","points":1,"exigence":"100%"}
+      }
+    },
+    {
+      "id": "34",
+      "chapter": 1,
+      "section": "Eau et assainissement des emplacements caravanes et camping-cars",
+      "title": "% d'emplacements caravanes & camping-car raccordés aux eaux ménagères",
+      "source_page": 3,
+      "source_status": "X",
+      "source_points": "1",
+      "precisions": "Si le PRL ne dispose pas de ce type d'emplacements, le critère est non applicable.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"X","points":1,"exigence":"80%"},
+        "2": {"code":"X","points":1,"exigence":"80%"},
+        "3": {"code":"X","points":1,"exigence":"90%"},
+        "4": {"code":"X","points":1,"exigence":"100%"},
+        "5": {"code":"X","points":1,"exigence":"100%"}
+      }
+    },
+    {
+      "id": "35",
+      "chapter": 1,
+      "section": "Eau et assainissement des emplacements caravanes et camping-cars",
+      "title": "% d'emplacements caravanes & camping-car raccordés aux eaux vannes",
+      "source_page": 3,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "Si le PRL ne dispose pas de ce type d'emplacements, le critère est non applicable.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"80%"},
+        "2": {"code":"O","points":1,"exigence":"80%"},
+        "3": {"code":"X","points":1,"exigence":"90%"},
+        "4": {"code":"X","points":1,"exigence":"100%"},
+        "5": {"code":"X","points":1,"exigence":"100%"}
+      }
+    },
+    {
+      "id": "36",
+      "chapter": 1,
+      "section": "Déchets ménagers",
+      "title": "Existence d'un système de collecte d'ordures ménagères à l'abri des regards",
+      "source_page": 3,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "37",
+      "chapter": 1,
+      "section": "Déchets ménagers",
+      "title": "Ramassage quotidien des déchets ménagers",
+      "source_page": 3,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "38",
+      "chapter": 1,
+      "section": "Bureau d’accueil",
+      "title": "Présence d'un bureau d'accueil (camping)",
+      "source_page": 3,
+      "source_status": "X",
+      "source_points": "4",
+      "precisions": "Critère NA en PRL. Accueil commun accepté si multi-hébergement. Le bureau d'accueil peut être constitué d'une installation mobile.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "rules": {
+        "1": {"code":"X","points":4},
+        "2": {"code":"X","points":4},
+        "3": {"code":"X","points":4},
+        "4": {"code":"X","points":4},
+        "5": {"code":"X","points":4}
+      }
+    },
+    {
+      "id": "39",
+      "chapter": 1,
+      "section": "Bureau d’accueil",
+      "title": "Présence d'un bureau d'accueil (PRL)",
+      "source_page": 3,
+      "source_status": "X ou O",
+      "source_points": "4",
+      "precisions": "Critère NA en camping. Accueil commun accepté si multi-hébergement. Le bureau d'accueil peut être constitué d'une installation mobile.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "rules": {
+        "1": {"code":"O","points":4},
+        "2": {"code":"O","points":4},
+        "3": {"code":"X","points":4},
+        "4": {"code":"X","points":4},
+        "5": {"code":"X","points":4}
+      }
+    },
+    {
+      "id": "40",
+      "chapter": 1,
+      "section": "Bureau d’accueil",
+      "title": "Le bureau d'accueil est propre et en bon état",
+      "source_page": 3,
+      "source_status": "X ONC",
+      "source_points": "5",
+      "precisions": "Le critère passe NA en PRL 1* et 2* en l'absence de bureau d'accueil.",
+      "validated": true,
+      "reception_exemption": true,
+      "rules": {
+        "1": {"code":"ONC","points":5},
+        "2": {"code":"ONC","points":5},
+        "3": {"code":"ONC","points":5},
+        "4": {"code":"ONC","points":5},
+        "5": {"code":"ONC","points":5}
+      }
+    },
+    {
+      "id": "41",
+      "chapter": 1,
+      "section": "Bureau d’accueil",
+      "title": "Possibilité de dépôt de valeur",
+      "source_page": 3,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "Critère optionnel en 3*, 4*, 5* de catégorie loisirs",
+      "validated": true,
+      "loisirs_becomes": "O",
+      "rules": {
+        "1": {"code":"O","points":1},
+        "2": {"code":"O","points":1},
+        "3": {"code":"X","points":1},
+        "4": {"code":"X","points":1},
+        "5": {"code":"X","points":1}
+      }
+    },
+    {
+      "id": "42",
+      "chapter": 1,
+      "section": "Bureau d’accueil",
+      "title": "Présence d'une trousse de secours",
+      "source_page": 3,
+      "source_status": "X",
+      "source_points": "4",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":4},
+        "2": {"code":"X","points":4},
+        "3": {"code":"X","points":4},
+        "4": {"code":"X","points":4},
+        "5": {"code":"X","points":4}
+      }
+    },
+    {
+      "id": "43",
+      "chapter": 1,
+      "section": "Restauration et bar",
+      "title": "Présence d'un point de restauration sur place",
+      "source_page": 3,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "Exemple : snack…",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "44",
+      "chapter": 1,
+      "section": "Restauration et bar",
+      "title": "Présence d'un restaurant avec un service le midi et/ou le soir",
+      "source_page": 3,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Service à table obligatoire. Si le critère est validé, alors le critère précédent est validé.",
+      "validated": true,
+      "validates_previous_through": 5,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "45",
+      "chapter": 1,
+      "section": "Restauration et bar",
+      "title": "Présence d'un bar sur place",
+      "source_page": 3,
+      "source_status": "X ou O",
+      "source_points": "2",
+      "precisions": "En 4*: obligatoire en saison touristique uniquement.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "46",
+      "chapter": 1,
+      "section": "Ravitaillement",
+      "title": "Présence d'un point de ravitaillement à proximité de l'établissement",
+      "source_page": 3,
+      "source_status": "X ou O ou NA",
+      "source_points": "2",
+      "precisions": "Dans un rayon de 1000m maximum.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"NA","points":0},
+        "5": {"code":"NA","points":0}
+      }
+    },
+    {
+      "id": "47",
+      "chapter": 1,
+      "section": "Ravitaillement",
+      "title": "Présence d'un point de ravitaillement dans l'enceinte du terrain",
+      "source_page": 3,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "En 1*, 2*, 3*, si le critère est validé, alors le critère précédent est également validé.",
+      "validated": true,
+      "validates_previous_through": 3,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "48",
+      "chapter": 1,
+      "section": "Télécommunication",
+      "title": "Accès internet par un réseau local sans fil (WiFi) dans un espace dédié",
+      "source_page": 4,
+      "source_status": "X ou O AJO",
+      "source_points": "2",
+      "precisions": "La connexion doit permettre au minimum la possibilité de consulter des courriels en bas débit. Dans toutes les catégories, le critère devient NA en cas de positionnement commercial \"sans Wifi\" ou en cas d'impossibilité technique dûment justifiée. Le positionnement commercial \"sans Wifi\" doit être avéré, objectivable et pleinement mis en avant sur le site internet de l'établissement. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "wifi_exemption": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "49",
+      "chapter": 1,
+      "section": "Télécommunication",
+      "title": "Accès internet par un réseau local sans fil (WiFi) dans 100% des emplacements",
+      "source_page": 4,
+      "source_status": "X ou O AJO",
+      "source_points": "2",
+      "precisions": "La connexion doit permettre au minimum la possibilité de consulter des courriels en bas débit. Dans toutes les catégories, le critère devient NA en cas de positionnement commercial \"sans Wifi\" ou en cas d'impossibilité technique dûment justifiée. Le positionnement commercial \"sans Wifi\" doit être avéré, objectivable et pleinement mis en avant sur le site internet de l'établissement. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "wifi_exemption": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "50",
+      "chapter": 1,
+      "section": "Télécommunication",
+      "title": "Accès internet par un réseau local haut débit dans 100% des emplacements",
+      "source_page": 4,
+      "source_status": "O",
+      "source_points": "1",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":1},
+        "2": {"code":"O","points":1},
+        "3": {"code":"O","points":1},
+        "4": {"code":"O","points":1},
+        "5": {"code":"O","points":1}
+      }
+    },
+    {
+      "id": "51",
+      "chapter": 1,
+      "section": "Télécommunication",
+      "title": "Accès internet par un réseau local sans fil (WiFi) gratuit dans les parties communes",
+      "source_page": 4,
+      "source_status": "O",
+      "source_points": "1",
+      "precisions": "La connexion doit permettre au minimum la possibilité de consulter des courriels (bas débit).",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":1},
+        "2": {"code":"O","points":1},
+        "3": {"code":"O","points":1},
+        "4": {"code":"O","points":1},
+        "5": {"code":"O","points":1}
+      }
+    },
+    {
+      "id": "52",
+      "chapter": 1,
+      "section": "Télécommunication",
+      "title": "Accès internet par un réseau local sans fil (WiFi) gratuit dans 100% des emplacements",
+      "source_page": 4,
+      "source_status": "O",
+      "source_points": "1",
+      "precisions": "La connexion doit permettre au minimum la possibilité de consulter des courriels (bas débit).",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":1},
+        "2": {"code":"O","points":1},
+        "3": {"code":"O","points":1},
+        "4": {"code":"O","points":1},
+        "5": {"code":"O","points":1}
+      }
+    },
+    {
+      "id": "53",
+      "chapter": 1,
+      "section": "Équipements des hébergements locatifs",
+      "title": "L'extérieur du locatif est propre et en bon état",
+      "source_page": 4,
+      "source_status": "X ONC",
+      "source_points": "5",
+      "precisions": "Façades, toitures et ouvrants, mobilier de jardin.",
+      "validated": true,
+      "profile_group": "locatifs",
+      "rules": {
+        "1": {"code":"ONC","points":5},
+        "2": {"code":"ONC","points":5},
+        "3": {"code":"ONC","points":5},
+        "4": {"code":"ONC","points":5},
+        "5": {"code":"ONC","points":5}
+      }
+    },
+    {
+      "id": "54",
+      "chapter": 1,
+      "section": "Équipements des hébergements locatifs",
+      "title": "Tous les équipements et mobiliers du locatif sont propres et en bon état",
+      "source_page": 4,
+      "source_status": "X ONC",
+      "source_points": "5",
+      "precisions": "Absence de mobiliers cassés, déboîtés et sales.",
+      "validated": true,
+      "profile_group": "locatifs",
+      "rules": {
+        "1": {"code":"ONC","points":5},
+        "2": {"code":"ONC","points":5},
+        "3": {"code":"ONC","points":5},
+        "4": {"code":"ONC","points":5},
+        "5": {"code":"ONC","points":5}
+      }
+    },
+    {
+      "id": "55",
+      "chapter": 1,
+      "section": "Équipements des hébergements locatifs",
+      "title": "Mise à disposition de draps de lit propres et en bon état",
+      "source_page": 4,
+      "source_status": "X ou O AJO",
+      "source_points": "2",
+      "precisions": "Critère optionnel en 4*, 5* de catégorie loisirs. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "loisirs_becomes": "O",
+      "profile_group": "locatifs",
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "56",
+      "chapter": 1,
+      "section": "Équipements des hébergements locatifs",
+      "title": "Mise à disposition de linge de toilette propre et en bon état",
+      "source_page": 4,
+      "source_status": "X ou O AJO",
+      "source_points": "2",
+      "precisions": "Critère optionnel en 5* de catégorie loisirs. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "loisirs_becomes": "O",
+      "profile_group": "locatifs",
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "57",
+      "chapter": 1,
+      "section": "Propreté des équipements sanitaires",
+      "title": "Equipements sanitaires fixes en matériaux de qualité avec sols et murs lessivables propres et en bon état",
+      "source_page": 4,
+      "source_status": "X ONC",
+      "source_points": "5",
+      "precisions": "Sol, plafond, parois et murs sont propres et en bon état. Absence de moisissures, saletés, traces de calcaires, carreaux cassés, revêtements abîmés…",
+      "validated": true,
+      "rules": {
+        "1": {"code":"ONC","points":5},
+        "2": {"code":"ONC","points":5},
+        "3": {"code":"ONC","points":5},
+        "4": {"code":"ONC","points":5},
+        "5": {"code":"ONC","points":5}
+      }
+    },
+    {
+      "id": "58",
+      "chapter": 1,
+      "section": "Propreté des équipements sanitaires",
+      "title": "Les équipements sanitaires sont nettoyés quotidiennement",
+      "source_page": 4,
+      "source_status": "X AJO",
+      "source_points": "5",
+      "precisions": "Constater la fréquence sur la fiche d'émargement dans les sanitaires. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"X","points":5},
+        "2": {"code":"X","points":5},
+        "3": {"code":"X","points":5},
+        "4": {"code":"X","points":5},
+        "5": {"code":"X","points":5}
+      }
+    },
+    {
+      "id": "59",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Lavabos avec glaces et tablettes",
+      "source_page": 4,
+      "source_status": "X ou NA",
+      "source_points": "5",
+      "precisions": "Les lavabos peuvent être installés en cabine de douche. Vasque commune acceptée. Au-delà de 75% du nombre requis, deux lavabos peuvent être remplacés par une douche supplémentaire avec robinet de puisage.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "rules": {
+        "1": {"code":"X","points":5,"exigence":"12 par tranche de 100 emplacements"},
+        "2": {"code":"NA","points":0,"exigence":"12 par tranche de 100 emplacements"},
+        "3": {"code":"NA","points":0,"exigence":"18 par tranche de 100 emplacements"},
+        "4": {"code":"NA","points":0,"exigence":"20 par tranche de 100 emplacements"},
+        "5": {"code":"NA","points":0,"exigence":"23 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "60",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Lavabos individualisés avec séparation (vasque individuelle et robinet mitigeur)",
+      "source_page": 4,
+      "source_status": "X ou O ou NA",
+      "source_points": "5",
+      "precisions": "Les lavabos peuvent être installés en cabine de douche. En 1* si le critère est validé, alors le précédent est validé. Au-delà de 75% du nombre requis, deux lavabos peuvent être remplacés par une douche supplémentaire avec robinet de puisage.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "validates_previous_through": 1,
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"12 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":5,"exigence":"12 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":5,"exigence":"18 par tranche de 100 emplacements"},
+        "4": {"code":"NA","points":0,"exigence":"20 par tranche de 100 emplacements"},
+        "5": {"code":"NA","points":0,"exigence":"23 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "61",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Lavabos avec glaces et tablettes en cabine individuelle",
+      "source_page": 4,
+      "source_status": "X ou O",
+      "source_points": "5",
+      "precisions": "Les lavabos peuvent être installés en cabine de douche. En 1*, 2*, 3* si le critère est validé, alors le précédent est validé. En cas de positionnement commercial naturiste de l'établissement, les lavabos peuvent être validés en l'absence de cloisonnement ou en dehors des cabines. Au-delà de 75% du nombre requis, deux lavabos peuvent être remplacés par une douche supplémentaire avec robinet de puisage.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "validates_previous_through": 3,
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"12 par tranche de 100 emplacements"},
+        "2": {"code":"O","points":5,"exigence":"12 par tranche de 100 emplacements"},
+        "3": {"code":"O","points":5,"exigence":"18 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":5,"exigence":"20 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":5,"exigence":"23 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "62",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Cabines de douche individuelles (sans coin déshabillage)",
+      "source_page": 5,
+      "source_status": "X ou NA",
+      "source_points": "5",
+      "precisions": "En 1*, en cas de positionnement commercial naturiste de l'établissement, les douches peuvent être validées en l'absence de cloisonnement ou en dehors des cabines.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "rules": {
+        "1": {"code":"X","points":5,"exigence":"3 par tranche de 100 emplacements"},
+        "2": {"code":"NA","points":0,"exigence":"6 par tranche de 100 emplacements"},
+        "3": {"code":"NA","points":0,"exigence":"10 par tranche de 100 emplacements"},
+        "4": {"code":"NA","points":0,"exigence":"15 par tranche de 100 emplacements"},
+        "5": {"code":"NA","points":0,"exigence":"17 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "63",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Cabines de douche individuelles fermées (avec coin déshabillage et patère obligatoire)",
+      "source_page": 5,
+      "source_status": "X ou O",
+      "source_points": "5",
+      "precisions": "En 1* si le critère est validé, alors le précédent est validé. En cas de positionnement commercial naturiste de l'établissement, les douches peuvent être validées en l'absence de cloisonnement ou en dehors des cabines.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "validates_previous_through": 1,
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"3 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":5,"exigence":"6 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":5,"exigence":"10 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":5,"exigence":"15 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":5,"exigence":"17 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "64",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Salle d'eau individuelle avec douche et lavabo (avec coin déshabillage et patère obligatoire)",
+      "source_page": 5,
+      "source_status": "X ou O",
+      "source_points": "5",
+      "precisions": "En 1*, 2*, 3*, 4*, si le critère est validé, alors le précédent est validé. En cas de positionnement commercial naturiste de l'établissement, les douches peuvent être validées en l'absence de cloisonnement ou en dehors des cabines.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "validates_previous_through": 4,
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"2 par tranche de 100 emplacements"},
+        "2": {"code":"O","points":5,"exigence":"2 par tranche de 100 emplacements"},
+        "3": {"code":"O","points":5,"exigence":"3 par tranche de 100 emplacements"},
+        "4": {"code":"O","points":5,"exigence":"5 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":5,"exigence":"6 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "65",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Toilettes cabine",
+      "source_page": 5,
+      "source_status": "X",
+      "source_points": "5",
+      "precisions": "Les toilettes sèches sont acceptées uniquement en cas de positionnement écologique commercial avéré. Les toilettes \"à la turque\" ne sont pas autorisées dans le cadre du classement.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "rules": {
+        "1": {"code":"X","points":5,"exigence":"9 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":5,"exigence":"9 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":5,"exigence":"10 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":5,"exigence":"11 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":5,"exigence":"13 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "66",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Bacs à laver la vaisselle (eau froide)",
+      "source_page": 5,
+      "source_status": "X ou NA",
+      "source_points": "1",
+      "precisions": "Une machine à laver la vaisselle remplace deux bacs à laver.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "rules": {
+        "1": {"code":"X","points":1,"exigence":"6 par tranche de 100 emplacements"},
+        "2": {"code":"NA","points":0},
+        "3": {"code":"NA","points":0},
+        "4": {"code":"NA","points":0},
+        "5": {"code":"NA","points":0}
+      }
+    },
+    {
+      "id": "67",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Bacs à laver la vaisselle (eau chaude)",
+      "source_page": 5,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "En 1* si le critère est validé, alors le critère précédent est validé. Une machine à laver remplace deux bacs à laver.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "validates_previous_through": 1,
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"6 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":1,"exigence":"6 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":1,"exigence":"8 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"10 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"11 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "68",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Bacs à laver le linge (eau froide)",
+      "source_page": 5,
+      "source_status": "X ou NA",
+      "source_points": "1",
+      "precisions": "Une machine à laver remplace deux bacs à laver.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "rules": {
+        "1": {"code":"X","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "2": {"code":"NA","points":0},
+        "3": {"code":"NA","points":0},
+        "4": {"code":"NA","points":0},
+        "5": {"code":"NA","points":0}
+      }
+    },
+    {
+      "id": "69",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Bacs à laver le linge (eau chaude)",
+      "source_page": 5,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "En 1* si le critère est validé, alors le critère précédent est validé. Une machine à laver remplace deux bacs à laver.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "validates_previous_through": 1,
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":1,"exigence":"6 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"6 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"7 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "70",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Présence d'un robinet de puisage d'eau chaude à proximité des points de lavage",
+      "source_page": 5,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "Pour la catégorie 1*, si les critères 67 et 69 sont validés, ce critère devient optionnel.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "optional_when_validated": ["67","69"],
+      "rules": {
+        "1": {"code":"X","points":1},
+        "2": {"code":"O","points":1},
+        "3": {"code":"O","points":1},
+        "4": {"code":"O","points":1},
+        "5": {"code":"O","points":1}
+      }
+    },
+    {
+      "id": "71",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Présence d'un vidoir pour eaux ménagères",
+      "source_page": 5,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "Au moins 1 vidoir.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "rules": {
+        "1": {"code":"O","points":1},
+        "2": {"code":"O","points":1},
+        "3": {"code":"X","points":1},
+        "4": {"code":"X","points":1},
+        "5": {"code":"X","points":1}
+      }
+    },
+    {
+      "id": "72",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements non raccordés",
+      "title": "Prises de courant",
+      "source_page": 5,
+      "source_status": "X ou O",
+      "source_points": "2",
+      "precisions": "Les prises de courant doivent se situer à proximité immédiate des lavabos et glaces.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "non_raccordes",
+      "rules": {
+        "1": {"code":"O","points":2,"exigence":"8 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":2,"exigence":"8 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":2,"exigence":"10 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":2,"exigence":"11 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "73",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Lavabos avec glaces et tablettes",
+      "source_page": 6,
+      "source_status": "X ou NA",
+      "source_points": "5",
+      "precisions": "Les lavabos peuvent être installés en cabine de douche. Vasque commune acceptée. Au-delà de 75% du nombre requis, deux lavabos peuvent être remplacés par une douche supplémentaire avec robinet de puisage.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "rules": {
+        "1": {"code":"X","points":5,"exigence":"4 par tranche de 100 emplacements"},
+        "2": {"code":"NA","points":0,"exigence":"4 par tranche de 100 emplacements"},
+        "3": {"code":"NA","points":0,"exigence":"5 par tranche de 100 emplacements"},
+        "4": {"code":"NA","points":0,"exigence":"6 par tranche de 100 emplacements"},
+        "5": {"code":"NA","points":0,"exigence":"7 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "74",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Lavabos individualisés avec séparation (vasque individuelle et robinet mitigeur)",
+      "source_page": 6,
+      "source_status": "X ou O ou NA",
+      "source_points": "5",
+      "precisions": "Les lavabos peuvent être installés en cabine de douche. En 1* si le critère est validé, alors le précédent est validé. Au-delà de 75% du nombre requis, deux lavabos peuvent être remplacés par une douche supplémentaire avec robinet de puisage.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "validates_previous_through": 1,
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"4 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":5,"exigence":"4 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":5,"exigence":"5 par tranche de 100 emplacements"},
+        "4": {"code":"NA","points":0,"exigence":"6 par tranche de 100 emplacements"},
+        "5": {"code":"NA","points":0,"exigence":"7 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "75",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Lavabos avec glaces et tablettes en cabine individuelle",
+      "source_page": 6,
+      "source_status": "X ou O",
+      "source_points": "5",
+      "precisions": "Les lavabos peuvent être installés en cabine de douche. En 1*, 2*, 3*, si le critère est validé, alors le précédent est validé. En cas de positionnement commercial naturiste de l'établissement, les lavabos peuvent être validés en l'absence de cloisonnement ou en dehors des cabines. Au-delà de 75% du nombre requis, deux lavabos peuvent être remplacés par une douche supplémentaire avec robinet de puisage.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "validates_previous_through": 3,
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"4 par tranche de 100 emplacements"},
+        "2": {"code":"O","points":5,"exigence":"4 par tranche de 100 emplacements"},
+        "3": {"code":"O","points":5,"exigence":"5 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":5,"exigence":"6 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":5,"exigence":"7 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "76",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Cabines de douche individuelles (sans coin déshabillage)",
+      "source_page": 6,
+      "source_status": "X ou NA",
+      "source_points": "5",
+      "precisions": "En 1*, en cas de positionnement commercial naturiste de l'établissement, les douches peuvent être validées en l'absence de cloisonnement ou en dehors des cabines.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "rules": {
+        "1": {"code":"X","points":5,"exigence":"2 par tranche de 100 emplacements","source_code":"X"},
+        "2": {"code":"NA","points":0,"exigence":"2 par tranche de 100 emplacements"},
+        "3": {"code":"NA","points":0,"exigence":"3 par tranche de 100 emplacements"},
+        "4": {"code":"NA","points":0,"exigence":"5 par tranche de 100 emplacements"},
+        "5": {"code":"NA","points":0,"exigence":"6 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "77",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Cabines de douche individuelles fermées (avec coin déshabillage et patère obligatoire)",
+      "source_page": 6,
+      "source_status": "X ou O",
+      "source_points": "5",
+      "precisions": "En 1* si le critère est validé, alors le précédent est validé. En cas de positionnement commercial naturiste de l'établissement, les douches peuvent être validées en l'absence de cloisonnement ou en dehors des cabines.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "validates_previous_through": 1,
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"2 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":5,"exigence":"2 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":5,"exigence":"3 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":5,"exigence":"5 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":5,"exigence":"6 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "78",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Salle d'eau individuelle avec douche et lavabo (avec coin déshabillage et patère obligatoire)",
+      "source_page": 6,
+      "source_status": "X ou O",
+      "source_points": "5",
+      "precisions": "En 1*, 2*, 3*, 4*, si le critère est validé, alors le précédent est validé. En cas de positionnement commercial naturiste de l'établissement, les douches peuvent être validées en l'absence de cloisonnement ou en dehors des cabines.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "validates_previous_through": 4,
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"2 par tranche de 100 emplacements"},
+        "2": {"code":"O","points":5,"exigence":"2 par tranche de 100 emplacements"},
+        "3": {"code":"O","points":5,"exigence":"3 par tranche de 100 emplacements"},
+        "4": {"code":"O","points":5,"exigence":"5 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":5,"exigence":"6 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "79",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Toilettes cabine pour les emplacements raccordés \"confort caravane\"",
+      "source_page": 6,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "Les toilettes sèches sont acceptées uniquement en cas de positionnement écologique commercial avéré. Les toilettes \"à la turque\" ne sont pas autorisées dans le cadre du classement.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "confort",
+      "rules": {
+        "1": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":2,"exigence":"10 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":2,"exigence":"11 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":2,"exigence":"13 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "80",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Toilettes cabine pour les emplacements raccordés \"grand confort caravane\"",
+      "source_page": 6,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "Les toilettes sèches sont acceptées uniquement en cas de positionnement écologique commercial avéré. Les toilettes \"à la turque\" ne sont pas autorisées dans le cadre du classement.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "grand_confort",
+      "rules": {
+        "1": {"code":"X","points":2,"exigence":"3 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":2,"exigence":"3 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":2,"exigence":"3 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":2,"exigence":"4 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":2,"exigence":"4 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "81",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Toilettes cabine pour les emplacements \"confort caravane\" exclusivement destinés à l'accueil d'hébergement équipé pourvu de douche privative et lavabo (caravanes, résidences mobiles, HLL...), raccordés à tous branchements",
+      "source_page": 6,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "Les toilettes sèches sont acceptées uniquement en cas de positionnement écologique commercial avéré. Les toilettes \"à la turque\" ne sont pas autorisées dans le cadre du classement.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "confort_sans_wc",
+      "rules": {
+        "1": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":2,"exigence":"10 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":2,"exigence":"11 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":2,"exigence":"13 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "82",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Bacs à laver la vaisselle (eau froide)",
+      "source_page": 7,
+      "source_status": "X ou NA",
+      "source_points": "1",
+      "precisions": "Une machine à laver remplace deux bacs à laver.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "rules": {
+        "1": {"code":"X","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "2": {"code":"NA","points":0},
+        "3": {"code":"NA","points":0},
+        "4": {"code":"NA","points":0},
+        "5": {"code":"NA","points":0}
+      }
+    },
+    {
+      "id": "83",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Bacs à laver la vaisselle (eau chaude)",
+      "source_page": 7,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "En 1* si le critère est validé, alors le critère précédent est validé. Une machine à laver remplace deux bacs à laver.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "validates_previous_through": 1,
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"4 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"4 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "84",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Bacs à laver le linge (eau froide)",
+      "source_page": 7,
+      "source_status": "X ou NA",
+      "source_points": "1",
+      "precisions": "Une machine à laver remplace deux bacs à laver.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "rules": {
+        "1": {"code":"X","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "2": {"code":"NA","points":0},
+        "3": {"code":"NA","points":0},
+        "4": {"code":"NA","points":0},
+        "5": {"code":"NA","points":0}
+      }
+    },
+    {
+      "id": "85",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Bacs à laver le linge (eau chaude)",
+      "source_page": 7,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "En 1* si le critère est validé, alors le critère précédent est validé. Une machine à laver remplace deux bacs à laver.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "validates_previous_through": 1,
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":1,"exigence":"3 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"4 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"4 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "86",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Présence d'un robinet de puisage d'eau chaude à proximité des points de lavage",
+      "source_page": 7,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "Pour la catégorie 1*, si les critères 82 et 84 sont validés, ce critère devient optionnel.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "optional_when_validated": ["82","84"],
+      "rules": {
+        "1": {"code":"X","points":1},
+        "2": {"code":"O","points":1},
+        "3": {"code":"O","points":1},
+        "4": {"code":"O","points":1},
+        "5": {"code":"O","points":1}
+      }
+    },
+    {
+      "id": "87",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Présence d'un vidoir pour eaux ménagères",
+      "source_page": 7,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "Au moins 1 vidoir.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "rules": {
+        "1": {"code":"O","points":1},
+        "2": {"code":"O","points":1},
+        "3": {"code":"X","points":1},
+        "4": {"code":"X","points":1},
+        "5": {"code":"X","points":1}
+      }
+    },
+    {
+      "id": "88",
+      "chapter": 1,
+      "section": "Sanitaires en camping · emplacements raccordés",
+      "title": "Prises de courant",
+      "source_page": 7,
+      "source_status": "X ou O",
+      "source_points": "2",
+      "precisions": "Les prises de courant doivent se situer à proximité immédiate des lavabos et glaces.",
+      "validated": true,
+      "applies_to": ["camping"],
+      "profile_group": "raccordes",
+      "rules": {
+        "1": {"code":"O","points":2,"exigence":"3 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":2,"exigence":"3 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":2,"exigence":"3 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":2,"exigence":"3 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":2,"exigence":"4 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "89",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · HLL et résidences mobiles",
+      "title": "Lavabos avec glaces et tablettes en cabines",
+      "source_page": 7,
+      "source_status": "X",
+      "source_points": "1",
+      "precisions": "Les lavabos peuvent être installés dans une cabine de douche. Pour la catégorie 1*, vasque commune acceptée.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "hll_rml",
+      "rules": {
+        "1": {"code":"X","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"2 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "90",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · HLL et résidences mobiles",
+      "title": "Douches en cabines individuelles (avec coin déshabillage et patère obligatoire)",
+      "source_page": 7,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "En cas de positionnement commercial naturiste de l'établissement, les lavabos peuvent être validés en l'absence de cloisonnement ou en dehors des cabines.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "hll_rml",
+      "rules": {
+        "1": {"code":"X","points":2,"exigence":"2 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":2,"exigence":"2 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":2,"exigence":"2 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":2,"exigence":"2 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":2,"exigence":"2 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "91",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · HLL et résidences mobiles",
+      "title": "Toilettes",
+      "source_page": 7,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "Les toilettes sèches sont acceptées uniquement en cas de positionnement écologique commercial avéré. Les toilettes \"à la turque\" ne sont pas autorisées dans le cadre du classement.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "hll_rml",
+      "rules": {
+        "1": {"code":"X","points":2,"exigence":"2 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":2,"exigence":"2 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":2,"exigence":"2 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":2,"exigence":"2 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":2,"exigence":"2 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "92",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · HLL et résidences mobiles",
+      "title": "Bacs à laver la vaisselle (eau chaude)",
+      "source_page": 7,
+      "source_status": "O",
+      "source_points": "1",
+      "precisions": "Une machine à laver la vaisselle remplace deux bacs à laver la vaisselle.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "hll_rml",
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "2": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "3": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "4": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "5": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "93",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · HLL et résidences mobiles",
+      "title": "Bacs à laver le linge (eau chaude)",
+      "source_page": 7,
+      "source_status": "O",
+      "source_points": "1",
+      "precisions": "Une machine à laver le linge remplace deux bacs à laver le linge.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "hll_rml",
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "2": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "3": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "4": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "5": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "94",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · HLL et résidences mobiles",
+      "title": "Prises de courant",
+      "source_page": 7,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "Les prises de courant doivent se situer à proximité immédiate des lavabos et glaces.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "hll_rml",
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "2": {"code":"O","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"2 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "95",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · caravanes et camping-cars",
+      "title": "Lavabos avec glaces et tablettes en cabines",
+      "source_page": 8,
+      "source_status": "X",
+      "source_points": "1",
+      "precisions": "100 % des lavabos requis peuvent être installés dans une cabine de douche. Pour la catégorie 1*, vasque commune acceptée.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"X","points":1,"exigence":"9 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":1,"exigence":"9 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":1,"exigence":"9 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"9 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"9 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "96",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · caravanes et camping-cars",
+      "title": "Douches en cabines individuelles (avec coin déshabillage et patère obligatoire)",
+      "source_page": 8,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "En cas de positionnement commercial naturiste de l'établissement, les lavabos peuvent être validés en l'absence de cloisonnement ou en dehors des cabines.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "97",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · caravanes et camping-cars",
+      "title": "Toilettes",
+      "source_page": 8,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "Les toilettes sèches sont acceptées uniquement en cas de positionnement écologique commercial avéré. Les toilettes \"à la turque\" ne sont pas autorisées dans le cadre du classement.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":2,"exigence":"9 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "98",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · caravanes et camping-cars",
+      "title": "Bacs à laver la vaisselle (eau chaude)",
+      "source_page": 8,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "Une machine à laver la vaisselle remplace deux bacs à laver la vaisselle.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "2": {"code":"O","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "3": {"code":"O","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"2 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"2 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "99",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · caravanes et camping-cars",
+      "title": "Bacs à laver le linge (eau chaude)",
+      "source_page": 8,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "Une machine à laver le linge remplace deux bacs à laver le linge.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "2": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "3": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"1 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "100",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · caravanes et camping-cars",
+      "title": "Présence de vidoir pour eaux ménagères",
+      "source_page": 8,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "2": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "3": {"code":"O","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"1 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"1 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "101",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · caravanes et camping-cars",
+      "title": "Prises de courant",
+      "source_page": 8,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "Les prises de courant doivent se situer à proximité immédiate des lavabos et glaces.",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "caravanes",
+      "rules": {
+        "1": {"code":"O","points":1,"exigence":"9 par tranche de 100 emplacements"},
+        "2": {"code":"X","points":1,"exigence":"9 par tranche de 100 emplacements"},
+        "3": {"code":"X","points":1,"exigence":"9 par tranche de 100 emplacements"},
+        "4": {"code":"X","points":1,"exigence":"9 par tranche de 100 emplacements"},
+        "5": {"code":"X","points":1,"exigence":"9 par tranche de 100 emplacements"}
+      }
+    },
+    {
+      "id": "102",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · HLL et résidences mobiles en location",
+      "title": "Equipement en douche et lavabo avec eau chaude dédié à l'hébergement",
+      "source_page": 8,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "prl_locatifs",
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "103",
+      "chapter": 1,
+      "section": "Sanitaires en PRL · HLL et résidences mobiles en location",
+      "title": "Equipement WC dédié à l'hébergement",
+      "source_page": 8,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "applies_to": ["prl"],
+      "profile_group": "prl_locatifs",
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "104",
+      "chapter": 1,
+      "section": "Équipements supplémentaires communs",
+      "title": "Lavabo pour enfants",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "au moins 1, cet équipement est inclus dans le total lavabo exigé.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "105",
+      "chapter": 1,
+      "section": "Équipements supplémentaires communs",
+      "title": "WC enfants",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "au moins 1, cet équipement est inclus dans le total WC exigé.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "106",
+      "chapter": 1,
+      "section": "Équipements supplémentaires communs",
+      "title": "Salle de bain bébé avec baignoire et table à langer",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "au moins 1",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "107",
+      "chapter": 1,
+      "section": "Équipements supplémentaires communs",
+      "title": "Sèche-cheveux",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "2",
+      "precisions": "au moins 2",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "108",
+      "chapter": 1,
+      "section": "Équipements supplémentaires communs",
+      "title": "Espace lavabos chauffé",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "2",
+      "precisions": "Au moins un bloc de lavabos chauffé. Passe optionnel pour les campings situés en Guadeloupe, Martinique, Réunion, Mayotte et Guyane",
+      "validated": true,
+      "optional_profile": "camping_outremer",
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "109",
+      "chapter": 1,
+      "section": "Équipements supplémentaires communs",
+      "title": "Espace douche chauffé",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "2",
+      "precisions": "Au moins un bloc de douches chauffé. Passe optionnel pour les campings situés en Guadeloupe, Martinique, Réunion, Mayotte et Guyane",
+      "validated": true,
+      "optional_profile": "camping_outremer",
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "110",
+      "chapter": 1,
+      "section": "Équipements supplémentaires communs",
+      "title": "Espace WC chauffé",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "2",
+      "precisions": "Au moins un bloc de WC chauffé. Passe optionnel pour les campings situés en Guadeloupe, Martinique, Réunion, Mayotte et Guyane",
+      "validated": true,
+      "optional_profile": "camping_outremer",
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "111",
+      "chapter": 1,
+      "section": "Équipements supplémentaires communs",
+      "title": "Local ou matériel de repassage à disposition de la clientèle (fer + table à repasser)",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "2",
+      "precisions": "Local multi usage accepté",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "112",
+      "chapter": 1,
+      "section": "Équipements supplémentaires communs",
+      "title": "Machine à laver le linge",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "au moins 1",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "113",
+      "chapter": 1,
+      "section": "Équipements supplémentaires communs",
+      "title": "Machine à sécher le linge",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "1",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":1},
+        "2": {"code":"O","points":1},
+        "3": {"code":"O","points":1},
+        "4": {"code":"O","points":1},
+        "5": {"code":"X","points":1}
+      }
+    },
+    {
+      "id": "114",
+      "chapter": 1,
+      "section": "Jeux de plein air",
+      "title": "Aire de jeux pour enfants, propre et en bon état, équipée du nombre de jeux requis",
+      "source_page": 9,
+      "source_status": "X ou O AJO",
+      "source_points": "5",
+      "precisions": "Présence du cahier de sécurité. Pour les catégories 2* à 5*, le critère passe optionnel en cas de positionnement commercial \"réservés exclusivement aux adultes\". Le positionnement commercial \"réservés exclusivement aux adultes\" doit être avéré, objectivable et pleinement mis en avant sur le site internet de l'établissement. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "optional_profile": "adults_only",
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"1 jeu minimum"},
+        "2": {"code":"X","points":5,"exigence":"1 jeu minimum"},
+        "3": {"code":"X","points":5,"exigence":"2 jeux minimum"},
+        "4": {"code":"X","points":5,"exigence":"3 jeux minimum"},
+        "5": {"code":"X","points":5,"exigence":"4 jeux minimum"}
+      }
+    },
+    {
+      "id": "115",
+      "chapter": 1,
+      "section": "Jeux de plein air",
+      "title": "Majoration du nombre de jeux proposé au critère ci-dessus",
+      "source_page": 9,
+      "source_status": "O AJO",
+      "source_points": "1 à 5",
+      "precisions": "Bonification de 1 point par jeu supplémentaire proposé. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "points_min": 1,
+      "ajo": true,
+      "bonus_basis": "114",
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"O","points":5},
+        "3": {"code":"O","points":5},
+        "4": {"code":"O","points":5},
+        "5": {"code":"O","points":5}
+      }
+    },
+    {
+      "id": "116",
+      "chapter": 1,
+      "section": "Jeux de plein air",
+      "title": "Présence d'un terrain d'activité équipé",
+      "source_page": 9,
+      "source_status": "X ou O AJO",
+      "source_points": "3",
+      "precisions": "Exemples : Tennis, volleyball, basketball, badminton, pétanque. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "117",
+      "chapter": 1,
+      "section": "Équipements de divertissement",
+      "title": "Mise à disposition de jeux d'intérieur pour tous âges",
+      "source_page": 9,
+      "source_status": "O AJO",
+      "source_points": "5",
+      "precisions": "Le nombre de jeux par catégories s'applique au minimum. Ex : billard, baby-foot, flipper, simulateurs, jeux d'arcade, jeux de société AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":5,"exigence":"3 jeux"},
+        "2": {"code":"O","points":5,"exigence":"3 jeux"},
+        "3": {"code":"O","points":5,"exigence":"5 jeux"},
+        "4": {"code":"O","points":5,"exigence":"5 jeux"},
+        "5": {"code":"O","points":5,"exigence":"8 jeux"}
+      }
+    },
+    {
+      "id": "118",
+      "chapter": 1,
+      "section": "Équipements de divertissement",
+      "title": "Présence d'une salle de projection",
+      "source_page": 9,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Un système de projection en plein air est accepté.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "119",
+      "chapter": 1,
+      "section": "Remise en forme et détente",
+      "title": "Existence d'un espace de remise en forme équipé, propre et en bon état",
+      "source_page": 9,
+      "source_status": "X ou O AJO",
+      "source_points": "3",
+      "precisions": "Catégories 1*, 2* : au minimum 2 équipements. Catégorie 3* : au minimum 3 équipements. Catégorie 4* : au minimum 4 équipements. Catégorie 5* : au minimum 4 équipements. Les équipements peuvent se situer en plein air. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":3,"exigence":"2 équip."},
+        "2": {"code":"O","points":3,"exigence":"2 équip."},
+        "3": {"code":"O","points":3,"exigence":"3 équip."},
+        "4": {"code":"X","points":3,"exigence":"4 équip."},
+        "5": {"code":"X","points":3,"exigence":"4 équip."}
+      }
+    },
+    {
+      "id": "120",
+      "chapter": 1,
+      "section": "Remise en forme et détente",
+      "title": "Présence d'un Sauna",
+      "source_page": 9,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Les équipements peuvent se situer en plein air",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "121",
+      "chapter": 1,
+      "section": "Remise en forme et détente",
+      "title": "Présence d'un Hammam",
+      "source_page": 9,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Les équipements peuvent se situer en plein air",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "122",
+      "chapter": 1,
+      "section": "Remise en forme et détente",
+      "title": "Présence d'un bain à remous",
+      "source_page": 9,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Les équipements peuvent se situer en plein air",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "123",
+      "chapter": 1,
+      "section": "Remise en forme et détente",
+      "title": "Possibilités de soins",
+      "source_page": 9,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Soins esthétiques ou de bien être, installation mobile tolérée",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "124",
+      "chapter": 1,
+      "section": "Équipements aquatiques",
+      "title": "Présence d'un espace de baignade naturel",
+      "source_page": 9,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "125",
+      "chapter": 1,
+      "section": "Équipements aquatiques",
+      "title": "Existence d'une piscine extérieure ou intérieure propre et en bon état répondant aux critères de sécurité",
+      "source_page": 9,
+      "source_status": "X ou O",
+      "source_points": "4",
+      "precisions": "Pédiluve obligatoire + présence du carnet sanitaire",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":4},
+        "2": {"code":"O","points":4},
+        "3": {"code":"O","points":4},
+        "4": {"code":"O","points":4},
+        "5": {"code":"X","points":4}
+      }
+    },
+    {
+      "id": "126",
+      "chapter": 1,
+      "section": "Équipements aquatiques",
+      "title": "Existence d'une piscine extérieure ou intérieure (chauffée) propre et en bon état équipée répondant aux critères de sécurité",
+      "source_page": 10,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Pédiluve obligatoire + présence du carnet sanitaire",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "127",
+      "chapter": 1,
+      "section": "Équipements aquatiques",
+      "title": "Présence d'un équipement ou infrastructure fixe dédié à une activité aquatique ludique propre et en état de fonctionnement",
+      "source_page": 10,
+      "source_status": "X ou O AJO",
+      "source_points": "4",
+      "precisions": "Pédiluve obligatoire + présence du carnet sanitaire. Exemples : pantaglisse, toboggan aquatique, aire de jeux aqualudique. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":4},
+        "2": {"code":"O","points":4},
+        "3": {"code":"O","points":4},
+        "4": {"code":"O","points":4},
+        "5": {"code":"X","points":4}
+      }
+    },
+    {
+      "id": "128",
+      "chapter": 1,
+      "section": "Équipements aquatiques",
+      "title": "Les abords des espaces aquatiques sont équipés de transats propres et en bon état",
+      "source_page": 10,
+      "source_status": "X ou O ou NA",
+      "source_points": "3",
+      "precisions": "Obligatoire si existence d'une piscine. Devient NA en l'absence de piscine.",
+      "validated": true,
+      "pool_exemption": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"X","points":3,"source_code":"X / NA"}
+      }
+    },
+    {
+      "id": "129",
+      "chapter": 1,
+      "section": "Autres équipements",
+      "title": "Espace de rencontres et/ ou d'animations",
+      "source_page": 10,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "Ce critère ne permet pas de vérifier l'organisation d'animations, mais seulement la présence de l'espace.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "130",
+      "chapter": 1,
+      "section": "Autres équipements",
+      "title": "Catégorie(s) d'animation(s) encadrée(s) par un animateur",
+      "source_page": 10,
+      "source_status": "X ou O",
+      "source_points": "2",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2,"exigence":"1 catégorie d’animation"},
+        "2": {"code":"O","points":2,"exigence":"1 catégorie d’animation"},
+        "3": {"code":"O","points":2,"exigence":"1 catégorie d’animation"},
+        "4": {"code":"X","points":2,"exigence":"2 catégories d’animation"},
+        "5": {"code":"X","points":2,"exigence":"2 catégories d’animation"}
+      }
+    },
+    {
+      "id": "131",
+      "chapter": 1,
+      "section": "Autres équipements",
+      "title": "Catégorie(s) d'animation(s) supplémentaires encadrée(s) par un animateur",
+      "source_page": 10,
+      "source_status": "O",
+      "source_points": "1 à 5",
+      "precisions": "",
+      "validated": true,
+      "points_min": 1,
+      "bonus_basis": "130",
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"O","points":5},
+        "3": {"code":"O","points":5},
+        "4": {"code":"O","points":5},
+        "5": {"code":"O","points":5}
+      }
+    },
+    {
+      "id": "132",
+      "chapter": 1,
+      "section": "Autres équipements",
+      "title": "Présence d'un club enfants dont l'ensemble des jeux et équipements sont propres et en bon état",
+      "source_page": 10,
+      "source_status": "X ou O",
+      "source_points": "4",
+      "precisions": "En catégorie 5*, le critère passe optionnel en cas de positionnement commercial \"réservés exclusivement aux adultes\". Le positionnement commercial \"réservés exclusivement aux adultes\" doit être avéré, objectivable et pleinement mis en avant sur le site internet de l'établissement. Le tableau Atout France ne porte pas le repère AJO sur cette ligne. L’annexe I de l’arrêté le porte : une justification est demandée.",
+      "validated": true,
+      "ajo": true,
+      "optional_profile": "adults_only",
+      "rules": {
+        "1": {"code":"O","points":4},
+        "2": {"code":"O","points":4},
+        "3": {"code":"O","points":4},
+        "4": {"code":"O","points":4},
+        "5": {"code":"X","points":4}
+      }
+    },
+    {
+      "id": "133",
+      "chapter": 1,
+      "section": "Autres équipements",
+      "title": "Existence d'une salle de réunion pouvant accueillir 10 personnes au minimum, propre et en bon état",
+      "source_page": 10,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Présence de 10 assises au minimum.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "134",
+      "chapter": 1,
+      "section": "Autres équipements",
+      "title": "Présence d'une discothèque",
+      "source_page": 10,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Plein air accepté.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "135",
+      "chapter": 1,
+      "section": "Autres équipements",
+      "title": "Présence d'un théâtre en plein air",
+      "source_page": 10,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "136",
+      "chapter": 1,
+      "section": "Autres équipements",
+      "title": "Présence d'une piste de danse",
+      "source_page": 10,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Plein air accepté.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "137",
+      "chapter": 1,
+      "section": "Autres équipements",
+      "title": "Présence d'un podium ou scène",
+      "source_page": 10,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Plein air accepté.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "138",
+      "chapter": 1,
+      "section": "Aire de stationnement pour autocaravanes",
+      "title": "Aire de stationnement pour autocaravanes équipée d'une aire de service raccordée en eau, électricité et au réseau public ou à un système d'épuration, ou emplacements raccordés en eau, électricité et au réseau public ou à un système d'épuration",
+      "source_page": 10,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "Le critère devient non applicable en l'absence d'aire de stationnement pour autocaravanes",
+      "validated": true,
+      "profile_group": "aire_autocaravane",
+      "rules": {
+        "1": {"code":"X","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "139",
+      "chapter": 1,
+      "section": "Aire de stationnement pour autocaravanes",
+      "title": "Superficie minimum d'un emplacement de 35 m²",
+      "source_page": 10,
+      "source_status": "X",
+      "source_points": "5",
+      "precisions": "Le critère devient non applicable en l'absence d'aire de stationnement pour autocaravanes",
+      "validated": true,
+      "profile_group": "aire_autocaravane",
+      "rules": {
+        "1": {"code":"X","points":5},
+        "2": {"code":"X","points":5},
+        "3": {"code":"X","points":5},
+        "4": {"code":"X","points":5},
+        "5": {"code":"X","points":5}
+      }
+    },
+    {
+      "id": "140",
+      "chapter": 1,
+      "section": "Aire de stationnement pour autocaravanes",
+      "title": "Délimitation des emplacements par haies végétales",
+      "source_page": 10,
+      "source_status": "X ou O",
+      "source_points": "4",
+      "precisions": "Le critère devient non applicable en l'absence d'aire de stationnement pour autocaravanes",
+      "validated": true,
+      "profile_group": "aire_autocaravane",
+      "rules": {
+        "1": {"code":"O","points":4},
+        "2": {"code":"O","points":4},
+        "3": {"code":"O","points":4},
+        "4": {"code":"O","points":4},
+        "5": {"code":"X","points":4}
+      }
+    },
+    {
+      "id": "141",
+      "chapter": 1,
+      "section": "Aire de stationnement pour autocaravanes",
+      "title": "Chaque emplacement comporte pour moitié un espace stabilisé et pour l'autre moitié un espace gazonné",
+      "source_page": 10,
+      "source_status": "O",
+      "source_points": "4",
+      "precisions": "Le critère devient non applicable en l'absence d'aire de stationnement pour autocaravanes",
+      "validated": true,
+      "profile_group": "aire_autocaravane",
+      "rules": {
+        "1": {"code":"O","points":4},
+        "2": {"code":"O","points":4},
+        "3": {"code":"O","points":4},
+        "4": {"code":"O","points":4},
+        "5": {"code":"O","points":4}
+      }
+    },
+    {
+      "id": "142",
+      "chapter": 2,
+      "section": "Qualité et fiabilité de l’information client",
+      "title": "Existence d'un site internet présentant l'établissement, ses prestations et ses tarifs",
+      "source_page": 11,
+      "source_status": "X ou O AJO",
+      "source_points": "3",
+      "precisions": "AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "143",
+      "chapter": 2,
+      "section": "Qualité et fiabilité de l’information client",
+      "title": "Le site internet comporte le descriptif complet des hébergements locatifs et leur inventaire",
+      "source_page": 11,
+      "source_status": "X ou O AJO",
+      "source_points": "2",
+      "precisions": "Information présente également au moment de la réservation. Passe NA en l'absence de locatif. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "profile_group": "locatifs",
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "144",
+      "chapter": 2,
+      "section": "Qualité et fiabilité de l’information client",
+      "title": "Le client peut faire sa demande de réservation depuis un accès présent sur le site internet",
+      "source_page": 11,
+      "source_status": "X ou O ou NA AJO",
+      "source_points": "3",
+      "precisions": "Un formulaire de contact ou un lien vers une adresse Email dédiée à la réservation valide ce critère. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"NA","points":0},
+        "5": {"code":"NA","points":0}
+      }
+    },
+    {
+      "id": "145",
+      "chapter": 2,
+      "section": "Qualité et fiabilité de l’information client",
+      "title": "Un module de réservation en ligne est disponible directement sur le site internet",
+      "source_page": 11,
+      "source_status": "X ou O AJO",
+      "source_points": "5",
+      "precisions": "La réservation sur le site internet du réseau de l'établissement est acceptée. Il s'agit d'une réservation ferme avec confirmation automatique. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"O","points":5},
+        "3": {"code":"O","points":5},
+        "4": {"code":"X","points":5},
+        "5": {"code":"X","points":5}
+      }
+    },
+    {
+      "id": "146",
+      "chapter": 2,
+      "section": "Qualité et fiabilité de l’information client",
+      "title": "Le site internet est \"web adaptatif\"",
+      "source_page": 11,
+      "source_status": "X ou O AJO",
+      "source_points": "3",
+      "precisions": "Adaptation du site internet sur tout support numérique avec la technologie « responsive web design ». AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "147",
+      "chapter": 2,
+      "section": "Qualité et fiabilité de l’information client",
+      "title": "Existence d'un site internet présentant l'établissement, ses prestations et ses tarifs dans une langue étrangère",
+      "source_page": 11,
+      "source_status": "X ou O AJO",
+      "source_points": "3",
+      "precisions": "Critère optionnel en 2*, 3*, 4*, 5* de catégorie loisirs AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "loisirs_becomes": "O",
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "148",
+      "chapter": 2,
+      "section": "Qualité et fiabilité de l’information client",
+      "title": "Existence d'un site internet présentant l'établissement, ses prestations et ses tarifs en deux langues étrangères",
+      "source_page": 11,
+      "source_status": "X ou O AJO",
+      "source_points": "3",
+      "precisions": "Les points se cumulent avec la ligne précédente. Critère optionnel en 5* de catégorie loisirs AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "loisirs_becomes": "O",
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "149",
+      "chapter": 2,
+      "section": "Qualité et fiabilité de l’information client",
+      "title": "Existence d'un site internet présentant l'établissement, ses prestations et ses tarifs en trois langues étrangères",
+      "source_page": 11,
+      "source_status": "O",
+      "source_points": "2",
+      "precisions": "Les points se cumulent avec la ligne précédente.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"O","points":2}
+      }
+    },
+    {
+      "id": "150",
+      "chapter": 2,
+      "section": "Qualité et fiabilité de l’information client",
+      "title": "L'ensemble des informations diffusées sur le site internet est actualisé et à jour. Son contenu doit correspondre aux prestations proposées par l'établissement",
+      "source_page": 11,
+      "source_status": "X ou O AJO",
+      "source_points": "5",
+      "precisions": "AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"X","points":5},
+        "3": {"code":"X","points":5},
+        "4": {"code":"X","points":5},
+        "5": {"code":"X","points":5}
+      }
+    },
+    {
+      "id": "151",
+      "chapter": 2,
+      "section": "Traitement de la réservation",
+      "title": "Existence d'un répondeur permettant de laisser un message ou d'entendre un message qui présente les heures d'ouverture de la réception et les autres informations utiles",
+      "source_page": 11,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "152",
+      "chapter": 2,
+      "section": "Traitement de la réservation",
+      "title": "La réservation est possible 24 heures sur 24 et 7 jours sur 7",
+      "source_page": 11,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "Critère optionnel 5* de catégorie loisirs",
+      "validated": true,
+      "loisirs_becomes": "O",
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "153",
+      "chapter": 2,
+      "section": "Traitement de la réservation",
+      "title": "Confirmation détaillée et systématique de la réservation par mail ou par courrier",
+      "source_page": 11,
+      "source_status": "X ou O",
+      "source_points": "4",
+      "precisions": "Critère optionnel en 2*, 3*, 4*, 5* de catégorie loisirs",
+      "validated": true,
+      "loisirs_becomes": "O",
+      "rules": {
+        "1": {"code":"O","points":4},
+        "2": {"code":"X","points":4},
+        "3": {"code":"X","points":4},
+        "4": {"code":"X","points":4},
+        "5": {"code":"X","points":4}
+      }
+    },
+    {
+      "id": "154",
+      "chapter": 2,
+      "section": "Présence minimale du bureau d’accueil",
+      "title": "Respect de la présence minimale pour l'accueil",
+      "source_page": 12,
+      "source_status": "X AJO",
+      "source_points": "3",
+      "precisions": "Présence minimale à la réception selon la catégorie. À justifier lors de l’inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"X","points":3,"exigence":"8 h minimum par jour"},
+        "2": {"code":"X","points":3,"exigence":"8 h minimum par jour"},
+        "3": {"code":"X","points":3,"exigence":"8 h minimum par jour"},
+        "4": {"code":"X","points":3,"exigence":"10 h minimum par jour"},
+        "5": {"code":"X","points":3,"exigence":"10 h minimum par jour"}
+      }
+    },
+    {
+      "id": "155",
+      "chapter": 2,
+      "section": "Présence minimale du bureau d’accueil",
+      "title": "Accueil tardif assuré ou 24h/24",
+      "source_page": 12,
+      "source_status": "O",
+      "source_points": "2",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"O","points":2}
+      }
+    },
+    {
+      "id": "156",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Le client peut être accompagné dans son installation",
+      "source_page": 12,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "Sur demande du client.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "157",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Le personnel est capable d'informer le client sur les offres touristiques dans les alentours",
+      "source_page": 12,
+      "source_status": "X ou O AJO",
+      "source_points": "4",
+      "precisions": "AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":4},
+        "2": {"code":"X","points":4},
+        "3": {"code":"X","points":4},
+        "4": {"code":"X","points":4},
+        "5": {"code":"X","points":4}
+      }
+    },
+    {
+      "id": "158",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Une information sur l'offre touristique locale est accessible et disponible",
+      "source_page": 12,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "Présence de brochures touristiques, plan de ville, informations locales…",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "159",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Paiement possible par carte de crédit",
+      "source_page": 12,
+      "source_status": "X ou O",
+      "source_points": "2",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "160",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Mise à disposition d'adaptateur(s) électrique(s) à la réception",
+      "source_page": 12,
+      "source_status": "X ou O",
+      "source_points": "3",
+      "precisions": "Au moins deux. Critère optionnel en 3*, 4*, 5* de catégorie loisirs",
+      "validated": true,
+      "loisirs_becomes": "O",
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "161",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Mise à disposition d'un questionnaire de satisfaction pour les clients",
+      "source_page": 12,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "162",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Existence d'un système de collecte et de traitement des réclamations reçues dans l'établissement",
+      "source_page": 12,
+      "source_status": "X AJO",
+      "source_points": "5",
+      "precisions": "Les sites d'avis en ligne ou sur des plateformes en ligne sont acceptés pour valider le critère si l'exploitant répond aux avis négatifs. Vérifier la traçabilité de la collecte des réclamations et de l'archivage des réponses. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"X","points":5},
+        "2": {"code":"X","points":5},
+        "3": {"code":"X","points":5},
+        "4": {"code":"X","points":5},
+        "5": {"code":"X","points":5}
+      }
+    },
+    {
+      "id": "163",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Equipe d'accueil pratiquant une langue officielle européenne en plus du français",
+      "source_page": 12,
+      "source_status": "X ou O AJO",
+      "source_points": "2",
+      "precisions": "Il s'agit du personnel en contact avec la clientèle présent pendant les horaires d'ouverture de la réception. Critère optionnel en 2*, 3*, 4*, 5* de catégorie loisirs AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "loisirs_becomes": "O",
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "164",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Equipe d'accueil pratiquant deux langues étrangères dont l'anglais",
+      "source_page": 12,
+      "source_status": "X ou O AJO",
+      "source_points": "3",
+      "precisions": "Les points se cumulent avec la ligne précédente. Il s'agit du personnel en contact avec la clientèle présent pendant les horaires d'ouverture de la réception. Critère optionnel en 4*, 5* de catégorie loisirs AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "loisirs_becomes": "O",
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "165",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Equipe d'accueil pratiquant trois langues étrangères dont l'anglais",
+      "source_page": 12,
+      "source_status": "O",
+      "source_points": "5",
+      "precisions": "Les points se cumulent avec la ligne précédente. Il s'agit du personnel en contact avec la clientèle présent pendant les horaires d'ouverture de la réception.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"O","points":5},
+        "3": {"code":"O","points":5},
+        "4": {"code":"O","points":5},
+        "5": {"code":"O","points":5}
+      }
+    },
+    {
+      "id": "166",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Le client identifie rapidement les langues parlées par l'équipe d'accueil",
+      "source_page": 12,
+      "source_status": "X ou O AJO",
+      "source_points": "3",
+      "precisions": "Ce critère est validé soit par un panneau d'information, soit par la mention des langues parlées sur le badge du personnel en contact avec le client présent pendant les horaires d'ouverture de la réception. Critère optionnel en 2*, 3*, 4*, 5* de catégorie loisirs. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "loisirs_becomes": "O",
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "167",
+      "chapter": 2,
+      "section": "Compétences et services à l’arrivée",
+      "title": "Les équipes sont engagées dans une démarche qualité",
+      "source_page": 12,
+      "source_status": "O AJO",
+      "source_points": "3",
+      "precisions": "La démarche doit être reconnue au titre du plan Qualité Tourisme. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "168",
+      "chapter": 2,
+      "section": "Autres services",
+      "title": "Animaux de compagnie admis",
+      "source_page": 12,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "L'information doit être portée à la connaissance du client dans les supports d'informations commerciales pour valider le critère. La politique d'accueil des animaux est libre.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "169",
+      "chapter": 2,
+      "section": "Autres services",
+      "title": "Organisation de séances d'activité aquatique encadrées",
+      "source_page": 12,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "En haute saison : aquagym, aquabike…",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "170",
+      "chapter": 2,
+      "section": "Autres services",
+      "title": "Organisation de spectacles et animations",
+      "source_page": 12,
+      "source_status": "O",
+      "source_points": "5",
+      "precisions": "Possibilité de prise en charge par une entreprise extérieure.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"O","points":5},
+        "3": {"code":"O","points":5},
+        "4": {"code":"O","points":5},
+        "5": {"code":"O","points":5}
+      }
+    },
+    {
+      "id": "171",
+      "chapter": 2,
+      "section": "Autres services",
+      "title": "Mise à disposition sur demande d'équipements pour bébé : chaise haute, matelas à langer - propres et en bon état",
+      "source_page": 13,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "172",
+      "chapter": 2,
+      "section": "Autres services",
+      "title": "Possibilité de location de vélo dans l'enceinte de l'établissement",
+      "source_page": 13,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "173",
+      "chapter": 2,
+      "section": "Autres services",
+      "title": "Journaux d'information dans les parties communes (support papier ou numérique)",
+      "source_page": 13,
+      "source_status": "O",
+      "source_points": "2",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"O","points":2}
+      }
+    },
+    {
+      "id": "174",
+      "chapter": 3,
+      "section": "Accessibilité aux personnes handicapées et à mobilité réduite",
+      "title": "Nombre minimum d'emplacements accessibles : 1 par tranche de 50",
+      "source_page": 13,
+      "source_status": "X AJO",
+      "source_points": "3",
+      "precisions": "Les équipements viennent en déduction des équipements sanitaires.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "175",
+      "chapter": 3,
+      "section": "Accessibilité aux personnes handicapées et à mobilité réduite",
+      "title": "Un lavabo PMR accessible par tranche de :",
+      "source_page": 13,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "Les équipements PMR peuvent être regroupés en 1 cabine. Les équipements viennent en déduction des équipements sanitaires.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":3,"exigence":"1 par tranche de 200 emplacements"},
+        "2": {"code":"X","points":3,"exigence":"1 par tranche de 200 emplacements"},
+        "3": {"code":"X","points":3,"exigence":"1 par tranche de 180 emplacements"},
+        "4": {"code":"X","points":3,"exigence":"1 par tranche de 160 emplacements"},
+        "5": {"code":"X","points":3,"exigence":"1 par tranche de 160 emplacements"}
+      }
+    },
+    {
+      "id": "176",
+      "chapter": 3,
+      "section": "Accessibilité aux personnes handicapées et à mobilité réduite",
+      "title": "Un WC PMR accessible par tranche de :",
+      "source_page": 13,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "Les équipements PMR peuvent être regroupés en 1 cabine. Les équipements viennent en déduction des équipements sanitaires.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":3,"exigence":"1 par tranche de 200 emplacements"},
+        "2": {"code":"X","points":3,"exigence":"1 par tranche de 200 emplacements"},
+        "3": {"code":"X","points":3,"exigence":"1 par tranche de 180 emplacements"},
+        "4": {"code":"X","points":3,"exigence":"1 par tranche de 160 emplacements"},
+        "5": {"code":"X","points":3,"exigence":"1 par tranche de 160 emplacements"}
+      }
+    },
+    {
+      "id": "177",
+      "chapter": 3,
+      "section": "Accessibilité aux personnes handicapées et à mobilité réduite",
+      "title": "Une douche accessible PMR par tranche de :",
+      "source_page": 13,
+      "source_status": "X",
+      "source_points": "3",
+      "precisions": "Les équipements PMR peuvent être regroupés en 1 cabine. Les équipements viennent en déduction des équipements sanitaires.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":3,"exigence":"1 par tranche de 450 emplacements"},
+        "2": {"code":"X","points":3,"exigence":"1 par tranche de 300 emplacements"},
+        "3": {"code":"X","points":3,"exigence":"1 par tranche de 270 emplacements"},
+        "4": {"code":"X","points":3,"exigence":"1 par tranche de 240 emplacements"},
+        "5": {"code":"X","points":3,"exigence":"1 par tranche de 240 emplacements"}
+      }
+    },
+    {
+      "id": "178",
+      "chapter": 3,
+      "section": "Accessibilité aux personnes handicapées et à mobilité réduite",
+      "title": "Un bac à laver PMR avec eau chaude",
+      "source_page": 13,
+      "source_status": "X",
+      "source_points": "2",
+      "precisions": "Les équipements PMR peuvent être regroupés en 1 cabine. L'absence d'eau chaude est tolérée uniquement en catégorie 1*. Les équipements viennent en déduction des équipements sanitaires.",
+      "validated": true,
+      "rules": {
+        "1": {"code":"X","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "179",
+      "chapter": 3,
+      "section": "Accessibilité aux personnes handicapées et à mobilité réduite",
+      "title": "Informations concernant l'accessibilité sur les supports d'information (guide, web …)",
+      "source_page": 13,
+      "source_status": "X AJO",
+      "source_points": "3",
+      "precisions": "AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "180",
+      "chapter": 3,
+      "section": "Accessibilité aux personnes handicapées et à mobilité réduite",
+      "title": "Sensibilisation du personnel à l'accueil des clients en situation de handicap",
+      "source_page": 13,
+      "source_status": "X AJO",
+      "source_points": "3",
+      "precisions": "AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"X","points":3},
+        "2": {"code":"X","points":3},
+        "3": {"code":"X","points":3},
+        "4": {"code":"X","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "181",
+      "chapter": 3,
+      "section": "Accessibilité aux personnes handicapées et à mobilité réduite",
+      "title": "Formation du personnel à l'accueil des clients en situation de handicap",
+      "source_page": 13,
+      "source_status": "O AJO",
+      "source_points": "5",
+      "precisions": "Tous les types de handicap doivent être évoqués pour la formation.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":5},
+        "2": {"code":"O","points":5},
+        "3": {"code":"O","points":5},
+        "4": {"code":"O","points":5},
+        "5": {"code":"O","points":5}
+      }
+    },
+    {
+      "id": "182",
+      "chapter": 3,
+      "section": "Accessibilité aux personnes handicapées et à mobilité réduite",
+      "title": "Mise à disposition d'un fauteuil roulant adapté à l'environnement",
+      "source_page": 13,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "183",
+      "chapter": 3,
+      "section": "Accessibilité aux personnes handicapées et à mobilité réduite",
+      "title": "Clés avec repères tactiles pour les locatifs (au moins 1)",
+      "source_page": 13,
+      "source_status": "O",
+      "source_points": "2",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"O","points":2}
+      }
+    },
+    {
+      "id": "184",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Utilisation régulière d'au moins deux produits issus de la production régionale ou commerce équitable ou BIO",
+      "source_page": 14,
+      "source_status": "X ou O AJO",
+      "source_points": "3",
+      "precisions": "Hors produits d'entretiens. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"X","points":3}
+      }
+    },
+    {
+      "id": "185",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Sensibilisation des collaborateurs à la gestion économe de l'énergie",
+      "source_page": 14,
+      "source_status": "X AJO",
+      "source_points": "2",
+      "precisions": "Si affichage : présence dans les espaces dédiés au personneL. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"X","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "186",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Sensibilisation des collaborateurs à la gestion économe de l'eau",
+      "source_page": 14,
+      "source_status": "X AJO",
+      "source_points": "2",
+      "precisions": "Si affichage : présence dans les espaces dédiés au personneL. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"X","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "187",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Sensibilisation des collaborateurs à la gestion économe des déchets",
+      "source_page": 14,
+      "source_status": "X AJO",
+      "source_points": "2",
+      "precisions": "Si affichage : présence dans les espaces dédiés au personneL. AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"X","points":2},
+        "2": {"code":"X","points":2},
+        "3": {"code":"X","points":2},
+        "4": {"code":"X","points":2},
+        "5": {"code":"X","points":2}
+      }
+    },
+    {
+      "id": "188",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Information des clients sur les actions de l'établissement en matière de développement durable",
+      "source_page": 14,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "189",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Information des clients sur les actions qu'ils peuvent réaliser lors de leur séjour en matière de développement durable",
+      "source_page": 14,
+      "source_status": "O",
+      "source_points": "3",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "190",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Formation du personnel à la gestion économe de l'énergie, de l'eau, des déchets",
+      "source_page": 14,
+      "source_status": "O AJO",
+      "source_points": "3",
+      "precisions": "AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    },
+    {
+      "id": "191",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Mise en œuvre d'au moins une mesure de réduction de consommation d'énergie",
+      "source_page": 14,
+      "source_status": "O",
+      "source_points": "2",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"O","points":2}
+      }
+    },
+    {
+      "id": "192",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Parties communes ouvertes au public équipées à 100% d'ampoules basse consommation",
+      "source_page": 14,
+      "source_status": "O",
+      "source_points": "2",
+      "precisions": "",
+      "validated": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"O","points":2}
+      }
+    },
+    {
+      "id": "193",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Mise en œuvre d'au moins une mesure de réduction de consommation d'eau",
+      "source_page": 14,
+      "source_status": "O AJO",
+      "source_points": "2",
+      "precisions": "AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"O","points":2}
+      }
+    },
+    {
+      "id": "194",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Mise en œuvre d'au moins une mesure de gestion des déchets",
+      "source_page": 14,
+      "source_status": "O AJO",
+      "source_points": "2",
+      "precisions": "AJO : A justifier obligatoirement lors de l'inspection.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":2},
+        "2": {"code":"O","points":2},
+        "3": {"code":"O","points":2},
+        "4": {"code":"O","points":2},
+        "5": {"code":"O","points":2}
+      }
+    },
+    {
+      "id": "195",
+      "chapter": 3,
+      "section": "Environnement et développement durable",
+      "title": "Utilisation de produits d'entretien certifiés respectueux de l'environnement",
+      "source_page": 14,
+      "source_status": "O AJO",
+      "source_points": "3",
+      "precisions": "AJO : A justifier obligatoirement lors de l'inspection. La présence d'au moins 2 produits d'entretien valide ce critère.",
+      "validated": true,
+      "ajo": true,
+      "rules": {
+        "1": {"code":"O","points":3},
+        "2": {"code":"O","points":3},
+        "3": {"code":"O","points":3},
+        "4": {"code":"O","points":3},
+        "5": {"code":"O","points":3}
+      }
+    }
   ]
 }

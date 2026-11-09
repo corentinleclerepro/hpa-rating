@@ -1,0 +1,114 @@
+{
+  "audit": {
+    "name": "Camping de la Clairière Bleue — Démo 3★",
+    "type": "camping",
+    "mention": "tourisme",
+    "target_stars": 3,
+    "profile": {
+      "nb_emplacements": 80,
+      "nb_emplacements_hll_rml": 0,
+      "nb_emplacements_caravanes": 48,
+      "nb_emplacements_locatifs": 0,
+      "has_non_raccordes": true,
+      "has_raccordes": false,
+      "has_confort": false,
+      "has_grand_confort": false,
+      "has_confort_sans_wc": false,
+      "has_reception": true,
+      "has_pool": false,
+      "has_restaurant": false,
+      "has_bar": false,
+      "has_locatifs": false,
+      "has_aire_autocaravane": false,
+      "wifi_sans_positionnement": false,
+      "wifi_impossible": false,
+      "camping_outremer": false,
+      "adults_only": false,
+      "naturiste": false,
+      "ecologique": false,
+      "saisonnier": true
+    },
+    "reference_version": "atout-france-2019-195"
+  },
+  "items": [
+    {
+      "criterion_id": "1",
+      "status": "VALIDATED",
+      "notes": "Le camping fictif dispose de 80 emplacements nus ; sa capacité d’accueil dépasse vingt personnes.",
+      "validated_by": "Équipe du camping (démo)",
+      "awarded_points": null,
+      "validated_stars": 3
+    },
+    {
+      "criterion_id": "2",
+      "status": "EVIDENCE_MISSING",
+      "notes": "Le profil déclare 80 emplacements. Il reste à joindre le permis d’aménager et à comparer le nombre autorisé au nombre relevé sur place.",
+      "validated_by": "",
+      "awarded_points": null,
+      "validated_stars": null
+    },
+    {
+      "criterion_id": "9",
+      "status": "NON_COMPLIANT",
+      "notes": "Dans cet exemple, le parking d’entrée est fermé pour travaux et aucune place de remplacement n’est disponible. Action : aménager et signaler des places avant la visite.",
+      "validated_by": "",
+      "awarded_points": null,
+      "validated_stars": null
+    },
+    {
+      "criterion_id": "42",
+      "status": "IN_PROGRESS",
+      "notes": "La trousse est à la réception. L’équipe doit encore contrôler les dates de péremption et compléter l’inventaire avant de valider ce critère.",
+      "validated_by": "",
+      "awarded_points": null,
+      "validated_stars": null
+    },
+    {
+      "criterion_id": "17",
+      "status": "VALIDATED",
+      "notes": "Les 80 emplacements sont identifiés par une lettre de secteur et un numéro de parcelle. Exemple : B12 se trouve dans la deuxième rangée du secteur B.",
+      "validated_by": "Équipe du camping (démo)",
+      "awarded_points": null,
+      "validated_stars": 3
+    },
+    {
+      "criterion_id": "21",
+      "status": "VALIDATED",
+      "notes": "Le relevé totalise 7 360 m² pour 80 emplacements, soit 92 m² de moyenne. Le seuil affiché pour 3 étoiles est de 89 m².",
+      "validated_by": "Équipe du camping (démo)",
+      "awarded_points": null,
+      "validated_stars": 3
+    },
+    {
+      "criterion_id": "172",
+      "status": "VALIDATED",
+      "notes": "Six vélos sont proposés à la location dans l’enceinte du camping. La réception gère les réservations, les départs et les retours pendant les horaires de saison.",
+      "validated_by": "Équipe du camping (démo)",
+      "awarded_points": null,
+      "validated_stars": 3
+    }
+  ],
+  "evidences": [
+    {
+      "criterion_id": "17",
+      "kind": "PDF",
+      "filename": "C17_01_plan_reperage.pdf",
+      "original_name": "plan-reperage.pdf",
+      "caption": "Plan des quatre secteurs : repérage des 80 parcelles de A01 à D20."
+    },
+    {
+      "criterion_id": "21",
+      "kind": "PDF",
+      "filename": "C21_01_releve_surfaces.pdf",
+      "original_name": "releve-surfaces.pdf",
+      "caption": "Relevé des quatre secteurs : 7 360 m² pour 80 emplacements, soit 92 m² de moyenne."
+    },
+    {
+      "criterion_id": "172",
+      "kind": "PDF",
+      "filename": "C172_01_fiche_location_velos.pdf",
+      "original_name": "fiche-location-velos.pdf",
+      "caption": "Service de location : six vélos à retirer et à rendre à la réception."
+    }
+  ]
+}

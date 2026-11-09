@@ -3,6 +3,7 @@ import json
 import os
 import re
 import zipfile
+from urllib.parse import urlsplit
 from datetime import datetime
 
 from . import scoring
@@ -46,11 +47,13 @@ def zip_path_for(ref, crit, filename):
     ch = f"Chapitre_{crit.get('chapter', 0)}_{slugify(chapter_title(ref, crit.get('chapter', 0)))}"
     section = f"{slugify(crit.get('section', 'General'))}"
     crit_dir = f"Critere_{crit['id']}_{slugify(crit.get('title', ''))}"
-    return os.path.join(ch, section, crit_dir, filename)
+    return "/".join((ch, section, crit_dir, filename))
 
 
 def safe_filename(cid, seq, original):
     ext = os.path.splitext(original or "")[1].lower() or ""
+    if not re.fullmatch(r"\.[a-z0-9]{1,12}", ext):
+        ext = ""
     base = slugify(os.path.splitext(original or "fichier")[0])[:40]
     return f"C{cid}_{seq:02d}_{base}{ext}"
 
@@ -63,6 +66,8 @@ def build_book_html(audit, ref, items, evidences, score, link_base):
 
     def ev_link(ev):
         if ev["kind"] == "URL":
+            if urlsplit(ev["url"]).scheme not in ("https", "http"):
+                return esc(ev["url"])
             return f'<a href="{esc(ev["url"])}" target="_blank">{esc(ev["url"])}</a>'
         name = ev["filename"]
         if link_base == "ZIP":
@@ -77,7 +82,7 @@ def build_book_html(audit, ref, items, evidences, score, link_base):
     for ev in evidences:
         by_crit.setdefault(ev["criterion_id"], []).append(ev)
 
-    appl = {a["id"]: a for a in scoring.applicable_criteria(ref, {**profile, "type": audit["type"], "mention": audit["mention"]}, stars)}
+    appl = {a["id"]: a for a in scoring.applicable_criteria(ref, {**profile, "type": audit["type"], "mention": audit["mention"]}, stars, items)}
     ordered = sorted(ref.get("criteria", []), key=lambda c: (c.get("chapter", 0), int(c["id"]) if str(c["id"]).isdigit() else 9999, c["id"]))
 
     for c in ordered:
@@ -85,7 +90,8 @@ def build_book_html(audit, ref, items, evidences, score, link_base):
         if a["code"] == "NA":
             continue
         it = items.get(c["id"], {})
-        status = it.get("status", "TODO")
+        status = a["status"]
+        requirement = c.get("rules", {}).get(str(stars), {}).get("exigence")
         evs = by_crit.get(c["id"], [])
         badges = f'<span class="badge code-{a["code"]}">{a["code"]}</span>'
         if a["ajo"]:
@@ -101,7 +107,10 @@ def build_book_html(audit, ref, items, evidences, score, link_base):
         <div class="crit">
           <h3>Critère {esc(c['id'])} — {esc(c.get('title',''))} {badges} <span class="pts">{a['points']} pt</span></h3>
           <p class="status">Statut : <strong>{esc(STATUS_LABELS.get(status, status))}</strong>
-             {(' — validé par ' + esc(it['validated_by']) + ' le ' + esc(it['validated_at'][:10])) if it.get('validated_by') else ''}</p>
+             {(' — validé par ' + esc(it['validated_by']) + ' le ' + esc(it['validated_at'][:10])) if status == "VALIDATED" and it.get('validated_by') and it.get('validated_at') else ''}</p>
+          {('<p>Validé par le critère ' + esc(a['via']) + '</p>') if a.get('via') else ''}
+          {('<p>Exigence : ' + esc(requirement) + '</p>') if requirement else ''}
+          {('<p>Bonification obtenue : ' + str(a['earned']) + ' pt</p>') if c.get('points_min') and status == 'VALIDATED' else ''}
           {('<p class="precisions">' + esc(c.get('precisions','')) + '</p>') if c.get('precisions') else ''}
           {('<p class="notes">' + esc(it.get('notes','')).replace(chr(10),'<br>') + '</p>') if it.get('notes') else ''}
           {('<ul class="evs">' + ev_html + '</ul>') if ev_html else '<p class="noev">Aucune preuve jointe</p>'}
@@ -140,6 +149,7 @@ table {{ border-collapse: collapse; }} td, th {{ border: 1px solid #ccc; padding
 @media print {{ body {{ margin: 10mm; }} }}
 </style></head><body>
 <h1>Book de synthèse — Pré-audit de classement</h1>
+<p>Référentiel : {esc(ref.get('meta', {}).get('version', 'Extrait historique de 49 critères'))}</p>
 <p><em>Généré le {datetime.now().strftime('%d/%m/%Y à %H:%M')} — outil de préparation, ne remplace pas la visite de l'organisme évaluateur accrédité COFRAC.</em></p>
 <h2>Fiche d'identité</h2>
 <table>
@@ -165,18 +175,21 @@ def build_manifest(audit, ref, items, evidences, score):
     idx = criteria_index(ref)
     stars = score["stars"]
     profile = {**audit["profile"], "type": audit["type"], "mention": audit["mention"]}
-    appl = {a["id"]: a for a in scoring.applicable_criteria(ref, profile, stars)}
+    appl = {a["id"]: a for a in scoring.applicable_criteria(ref, profile, stars, items)}
     crits = []
-    for cid, it in items.items():
-        c = idx.get(cid, {})
-        a = appl.get(cid, {"code": "NA", "points": 0, "ajo": False})
+    for cid, c in idx.items():
+        it = items.get(cid, {})
+        a = appl[cid]
         crits.append({
             "id": cid,
             "title": c.get("title", ""),
             "code": a["code"],
             "points": a["points"],
             "ajo": a["ajo"],
-            "status": it.get("status", "TODO"),
+            "status": a["status"],
+            "points_obtenus": a["earned"] if a["status"] == "VALIDATED" and a["code"] != "NA" else 0,
+            "exigence": c.get("rules", {}).get(str(stars), {}).get("exigence", ""),
+            "source_page": c.get("source_page"),
             "notes": it.get("notes", ""),
             "validated_by": it.get("validated_by", ""),
             "evidences": [
@@ -194,16 +207,18 @@ def build_manifest(audit, ref, items, evidences, score):
         "resultat": score,
         "criteres": crits,
         "source_referentiel": ref.get("meta", {}).get("source_url"),
+        "version_referentiel": audit.get("reference_version"),
     }
 
 
-def build_zip(audit, ref, items, evidences, score, data_dir, out_dir):
-    os.makedirs(out_dir, exist_ok=True)
+def build_zip(audit, ref, items, evidences, score, data_dir, out_dir=None, *, stream=None):
+    if stream is None:
+        os.makedirs(out_dir, exist_ok=True)
     slug = slugify(audit["name"])
     date = datetime.now().strftime("%Y%m%d")
     root = f"Dossier_{slug}_{date}"
     zip_name = f"{root}.zip"
-    zip_path = os.path.join(out_dir, zip_name)
+    zip_path = os.path.join(out_dir, zip_name) if stream is None else stream
 
     book = build_book_html(audit, ref, items, evidences, score, link_base="ZIP")
     manifest = build_manifest(audit, ref, items, evidences, score)
@@ -218,4 +233,4 @@ def build_zip(audit, ref, items, evidences, score, data_dir, out_dir):
             src = os.path.join(data_dir, "dossiers", audit["id"], "evidences", ev["criterion_id"], ev["filename"])
             if os.path.exists(src):
                 z.write(src, os.path.join(root, zip_path_for(ref, crit, ev["filename"])))
-    return zip_path
+    return zip_path if stream is None else zip_name

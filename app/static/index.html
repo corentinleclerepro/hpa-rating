@@ -1,20 +1,49 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Prépa Classement Camping / PRL — Atout France</title>
-<link rel="stylesheet" href="/static/style.css">
-</head>
-<body>
-<header>
-  <h1>⭐ Prépa Classement Camping &amp; PRL</h1>
-  <nav>
-    <a href="#/">Dossiers</a>
-    <a href="#/referentiel">Référentiel</a>
-  </nav>
-</header>
-<main id="app">Chargement…</main>
-<script src="/static/app.js"></script>
-</body>
+<!doctype html>
+<html lang="fr" data-csrf-cookie="hpa_csrf">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#f7f6f2" />
+    <title>Hpa Rating · Camp Compagnon — Préparation au classement</title>
+    <link rel="icon" href="/static/logo.png" />
+    <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/static/brand.css" />
+    <script defer src="/static/common.js"></script>
+    <script defer src="/static/ui.js"></script>
+    <script defer src="/static/access.js"></script>
+    <script defer src="/static/guide.js"></script>
+    <script defer src="/static/reference.js"></script>
+    <script defer src="/static/workspace.js"></script>
+    <script defer src="/static/app.js"></script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Aller au contenu</a>
+    <header id="mast">
+      <div class="top">
+        <a class="brand" href="/espace">
+          <img src="/static/logo.png" alt="" width="44" height="44">
+          <span class="brand-words">
+            <span class="brand-name">Hpa <span>Rating</span></span>
+            <span class="brand-caption">Camp Compagnon</span>
+          </span>
+        </a>
+        <nav aria-label="Navigation principale">
+          <a id="nav-space" href="/espace" aria-current="page">Mon espace</a>
+          <a id="nav-reference" href="/espace#/referentiel" hidden>Référentiel</a>
+        </nav>
+        <button type="button" class="logout-button" data-act="logout" hidden>
+          <svg aria-hidden="true" focusable="false" viewBox="0 0 24 24"><path d="M9 4H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h4m6-12 4 4-4 4m-6-4h10"/></svg>
+          <span>Se déconnecter</span>
+        </button>
+      </div>
+    </header>
+    <main id="main" tabindex="-1" aria-busy="true">
+      <div class="wrap">
+        <div class="skeleton" role="status" aria-label="Chargement de votre espace"></div>
+      </div>
+    </main>
+    <p id="notice" role="status" aria-live="polite"></p>
+    <dialog id="modal"></dialog>
+    <dialog id="guide-help-dialog" aria-labelledby="guide-help-title" class="guide-dialog"></dialog>
+  </body>
 </html>

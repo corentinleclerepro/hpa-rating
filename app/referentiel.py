@@ -2,6 +2,9 @@ import json
 import os
 
 DEFAULT_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "data", "referentiel.json")
+LEGACY_PATH = os.path.join(os.path.dirname(DEFAULT_PATH), "referentiel-v1.json")
+LEGACY_VERSION = "extrait-v1"
+CURRENT_VERSION = "atout-france-2019-195"
 
 _cache = {}
 
@@ -19,6 +22,10 @@ def load(path=None):
 
 def criteria_index(ref):
     return {c["id"]: c for c in ref.get("criteria", [])}
+
+
+def for_audit(audit):
+    return load(LEGACY_PATH) if audit.get("reference_version") == LEGACY_VERSION else load()
 
 
 def stats(ref):

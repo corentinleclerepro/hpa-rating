@@ -1,0 +1,43 @@
+* { box-sizing: border-box }
+:root { color-scheme: light; font: 16px/1.5 "Segoe UI", Arial, sans-serif; color: #29252c; background: #f7f6f5; --red: #b51224; --line: #dfdbdc; --muted: #625b62 }
+body { margin: 0 }
+header { background: #28232a; color: #faf9f8; border-bottom: 3px solid #b51224; --brand-accent: #ff161f; --brand-caption: #faf9f8; --logout-focus: #faf9f8 }
+.bar,.wrap { max-width: 1100px; margin: auto; padding: 0 clamp(16px,4vw,48px) }
+.bar,.tools { display: flex; align-items: center; gap: 12px; flex-wrap: wrap }
+.bar { min-height: 68px; padding-block: 11px }
+.badge { color: #fff; font-size: .75rem; border-left: 1px solid #69636a; padding-left: 14px; letter-spacing: .03em }
+.wrap { padding-top: clamp(30px,6vw,62px); padding-bottom: 48px }
+.entry { width: min(480px, calc(100% - 32px)); margin: clamp(42px,9vh,96px) auto 24px }
+.panel, dialog { background: #fff; border: 1px solid var(--line); border-radius: 16px; padding: clamp(21px,4vw,40px); box-shadow: 0 7px 24px #30202b08 }
+.gateform { border-top: 3px solid var(--red) }
+.local-note { text-align: center; font-size: .8rem; color: var(--muted); margin: 15px 0 }
+.eyebrow { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: .73rem; letter-spacing: .12em; text-transform: uppercase; color: #7a2935 }
+.eyebrow i { width: 17px; height: 3px; border-radius: 2px; background: #ff161f }
+h1,h2 { line-height: 1.13; letter-spacing: -.045em; margin: .42em 0 }
+h1 { font-size: clamp(1.9rem,4vw,2.7rem) } h2 { font-size: 1.45rem; margin-top: 0 }
+.intro, .hint, .meta { color: var(--muted) } .intro { margin: 10px 0 26px }
+form label { display: block; font-weight: 600; font-size: .89rem; margin-bottom: 16px }
+input,textarea,button { font: inherit }
+input,textarea { width: 100%; background: white; border: 1px solid #bdb9bc; color: #29252c; border-radius: 8px; padding: 10px 12px; margin-top: 5px }
+textarea { resize: vertical; margin-bottom: 13px }
+button { cursor: pointer; border: 1px solid var(--red); border-radius: 8px; background: var(--red); color: #fff; min-height: 41px; padding: 8px 15px; font-size: .9rem; font-weight: 650 }
+button:hover { filter: brightness(.93) } button:disabled { opacity: .68; cursor: wait } .wide { width: 100% } .wide span { padding-left: 7px }
+.secondary,.textbtn,.close { background: white; color: #3c343a; border-color: var(--line) } .textbtn { border-color: transparent; color: var(--red) }
+:focus-visible { outline: 3px solid #a54050; outline-offset: 3px } .skip { position: absolute; left: -10000px } .skip:focus { left: 8px; padding: 8px; background: white; z-index: 1 }
+.admin-grid { display: grid; grid-template-columns: minmax(245px,.8fr) minmax(0,1.25fr); gap: 18px; align-items: start }
+.admin-grid .panel { padding: clamp(20px,3vw,30px) }
+.invit { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--line); padding: 14px 0 }
+.invit strong { overflow-wrap: anywhere } .meta { margin: 3px 0; font-size: .82rem } .tools { gap: 5px }
+.pill,small { display: inline-block; margin-left: 8px; border-radius: 20px; background: #f0eded; color: #50494b; padding: 2px 8px; font-weight: 600; font-size: .75rem }
+.pill.green { color: #20513d; background: #e4f3e8 } .pill.red { color: #812034; background: #fbe9eb }
+.feedback, [data-feedback] { font-size: .87rem } [data-feedback]:empty { display: none } .error { color: #a51326 }
+dialog { width: min(470px,calc(100% - 28px)); max-height: 85vh; color: inherit } dialog::backdrop { background: #25202b75 }
+.modal-head { display: flex; justify-content: flex-end } .close { min-height: 30px; padding: 1px 8px; font-size: 1.1rem }
+.qr { display: block; width: 185px; max-width: 100%; margin: 12px auto; height: auto } details { margin: 10px 0 20px } code { overflow-wrap: anywhere }
+#notice { position: fixed; left: 50%; bottom: 20px; margin: 0; transform: translateX(-50%); pointer-events: none; background: #29232a; border-radius: 8px; color: white; padding: 9px 16px; opacity: 0 } #notice.shown { opacity: 1 }
+.skeleton { color: var(--muted) }
+@media(max-width:720px) { .admin-grid { grid-template-columns: 1fr } }
+@media(max-width:460px) {
+  .bar { gap: 5px 8px }
+  .bar:has(.logout-button:not([hidden])) .badge { order: 3; flex-basis: 100%; border: 0; padding: 0 }
+}

@@ -5,6 +5,22 @@ OBLIGATORY_RATIO = 0.95
 COMPENSATION_FACTOR = 3
 VALIDATED = "VALIDATED"
 PENDING_STATUSES = ("TODO", "IN_PROGRESS", "EVIDENCE_MISSING")
+GROUP_FIELDS = {
+    "caravanes": "nb_emplacements_caravanes", "hll_rml": "nb_emplacements_hll_rml",
+    "prl_locatifs": "nb_emplacements_locatifs", "aire_autocaravane": "has_aire_autocaravane",
+    "non_raccordes": "has_non_raccordes", "raccordes": "has_raccordes",
+    "confort": "has_confort", "grand_confort": "has_grand_confort",
+    "confort_sans_wc": "has_confort_sans_wc",
+}
+
+
+def group_absent(group, profile):
+    if group == "locatifs":
+        count = profile.get("nb_emplacements_locatifs")
+        flag = profile.get("has_locatifs")
+        return (count == 0 or flag is False) and not (count or flag)
+    value = profile.get(GROUP_FIELDS.get(group))
+    return value is not None and value == 0
 
 
 def rule_for(criterion, stars, profile):
@@ -28,6 +44,20 @@ def rule_for(criterion, stars, profile):
     for key, val in (criterion.get("conditions") or {}).items():
         if profile.get(key) != val:
             return {"code": "NA", "points": 0}
+    if (group_absent(criterion.get("profile_group"), profile)
+            or (criterion.get("wifi_exemption") and
+                (profile.get("wifi_sans_positionnement") or profile.get("wifi_impossible")))
+            or (criterion.get("pool_exemption") and profile.get("has_pool") is False)
+            or (criterion.get("reception_exemption") and ptype == "prl" and stars <= 2
+                and profile.get("has_reception") is False)):
+        return {"code": "NA", "points": 0}
+    threshold = criterion.get("optional_below_pitches")
+    count = profile.get("nb_emplacements")
+    if threshold and isinstance(count, int) and 0 < count < threshold and code == "X":
+        code = "O"
+    flag = criterion.get("optional_profile")
+    if code == "X" and profile.get(flag) and (flag != "camping_outremer" or ptype == "camping"):
+        code = "O"
     if code == "X" and profile.get("mention") == "loisirs" and criterion.get("loisirs_becomes") == "O":
         code = "O"
     return {"code": code, "points": int(r.get("points", 0))}
@@ -39,43 +69,69 @@ def is_ajo(criterion, profile):
     return bool(criterion.get("ajo_prl") and profile.get("type") == "prl")
 
 
-def applicable_criteria(referentiel, profile, stars):
-    out = []
-    for c in referentiel.get("criteria", []):
+def applicable_criteria(referentiel, profile, stars, items=None):
+    if stars not in STAR_CARTE_THRESHOLDS:
+        raise ValueError("La catégorie doit être comprise entre 1 et 5 étoiles")
+    items = items or {}
+    out = {}
+    criteria = referentiel.get("criteria", [])
+    by_id = {c["id"]: c for c in criteria}
+    for c in criteria:
         r = rule_for(c, stars, profile)
-        out.append({
+        item = items.get(c["id"], {})
+        status = item.get("status", "TODO")
+        checked = item.get("validated_stars")
+        basis = by_id[c.get("bonus_basis", c["id"])]["rules"]
+        if status == VALIDATED and checked and stars > checked:
+            if basis.get(str(stars), {}).get("exigence") != basis.get(str(checked), {}).get("exigence"):
+                status = "TODO"
+        out[c["id"]] = {
             "id": c["id"],
             "code": r["code"],
             "points": r["points"],
             "ajo": is_ajo(c, profile),
-        })
-    return out
+            "status": status,
+            "earned": (item.get("awarded_points") or 0) if c.get("points_min") else r["points"],
+        }
+    # Reverse order propagates chains such as 61 → 60 → 59 within this simulation.
+    for c in reversed(criteria):
+        if stars <= c.get("validates_previous_through", 0):
+            current = out[c["id"]]
+            previous = out[str(int(c["id"]) - 1)]
+            if current["code"] != "NA" and current["status"] == VALIDATED and previous["code"] != "NA":
+                if previous["status"] != VALIDATED:
+                    previous.update(status=VALIDATED, via=c["id"])
+    if stars == 1:
+        for c in criteria:
+            required = c.get("optional_when_validated")
+            if required and out[c["id"]]["code"] == "X" and all(
+                    out[cid]["code"] != "NA" and out[cid]["status"] == VALIDATED for cid in required):
+                out[c["id"]]["code"] = "O"
+    return list(out.values())
 
 
 def compute_scores(referentiel, profile, stars, statuses):
-    appl = applicable_criteria(referentiel, profile, stars)
-
-    def status_of(cid):
-        return (statuses.get(cid) or {}).get("status", "TODO")
+    appl = applicable_criteria(referentiel, profile, stars, statuses)
 
     prq = [a for a in appl if a["code"] == "PRQ"]
     onc = [a for a in appl if a["code"] == "ONC"]
-    x = [a for a in appl if a["code"] == "X"]
+    mandatory_codes = ("X", "ONC") if referentiel.get("meta", {}).get("version") else ("X",)
+    x = [a for a in appl if a["code"] in mandatory_codes]
     o = [a for a in appl if a["code"] == "O"]
 
-    prq_missing = [a["id"] for a in prq if status_of(a["id"]) != VALIDATED]
-    onc_missing = [a["id"] for a in onc if status_of(a["id"]) != VALIDATED]
+    prq_missing = [a["id"] for a in prq if a["status"] != VALIDATED]
+    onc_missing = [a["id"] for a in onc if a["status"] != VALIDATED]
 
     x_total = sum(a["points"] for a in x)
-    x_obtained = sum(a["points"] for a in x if status_of(a["id"]) == VALIDATED)
-    x_pending = sum(a["points"] for a in x if status_of(a["id"]) in PENDING_STATUSES)
+    x_obtained = sum(a["points"] for a in x if a["status"] == VALIDATED)
+    x_pending = sum(a["points"] for a in x if a["status"] in PENDING_STATUSES)
     x_lost = x_total - x_obtained - x_pending
     not_attained = x_total - x_obtained
     margin = (1.0 - OBLIGATORY_RATIO) * x_total
     within_margin = not_attained <= margin + 1e-9
 
     o_total = sum(a["points"] for a in o)
-    o_obtained = sum(a["points"] for a in o if status_of(a["id"]) == VALIDATED)
+    o_obtained = sum(a["earned"] for a in o if a["status"] == VALIDATED)
     threshold = STAR_CARTE_THRESHOLDS.get(stars, 0.40)
     base_required_o = ceil(threshold * o_total) if o_total else 0
     compensation = COMPENSATION_FACTOR * not_attained if within_margin else None
