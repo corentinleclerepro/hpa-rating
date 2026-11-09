@@ -1,6 +1,6 @@
 """Start only the invitation console, bound to the loopback interface."""
 import argparse
-from pathlib import Path
+import os
 from hpa_shared.runtime import prepare, serve
 
 
@@ -19,7 +19,8 @@ def main():
         from django.contrib.auth import get_user_model
         if get_user_model().objects.filter(is_staff=True).exists():
             parser.exit(message="L’administration est déjà configurée. Utilisez votre mot de passe et votre application.\n")
-        with Path(args.setup_key).open("x", encoding="utf-8-sig") as output, private_store().atomic():
+        with open(args.setup_key, "x", encoding="utf-8-sig",
+                  opener=lambda path, flags: os.open(path, flags, 0o600)) as output, private_store().atomic():
             ticket = setup_ticket(private_store())
             if not ticket:
                 raise RuntimeError("L’administration est déjà configurée.")

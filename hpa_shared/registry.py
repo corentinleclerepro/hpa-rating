@@ -16,7 +16,8 @@ def now_iso():
 
 
 def digest(kind, value):
-    return hmac.new(settings.INVITATION_KEY.encode(), (kind + ":" + value).encode(), hashlib.sha256).hexdigest()
+    key = settings.INVITATION_KEY if kind == "invite" else settings.APPLICATION_KEY
+    return hmac.new(key.encode(), (kind + ":" + value).encode(), hashlib.sha256).hexdigest()
 
 
 def canonical(value):
@@ -27,13 +28,14 @@ LIMITS = "CREATE TABLE login_limits (bucket TEXT PRIMARY KEY, since INTEGER NOT 
 
 
 class Store:
-    def __init__(self, filename, initialize):
+    def __init__(self, filename, initialize, directory=None):
         self.lock = threading.RLock()
-        self.conn = sqlite3.connect(settings.DATA_DIR / filename, check_same_thread=False, timeout=20)
+        directory = directory or settings.DATA_DIR
+        self.conn = sqlite3.connect(directory / filename, check_same_thread=False, timeout=20)
         self.conn.row_factory = sqlite3.Row
         with self.atomic():
             if self.conn.execute("PRAGMA user_version").fetchone()[0] == 0:
-                legacy = settings.DATA_DIR / "app.db"
+                legacy = directory / "app.db"
                 if legacy.exists():
                     with closing(sqlite3.connect(legacy.as_uri() + "?mode=ro", uri=True)) as old:
                         initialize(self.conn, old)
@@ -82,7 +84,7 @@ def init_invitations(conn, old):
 
 @lru_cache(maxsize=1)
 def registry():
-    return Store("invitations.sqlite3", init_invitations)
+    return Store("invitations.sqlite3", init_invitations, settings.REGISTRY_DIR)
 
 
 def throttled(db, request, purpose):

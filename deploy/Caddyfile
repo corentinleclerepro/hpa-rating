@@ -1,0 +1,22 @@
+{
+	admin off
+	servers {
+		protocols h1 h2
+	}
+}
+
+{$HPA_DOMAIN:hpa-rating.campcompagnon.fr} {
+	@private path /admin /admin/* /administration /administration/* /api/admin /api/admin/* /api/logout/admin /static/console.*
+	handle @private {
+		respond 404
+	}
+	handle {
+		request_body {
+			max_size 64MiB
+		}
+		reverse_proxy 127.0.0.1:18100 {
+			header_up X-Forwarded-For {http.request.remote.host}
+			header_up X-Forwarded-Proto {scheme}
+		}
+	}
+}

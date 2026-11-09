@@ -1,0 +1,47 @@
+name: hpa-rating
+x-python: &python
+  network_mode: host
+  restart: unless-stopped
+  init: true
+  read_only: true
+  cap_drop: [ALL]
+  security_opt: [no-new-privileges:true]
+  tmpfs:
+    - /tmp:mode=1777
+  environment:
+    HPA_GUEST_ORIGIN: https://${HPA_DOMAIN:-hpa-rating.campcompagnon.fr}
+
+services:
+  guest:
+    <<: *python
+    build: {context: .., dockerfile: deploy/Dockerfile, target: guest}
+    volumes:
+      - guest_state:/state/private
+      - invitations:/state/registry
+  admin:
+    <<: *python
+    build: {context: .., dockerfile: deploy/Dockerfile, target: admin}
+    volumes:
+      - admin_state:/state/private
+      - invitations:/state/registry
+  edge:
+    image: caddy:2.11.9-alpine
+    network_mode: host
+    restart: unless-stopped
+    read_only: true
+    cap_drop: [ALL]
+    cap_add: [NET_BIND_SERVICE]
+    security_opt: [no-new-privileges:true]
+    environment:
+      HPA_DOMAIN: ${HPA_DOMAIN:-hpa-rating.campcompagnon.fr}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - tls:/data
+      - caddy_config:/config
+
+volumes:
+  guest_state:
+  admin_state:
+  invitations:
+  tls:
+  caddy_config:

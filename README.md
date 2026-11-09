@@ -2,7 +2,7 @@
 
 **Camp Compagnon**
 
-Espace privé sur invitation fonctionnant en local pour préparer un dossier de
+Espace privé sur invitation, utilisable en local ou sur un serveur HTTPS, pour préparer un dossier de
 classement en étoiles (1★–5★) d'un terrain de camping / caravanage ou d'un PRL,
 selon le tableau de classement officiel (arrêté du 10 avril 2019, annexe I).
 
@@ -38,7 +38,11 @@ Il est possible de corriger une réponse antérieure. Remettre un critère « À
 - **Clonage de dossier** (renouvellement tous les 5 ans) : preuves copiées et
   marquées « à rafraîchir ».
 
-## Lancement
+## Hébergement HTTPS
+
+Le [guide de déploiement sur une VM](deploy/README.md) décrit la mise en service de `hpa-rating.campcompagnon.fr`, la vérification du certificat et les sauvegardes. Seul l’espace invité est publié. L’administration s’ouvre par un tunnel SSH et possède son propre stockage ; elle partage uniquement le registre d’invitations avec l’espace invité.
+
+## Lancement sur localhost
 
 L’espace invité et la console d’administration sont deux applications indépendantes. Elles peuvent être démarrées et arrêtées séparément. Avec Python 3.10+ sous Windows, installer les dépendances une fois :
 
@@ -63,6 +67,8 @@ SQLite et les pièces restent dans le répertoire privé `data/`. Lors d’une i
 .venv\Scripts\python -m unittest discover -s tests -v
 ```
 
+Installer `requirements-production.txt` pour inclure le test des deux serveurs de production et de leurs volumes séparés. Après le déploiement, `python deploy/verify.py https://hpa-rating.campcompagnon.fr` contrôle l’entrée publique sans invitation réelle.
+
 ## Référentiel
 
 `data/referentiel.json` contient les 195 lignes numérotées du tableau Camping et PRL, avec les cinq catégories, les points, les seuils chiffrés, les précisions et la page source. Les valeurs ont été recoupées avec l’annexe I de l’arrêté du 10 avril 2019. Le critère 132 porte la mention AJO dans l’annexe. L’application demande donc une pièce pour ce critère. [Tableau Atout France](https://www.atout-france.fr/sites/default/files/2025-12/R%C3%A9f%C3%A9rentiel%20de%20classement%20-%20Camping%20%26%20PRL.pdf) · [Annexe I sur Légifrance](https://www.legifrance.gouv.fr/jorf/article_jo/JORFARTI000038365246)
@@ -75,6 +81,6 @@ Les anciens dossiers contenant des statuts ou des pièces restent associés à `
 
 - Pas de conversion HEIC→JPG automatique (installer Pillow si besoin) : les photos
   iPhone en .heic sont stockées telles quelles.
-- L’accès distant en HTTPS relève d’une livraison ultérieure. Une invitation contenant `localhost` fonctionne sur le poste qui héberge le serveur.
+- Une invitation contenant `localhost` fonctionne uniquement sur le poste qui héberge le serveur. La console de production génère le lien HTTPS public.
 
 Visuel de l’espace invité : [camping en bord de mer, BusterTravel sur Pinterest](https://fr.pinterest.com/pin/1098878377851832416/). Logo fourni par le propriétaire de CampCompagnon.

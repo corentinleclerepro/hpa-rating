@@ -1,0 +1,36 @@
+#cloud-config
+# Ubuntu Server 24.04 LTS sur une VM Oracle neuve et dédiée. Aucun secret ici.
+package_update: true
+packages:
+  - docker.io
+  - docker-compose-v2
+  - iptables
+write_files:
+  - path: /usr/local/sbin/hpa-web-ports
+    owner: root:root
+    permissions: '0755'
+    content: |
+      #!/bin/sh
+      set -eu
+      for port in 80 443; do
+        iptables -w -C INPUT -p tcp --dport "$port" -m conntrack --ctstate NEW -j ACCEPT 2>/dev/null ||
+          iptables -w -I INPUT 1 -p tcp --dport "$port" -m conntrack --ctstate NEW -j ACCEPT
+      done
+  - path: /etc/systemd/system/hpa-web-ports.service
+    owner: root:root
+    permissions: '0644'
+    content: |
+      [Unit]
+      Description=Hpa Rating - autoriser HTTP et HTTPS IPv4
+      After=network-online.target netfilter-persistent.service
+      Wants=network-online.target
+      [Service]
+      Type=oneshot
+      ExecStart=/usr/local/sbin/hpa-web-ports
+      RemainAfterExit=yes
+      [Install]
+      WantedBy=multi-user.target
+runcmd:
+  - [systemctl, daemon-reload]
+  - [systemctl, enable, --now, hpa-web-ports.service]
+  - [systemctl, enable, --now, docker.service]

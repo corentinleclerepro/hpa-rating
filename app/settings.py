@@ -1,6 +1,7 @@
+from urllib.parse import urlsplit
 from hpa_shared.settings import *
 
-SECRET_KEY = INVITATION_KEY
+SECRET_KEY = APPLICATION_KEY
 ROOT_URLCONF = "app.urls"
 DATABASES = sqlite_database("guest-sessions.sqlite3")
 INSTALLED_APPS = ["django.contrib.sessions"]
@@ -11,3 +12,10 @@ APPEND_SLASH = False
 SESSION_COOKIE_NAME = "hpa_session"
 CSRF_COOKIE_NAME = "hpa_csrf"
 DATA_UPLOAD_MAX_MEMORY_SIZE = 64 * 1024 * 1024
+if PRODUCTION:
+    ALLOWED_HOSTS = [urlsplit(GUEST_ORIGIN).hostname]
+    CSRF_TRUSTED_ORIGINS = [GUEST_ORIGIN]
+    SESSION_COOKIE_SECURE = CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_SSL_HOST = urlsplit(GUEST_ORIGIN).netloc
+    SECURE_HSTS_SECONDS = 86400
