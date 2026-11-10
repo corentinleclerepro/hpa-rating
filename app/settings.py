@@ -26,6 +26,8 @@ if PRODUCTION:
     SECURE_HSTS_SECONDS = 86400
     if CLOUD_ROLE and os.environ.get("VERCEL") == "1":
         SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-        public_alias = os.environ.get("VERCEL_PROJECT_PRODUCTION_URL", "")
-        if re.fullmatch(r"[a-z0-9-]+\.vercel\.app", public_alias):
-            ALLOWED_HOSTS.append(public_alias)
+        # After a custom domain is connected Vercel may put that domain in its system variable.
+        for key in ("VERCEL_PROJECT_PRODUCTION_URL", "HPA_VERCEL_ALIAS"):
+            alias = os.environ.get(key, "")
+            if re.fullmatch(r"[a-z0-9-]+\.vercel\.app", alias) and alias not in ALLOWED_HOSTS:
+                ALLOWED_HOSTS.append(alias)
