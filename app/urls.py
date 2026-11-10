@@ -12,7 +12,8 @@ from .storage import store
 
 page, asset = frontend(Path(__file__).parent / "static", (
     "app.js", "style.css", "dossier.png", "workspace.js", "guide.js", "reference.js", "access.js", "ui.js", "camping.jpg",
-    "landing.css", "landing.js", "clairiere.jpg", "preparation.jpg", "apercu-dossier.jpg"))
+    "landing.css", "landing.js", "clairiere.jpg", "preparation.jpg", "apercu-dossier.jpg",
+    "demo-plan-reperage.png", "demo-releve-surfaces.png", "demo-fiche-location-velos.png"))
 
 
 AID = r"audits/([0-9a-f]+)"

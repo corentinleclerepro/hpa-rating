@@ -83,6 +83,9 @@ class EspacesPrives(unittest.TestCase):
             path = "/demo/justificatifs/" + filename
             self.assertIn(path, initial)
             self.assertTrue(first.call("GET", path).startswith(b"%PDF-"))
+            preview = "/static/demo-" + filename.removesuffix(".pdf") + ".png"
+            self.assertIn(preview, initial)
+            self.assertTrue(first.call("GET", preview).startswith(b"\x89PNG"))
         first.call("GET", "/demo/justificatifs/camping.json", expected=404)
         first.call("GET", "/demo?statut=inconnu", expected=404)
         first.call("GET", "/api/audits", expected=401)

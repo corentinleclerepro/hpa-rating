@@ -22,6 +22,9 @@
 !app/static/clairiere.jpg
 !app/static/preparation.jpg
 !app/static/apercu-dossier.jpg
+!app/static/demo-plan-reperage.png
+!app/static/demo-releve-surfaces.png
+!app/static/demo-fiche-location-velos.png
 !app/static/dossier.png
 !app/sample
 !app/sample/camping.json

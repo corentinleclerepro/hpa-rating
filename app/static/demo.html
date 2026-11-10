@@ -14,7 +14,14 @@
           <p class="eyebrow">Les trois justificatifs</p>
           <h2 id="pieces">Ouvrir une pièce du dossier</h2>
           <p>Pour le critère 21, le relevé détaille le calcul de la superficie moyenne des emplacements.</p>
-          <ul class="demo-files">{% for proof in proofs %}<li><a href="/demo/justificatifs/{{ proof.original_name }}"><span>Critère {{ proof.criterion_id }} · {{ proof.title }}</span><small>PDF <span aria-hidden="true">↗</span></small></a></li>{% endfor %}</ul>
+          <ul class="demo-files">
+          {% for proof in proofs %}<li><details>
+            <summary>Critère {{ proof.criterion_id }} · {{ proof.title }}</summary>
+            <p>{{ proof.caption }}</p>
+            <a href="/static/{{ proof.preview }}" aria-label="Agrandir la page du document « {{ proof.title }} »"><img src="/static/{{ proof.preview }}" width="1191" height="1684" loading="lazy" alt="Page du document fictif « {{ proof.title }} »"></a>
+            <a class="pdf-download" href="/demo/justificatifs/{{ proof.original_name }}" download="{{ proof.original_name }}">Télécharger le PDF original · {{ proof.title }}</a>
+          </details></li>{% endfor %}
+          </ul>
         </section>
         <section class="demo-card" id="exercice" aria-labelledby="critere">
           <p class="eyebrow">À vous d’essayer · Critère {{ exercise.id }}</p>

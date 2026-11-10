@@ -28,7 +28,9 @@ def demo(request):
     items = {item["criterion_id"]: item for item in sample["items"]}
     items["4"] = {"status": CHOICES[choice], "validated_stars": stars}
     rows = [r for r in applicable_criteria(ref, profile, stars, items) if r["code"] != "NA"]
-    proofs = [{**proof, "title": PROOFS[proof["original_name"]]} for proof in sample["evidences"]]
+    proofs = [{**proof, "title": PROOFS[proof["original_name"]],
+               "preview": "demo-" + proof["original_name"].removesuffix(".pdf") + ".png"}
+              for proof in sample["evidences"]]
     records = [{"number": item["criterion_id"], "title": by_id[item["criterion_id"]]["title"],
                 "status": STATUS_LABELS[item["status"]], "notes": item["notes"]}
                for item in sorted(sample["items"], key=lambda i: int(i["criterion_id"]))]
