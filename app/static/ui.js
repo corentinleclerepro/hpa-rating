@@ -104,7 +104,14 @@
   function meter(value, total) {
     return `<progress max="${total || 1}" value="${value}" aria-label="Critères renseignés">${value} / ${total}</progress>`;
   }
-  Object.assign(HPA, { upload, header, go, meter,
+  function referenceNote(info) {
+    if (!info) return "";
+    const details = info.checked
+      ? `Source vérifiée le ${HPA.esc(info.checked)}. <a href="/#referentiel" target="_blank" rel="noopener">Sources et mise à jour ↗</a>`
+      : `Version du dossier : ${HPA.esc(info.version)}.`;
+    return `<p class="ref-edition">${HPA.esc(info.label)}<br>${details}</p>`;
+  }
+  Object.assign(HPA, { upload, header, go, meter, referenceNote,
     photoCredit: '<a class="credit" href="https://fr.pinterest.com/pin/1098878377851832416/" target="_blank" rel="noopener noreferrer">Image · BusterTravel</a>',
   });
 })();

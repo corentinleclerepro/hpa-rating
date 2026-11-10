@@ -1,0 +1,29 @@
+{% extends "public_base.html" %}
+{% block title %}Confidentialité et données personnelles · Hpa Rating{% endblock %}
+{% block description %}Comprendre l’usage de votre e-mail, de votre code et des pièces de votre dossier, leur conservation et les moyens de faire valoir vos droits.{% endblock %}
+{% block content %}
+  <article class="terms bound"><header class="terms-heading"><h1>Vos données et leur <em>confidentialité</em></h1>
+    <p>La démo fonctionne avec des données fictives. Dans votre espace personnel, vos réponses et vos pièces sont enregistrées pour que vous puissiez reprendre votre préparation.</p></header>
+    <div class="terms-layout"><nav class="terms-contents" aria-label="Sommaire de confidentialité"><strong>Sur cette page</strong><a href="#responsable">Qui s’en occupe ?</a><a href="#usages">Données et usages</a><a href="#destinataires">Accès et prestataires</a><a href="#durees">Conservation et sauvegardes</a><a href="#droits">Exercer vos droits</a></nav>
+      <div class="terms-sections">
+        <section id="responsable"><h2>Qui s’en occupe ?</h2><p>Corentin Leclere, entrepreneur individuel exerçant sous le nom Devora Agency, est responsable des traitements liés aux demandes, aux accès et à la sécurité de Hpa Rating. Pour vos questions, écrivez à <a href="mailto:contact@devora-agency.fr">contact@devora-agency.fr</a> ou au 18 rue Masséna, 06000 Nice. <a href="/mentions-legales">Coordonnées de l’éditeur.</a></p></section>
+        <section id="usages"><h2>À quoi servent ces informations ?</h2>
+          <p>Le nom du camping et l’e-mail sont obligatoires pour demander un accès. Devora Agency les utilise pour examiner la demande, répondre et envoyer le code après acceptation. Pour l’exploitant qui utilise le service en son nom, la base légale est la préparation puis l’exécution du contrat gratuit décrit dans les <a href="/cgu">conditions d’utilisation</a>. Pour son représentant, notre intérêt légitime est de mettre le service demandé à la disposition de l’établissement et de communiquer avec son interlocuteur.</p>
+          <p>Le profil de l’établissement, les réponses, les notes, la progression, l’historique et les pièces que vous choisissez de joindre servent à préparer le dossier et ses exports. Le camping décide des pièces intégrées. Limitez les données de tiers dans vos justificatifs à ce qui est nécessaire et masquez les identités inutiles.</p>
+          <p>La protection des accès relève de notre intérêt légitime à prévenir les abus. Le service vérifie une empreinte du code, enregistre la dernière utilisation et limite les tentatives à partir d’une empreinte de l’adresse réseau. Les cookies techniques assurent la session et la protection des formulaires.</p>
+        </section>
+        <section id="destinataires"><h2>Qui y a accès ?</h2>
+          <p>La personne qui gère les invitations voit les demandes et les accès. Les dossiers et les pièces s’ouvrent dans l’espace de leur propriétaire. Les informations de votre dossier restent sous votre contrôle lorsque vous décidez de partager un export ou de le présenter lors d’une visite.</p>
+          <p>Vercel exécute l’application et traite les requêtes techniques. Supabase héberge la base privée, y compris les pièces. L’invitation est envoyée à l’adresse fournie par courrier électronique. Ces prestataires peuvent traiter des données hors de l’Espace économique européen. Leurs accords précisent les pays, les sous-traitants et les garanties applicables, dont les clauses contractuelles types. <a href="https://vercel.com/legal/dpa">Accord de Vercel</a> · <a href="https://supabase.com/legal/dpa">Accord de Supabase</a>.</p>
+        </section>
+        <section id="durees"><h2>Combien de temps ?</h2>
+          <p>La demande reste en attente pendant son examen. Un refus efface immédiatement la demande et ses coordonnées de la base active. Après acceptation, elles servent au suivi de l’accès. Pour clore votre accès et demander l’effacement des informations associées, contactez l’éditeur. Révoquer un code coupe les accès ouverts et conserve les dossiers pour permettre une réattribution à leur propriétaire.</p>
+          <p>Vous pouvez supprimer un dossier depuis « Mes dossiers ». Son historique et ses pièces sont retirés de la base active. Si vous avez dupliqué le dossier, les pièces utilisées par la copie restent disponibles jusqu’à leur dernière suppression. Les exports téléchargés restent sur l’appareil où vous les avez enregistrés.</p>
+          <p>Une session invitée a une durée de validité de sept jours. Les compteurs de tentatives sont limités à une fenêtre de dix minutes, puis nettoyés lors des tentatives suivantes. Les journaux techniques et les sauvegardes suivent le cycle de rotation des prestataires. Une donnée supprimée de la base active peut subsister dans une sauvegarde jusqu’à son remplacement. <a href="https://supabase.com/docs/guides/platform/backups">Fonctionnement des sauvegardes</a>.</p>
+        </section>
+        <section id="droits"><h2>Comment exercer vos droits ?</h2>
+          <p>Écrivez à <a href="mailto:contact@devora-agency.fr">contact@devora-agency.fr</a> en précisant le camping et la demande concernée. Vous pouvez demander l’accès, la rectification, l’effacement ou la limitation du traitement et, selon la base légale, la portabilité ou l’opposition pour des raisons tenant à votre situation. Si vous apparaissez dans une pièce déposée par un camping, vous pouvez également vous adresser à son exploitant.</p>
+          <p>Vous pouvez adresser une réclamation à la <a href="https://www.cnil.fr/fr/adresser-une-plainte">Commission nationale de l’informatique et des libertés</a>.</p>
+        </section>
+      </div></div></article>
+{% endblock %}

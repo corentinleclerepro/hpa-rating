@@ -56,8 +56,12 @@ def store():
     return DB(str(settings.DATA_DIR / "app.db"))
 
 
+def sample_spec():
+    return json.loads((SAMPLE / "camping.json").read_text(encoding="utf8"))
+
+
 def sample_audit(db, owner):
-    spec = json.loads((SAMPLE / "camping.json").read_text(encoding="utf8"))
+    spec = sample_spec()
     sample = spec["audit"]
     audit = db.create_audit(sample["name"], sample["type"], sample["mention"], sample["target_stars"],
                             sample["profile"], sample["reference_version"], owner)

@@ -216,5 +216,7 @@ def access_requests(request, rid=None, action=None):
             db.conn.execute("UPDATE access_requests SET status='approved',decided_at=?,guest_id=? WHERE id=?",
                             (now_iso(), gid, rid))
             return JsonResponse({"id": gid, "email": row["email"], "code": code, "login_url": settings.GUEST_LOGIN_URL}, status=201)
-        db.conn.execute("UPDATE access_requests SET status='declined',decided_at=? WHERE id=?", (now_iso(), rid))
+        db.conn.execute("UPDATE access_requests SET status='declined' WHERE id=? AND status='pending'", (rid,))
+        if db.conn.execute("SELECT 1 FROM access_requests WHERE id=?", (rid,)).fetchone():
+            raise ValueError("L’effacement n’a pas abouti. La demande est conservée.")
         return JsonResponse({"ok": True})

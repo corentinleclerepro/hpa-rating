@@ -6,6 +6,7 @@
   <meta name="theme-color" content="#faf8f2">
   <meta name="description" content="{% block description %}{% endblock %}">
   <title>{% block title %}{% endblock %}</title>
+  <link rel="canonical" href="{{ canonical }}">
   <link rel="icon" href="/static/logo.png">
   <link rel="stylesheet" href="/static/brand.css">
   <link rel="stylesheet" href="/static/landing.css">
@@ -20,7 +21,7 @@
         <span class="brand-words"><span class="brand-name">Hpa <span>Rating</span></span><span class="brand-caption">Camp Compagnon</span></span>
       </a>
       <nav aria-label="Navigation principale"><a href="/#projet">Le projet</a><a href="/#parcours">Le parcours</a><a href="/#donnees">Vos données</a></nav>
-      <a class="nav-login" href="/connexion">Se connecter <span aria-hidden="true">↗</span></a>
+      {% if current_page == "connection" %}<a class="nav-login" href="/demo">Essayer la démo <span aria-hidden="true">↗</span></a>{% else %}<a class="nav-login" href="/connexion">Se connecter <span aria-hidden="true">↗</span></a>{% endif %}
     </div>
   </header>
   <main id="contenu" tabindex="-1">
@@ -31,6 +32,8 @@
     <nav aria-label="Liens de pied de page">
       <a href="https://devora-agency.fr/">Devora Agency</a>
       <a href="/cgu"{% if current_page == "terms" %} aria-current="page"{% endif %}>Conditions générales d’utilisation</a>
+      <a href="/mentions-legales"{% if current_page == "legal" %} aria-current="page"{% endif %}>Mentions légales</a>
+      <a href="/confidentialite"{% if current_page == "privacy" %} aria-current="page"{% endif %}>Confidentialité</a>
       <a href="#contenu">Retour en haut <span aria-hidden="true">↑</span></a>
     </nav>
   </footer>

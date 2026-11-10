@@ -33,20 +33,25 @@ def session_info(request):
 @endpoint(["POST"])
 def guest_login(request):
     data = payload(request)
+    failure = authenticate_code(request, data.get("code", ""))
+    return failure if failure is not None else JsonResponse({"ok": True})
+
+
+def authenticate_code(request, code):
     db = registry()
     with db.atomic():
         bucket = throttled(db, request, "invité")
         if not bucket:
             return limited()
         row = db.conn.execute("SELECT id,version FROM guests WHERE digest=? AND revoked=0",
-                              (digest("invite", canonical(data.get("code", ""))),)).fetchone()
+                              (digest("invite", canonical(code)),)).fetchone()
         if not row:
             return error("Code invalide ou révoqué.", 401)
         db.conn.execute("DELETE FROM login_limits WHERE bucket=?", (bucket,))
         db.conn.execute("UPDATE guests SET last_seen=?,code_used=1 WHERE id=?", (now_iso(), row["id"]))
         request.session.cycle_key()
         request.session["guest"] = [row["id"], row["version"]]
-    return JsonResponse({"ok": True})
+    return None
 
 
 @endpoint(["POST"])

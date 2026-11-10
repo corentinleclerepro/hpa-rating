@@ -1,0 +1,20 @@
+{% extends "public_base.html" %}
+{% block title %}Se connecter à son dossier · Hpa Rating{% endblock %}
+{% block description %}Saisissez votre code personnel pour retrouver vos dossiers de classement ou découvrez la démonstration sans code.{% endblock %}
+{% block content %}
+  <section class="connection bound">
+    <div><p class="eyebrow"><span class="rule"></span> Espace invité</p><h1>Retrouvez <em>vos dossiers.</em></h1>
+      <p class="lede">Saisissez le code personnel que vous avez reçu par e-mail.</p>
+      <form method="post" id="guest-login" class="login-form">
+        <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+        <label for="invite">Code personnel</label><input id="invite" type="password" name="code" autocomplete="current-password" placeholder="HPA-…" required maxlength="100">
+        {% if message %}<p class="form-error" role="alert">{{ message }}</p>{% endif %}
+        <button class="button" type="submit">Ouvrir mon espace <span aria-hidden="true">→</span></button>
+      </form>
+      <noscript><p>La préparation de vos dossiers utilise JavaScript. Vous pouvez explorer la démo sans l’activer.</p></noscript>
+      <details id="code-perdu"><summary>J’ai perdu mon code</summary><p>Répondez au courriel d’invitation ou écrivez à <a href="mailto:contact@devora-agency.fr">contact@devora-agency.fr</a>. Le remplacement du code fermera les sessions précédentes et vous redonnera accès à vos dossiers.</p></details>
+      <div class="actions"><a class="text-link" href="/demo">Essayer la démo sans code →</a><a class="text-link" href="/#acces">Demander un accès gratuit →</a></div>
+    </div>
+    <figure class="login-image"><img src="/static/camping.jpg" alt="Camping en bord de mer, avec piscine et mobil-homes colorés."><figcaption><a href="https://fr.pinterest.com/pin/1098878377851832416/">Image · BusterTravel</a></figcaption></figure>
+  </section>
+{% endblock %}

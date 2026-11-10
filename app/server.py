@@ -15,7 +15,7 @@ from .db import STATUSES
 from .exporters import STATUS_LABELS, build_book_html, build_zip, evidence_kind, safe_filename
 from hpa_shared.http import error, payload
 from .profile import PROFILE_FIELDS
-from .referentiel import criteria_index, for_audit, load as load_ref, stats as ref_stats
+from .referentiel import criteria_index, for_audit, load as load_ref, publication, stats as ref_stats
 from .storage import sample_audit, store
 
 CONTENT_TYPES = {".pdf":"application/pdf", ".jpg":"image/jpeg", ".jpeg":"image/jpeg", ".png":"image/png",
@@ -132,7 +132,8 @@ class DossierAPI:
         })
 
     def api_referentiel(self, match, query):
-        return JsonResponse(load_ref())
+        ref = load_ref()
+        return JsonResponse({**ref, "publication": publication(ref)})
 
     def api_ref_stats(self, match, query):
         return JsonResponse(ref_stats(load_ref()))
@@ -166,6 +167,7 @@ class DossierAPI:
         items = self.db.list_items(audit["id"])
         evs = self.db.list_evidences(audit["id"])
         info = self.summary(audit, items)
+        info["publication"] = publication(for_audit(audit))
         flow = info["workflow"]
         allowed = set(flow["allowed_ids"])
         return JsonResponse({"audit": info, "items": {k:v for k,v in items.items() if k in allowed},

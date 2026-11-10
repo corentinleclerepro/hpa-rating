@@ -34,7 +34,7 @@
     return `<article class="invit"><div><strong>${esc(entry.camping)}</strong><span class="pill">${status}</span>
       <p class="request-email">${esc(entry.email)}</p><p class="meta">Reçue le ${date(entry.created_at)}</p></div>
       ${pending ? `<div class="tools"><button data-access="approve" data-id="${esc(entry.id)}">Accepter et créer un code</button>
-        <button class="secondary" data-access="decline" data-id="${esc(entry.id)}">Refuser</button></div>` : ""}</article>`;
+        <button class="secondary" data-access="decline" data-id="${esc(entry.id)}">Refuser et effacer la demande</button></div>` : ""}</article>`;
   }
   async function adminPanel() {
     const [{ guests }, { requests }] = await Promise.all([api("/api/admin/invitations"), api("/api/admin/demandes")]);
@@ -103,14 +103,14 @@
     }
     const id = button.dataset.id;
     if (op === "decline") {
-      dialog(`<h2>Refuser cette demande ?</h2><p>La demande passera dans l’historique.</p><button data-access="decline-request" data-id="${esc(id)}">Refuser la demande</button>`);
+      dialog(`<h2>Refuser et effacer la demande ?</h2><p>Le nom du camping et son e-mail seront immédiatement effacés de la liste des demandes. Cette action est définitive.</p><button data-access="decline-request" data-id="${esc(id)}">Refuser et effacer la demande</button>`);
       return;
     }
     if (op === "approve" || op === "decline-request") {
       await busy(button, async () => {
         const result = await api(`/api/admin/demandes/${id}/${op === "approve" ? "approve" : "decline"}`, "POST", {});
         if (result.code) issued(result.code, result.login_url, result.email);
-        else { close(); toast("Demande refusée."); }
+        else { close(); toast("Demande refusée et effacée."); }
         await adminPanel();
       });
       return;

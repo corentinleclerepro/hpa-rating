@@ -97,6 +97,12 @@ def registry():
             decided_at TEXT, guest_id TEXT REFERENCES guests(id))""")
         db.conn.execute("""CREATE UNIQUE INDEX IF NOT EXISTS pending_access_email
                            ON access_requests(email) WHERE status IN ('pending','approved')""")
+        if db.conn.execute("PRAGMA user_version").fetchone()[0] < 2:
+            db.conn.execute("""CREATE TRIGGER erase_refused_request AFTER UPDATE OF status ON access_requests
+                WHEN OLD.status='pending' AND NEW.status='declined'
+                BEGIN DELETE FROM access_requests WHERE id=NEW.id AND status='declined'; END""")
+            db.conn.execute("DELETE FROM access_requests WHERE status='declined'")
+            db.conn.execute("PRAGMA user_version = 2")
     return db
 
 

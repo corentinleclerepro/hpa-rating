@@ -60,7 +60,46 @@ class EspacesPrives(unittest.TestCase):
         self.assertEqual(len([r for r in rows if r["email"] == issued["email"]]), 1)
         refused = next(r for r in rows if r["email"] == "refus@example.test")
         self.admin.call("POST", listing+"/"+refused["id"]+"/decline", {})
-        self.admin.call("POST", listing+"/"+refused["id"]+"/approve", {}, expected=409)
+        decided = self.admin.call("GET", listing)["requests"]
+        self.assertFalse(any(r["id"] == refused["id"] or r["email"] == refused["email"] for r in decided))
+        self.assertTrue(any(r["id"] == matches[0]["id"] and r["status"] == "approved" for r in decided))
+        self.admin.call("POST", listing+"/"+refused["id"]+"/approve", {}, expected=404)
+
+    def test_demo_publique_sans_session_et_sans_fichier_prive(self):
+        first, second = Browser(self.server.port), Browser(self.server.port)
+        def counters(client, query, expected):
+            page = client.call("GET", "/demo" + query).decode()
+            for name, value in zip(("filled", "mandatory", "optional"), expected):
+                self.assertRegex(page, rf'<dd id="{name}">{value}(?: |<)')
+            return page
+        initial = counters(first, "", (7, 4, 3))
+        self.assertIn('/ 192</small>', initial)
+        counters(first, "?statut=en-cours", (8, 4, 3))
+        counters(first, "?statut=valide", (8, 7, 3))
+        counters(second, "", (7, 4, 3))
+        counters(first, "", (7, 4, 3))
+        self.assertEqual(first.cookies, {})
+        for filename in ("releve-surfaces.pdf", "plan-reperage.pdf", "fiche-location-velos.pdf"):
+            path = "/demo/justificatifs/" + filename
+            self.assertIn(path, initial)
+            self.assertTrue(first.call("GET", path).startswith(b"%PDF-"))
+        first.call("GET", "/demo/justificatifs/camping.json", expected=404)
+        first.call("GET", "/demo?statut=inconnu", expected=404)
+        first.call("GET", "/api/audits", expected=401)
+
+    def test_connexion_html_et_liens_publics(self):
+        browser = Browser(self.server.port)
+        page = browser.call("GET", "/connexion")
+        self.assertIn(b'name="code"', page)
+        self.assertIn(b'J\xe2\x80\x99ai perdu mon code', page)
+        for path in ("/mentions-legales", "/confidentialite", "/cgu", "/demo"):
+            self.assertIn(path.encode(), page)
+            self.assertIn(path.encode(), browser.call("GET", "/sitemap.xml"))
+        self.assertNotIn(b"/espace", browser.call("GET", "/sitemap.xml"))
+        origin = "http://127.0.0.1:" + str(self.server.port)
+        browser.call("POST", "/connexion", body=urlencode({"code": self.server.guest_code}).encode(),
+                     mime="application/x-www-form-urlencoded", expected=303, origin=origin)
+        self.assertIsNotNone(browser.call("GET", "/api/session")["guest"])
 
     def test_admin_second_facteur_et_codes_de_secours(self):
         anon=Browser(self.server.admin_port, console=True)

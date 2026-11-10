@@ -36,7 +36,13 @@ def run():
     result = post("/api/admin/setup/finish",{"otp":otp}).json()
     assert len(result["recovery_codes"]) == 8
     assert client.get("/api/audits",secure=True).status_code == 404
-    entry = client.get("/api/admin/demandes",secure=True).json()["requests"][0]
+    listing = "/api/admin/demandes"
+    pending = client.get(listing,secure=True).json()["requests"]
+    refused = next(row for row in pending if row["email"] == "refus@example.test")
+    assert post(listing+"/"+refused["id"]+"/decline", {}).status_code == 200
+    remaining = client.get(listing,secure=True).json()["requests"]
+    assert all(row["id"] != refused["id"] and row["email"] != refused["email"] for row in remaining)
+    entry = next(row for row in remaining if row["email"] == "test@example.test")
     assert entry["status"] == "pending" and entry["camping"] == "Test postal"
     path = "/api/admin/demandes/" + entry["id"] + "/approve"
     invitation = post(path,{}).json()

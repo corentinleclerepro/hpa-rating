@@ -1,0 +1,49 @@
+{% extends "public_base.html" %}
+{% block title %}Essayer la démo de la Clairière Bleue · Hpa Rating{% endblock %}
+{% block description %}Explorez un camping fictif trois étoiles, ouvrez ses trois justificatifs et essayez de valider un critère de classement sans invitation.{% endblock %}
+{% block content %}
+  <article class="demo bound">
+    <header class="demo-heading">
+      <p class="eyebrow"><span class="rule"></span> Démo sans code · Camping fictif</p>
+      <h1>La Clairière <em>Bleue.</em></h1>
+      <p class="lede">Ce camping de {{ capacity }} emplacements vise {{ stars }} étoiles. Ouvrez un justificatif, puis essayez de valider son prochain critère pour découvrir comment se prépare le dossier.</p>
+    </header>
+    <div class="demo-grid">
+      <div>
+        <section class="demo-card" aria-labelledby="pieces">
+          <p class="eyebrow">Les trois justificatifs</p>
+          <h2 id="pieces">Ouvrir une pièce du dossier</h2>
+          <p>Pour le critère 21, le relevé détaille le calcul de la superficie moyenne des emplacements.</p>
+          <ul class="demo-files">{% for proof in proofs %}<li><a href="/demo/justificatifs/{{ proof.original_name }}"><span>Critère {{ proof.criterion_id }} · {{ proof.title }}</span><small>PDF <span aria-hidden="true">↗</span></small></a></li>{% endfor %}</ul>
+        </section>
+        <section class="demo-card" id="exercice" aria-labelledby="critere">
+          <p class="eyebrow">À vous d’essayer · Critère {{ exercise.id }}</p>
+          <h2 id="critere">{{ exercise.title }}</h2>
+          <p>Imaginez que vous venez d’inspecter les panneaux du camping. Choisissez « En cours » si la vérification a commencé, ou « Validé » si tous sont propres et en bon état.</p>
+          <form class="demo-form" method="get" action="/demo#resultat">
+            <fieldset><legend>Votre constat</legend>
+              <label><input type="radio" name="statut" value="a-traiter"{% if choice == "a-traiter" %} checked{% endif %}> À traiter</label>
+              <label><input type="radio" name="statut" value="en-cours"{% if choice == "en-cours" %} checked{% endif %}> En cours</label>
+              <label><input type="radio" name="statut" value="valide"{% if choice == "valide" %} checked{% endif %}> Validé</label>
+            </fieldset>
+            <button class="button" type="submit">Voir l’effet sur les points <span aria-hidden="true">→</span></button>
+          </form>
+        </section>
+      </div>
+      <aside class="demo-result" id="resultat" tabindex="-1" aria-labelledby="compteurs">
+        <p class="eyebrow">Objectif {{ stars }} étoiles</p><h2 id="compteurs">Votre résultat</h2>
+        <dl class="demo-counts">
+          <div><dt>Critères renseignés</dt><dd id="filled">{{ filled }} <small>/ {{ total }}</small></dd></div>
+          <div><dt>Points obligatoires</dt><dd id="mandatory">{{ score.x.obtained }} <small>/ {{ score.x.total }}</small></dd></div>
+          <div><dt>Points à la carte</dt><dd id="optional">{{ score.o.obtained }}</dd></div>
+        </dl>
+        <p class="demo-feedback">{% if choice == "valide" %}Critère validé. Ses points s’ajoutent au total obligatoire pour la catégorie visée.{% elif choice == "en-cours" %}Le critère est renseigné. Ses points seront acquis quand il sera validé.{% else %}Le critère 4 est à traiter. Ses points pourront s’ajouter au total obligatoire.{% endif %}</p>
+        <a href="/demo#exercice">Recommencer</a>
+      </aside>
+    </div>
+    <details class="demo-records"><summary>Consulter les {{ records|length }} critères renseignés au départ</summary>
+      {% for item in records %}<article><p class="eyebrow">Critère {{ item.number }} · {{ item.status }}</p><h3>{{ item.title }}</h3><p>{{ item.notes }}</p></article>{% endfor %}
+    </details>
+    <div class="demo-next"><div><h2>Préparer votre propre camping</h2><p>Votre invitation vous permet d’enregistrer vos réponses et de joindre vos pièces.</p></div><a class="button" href="/#acces">Demander un accès gratuit <span aria-hidden="true">→</span></a></div>
+  </article>
+{% endblock %}

@@ -1,5 +1,7 @@
 # Hpa Rating sur Vercel et Supabase
 
+Après la création de la boîte des demandes (`access_requests.sql`), appliquer `erase_refused_requests.sql` avant de publier l’interface de refus. Cette migration efface les demandes déjà refusées et installe l’effacement dans la transaction de chaque futur refus. Les rôles applicatifs conservent leurs droits existants.
+
 L’espace invité est une application Django sur Vercel. Les dossiers, les sessions, les invitations et les pièces se trouvent dans le schéma PostgreSQL privé `hpa_rating`. Les fichiers sont divisés en parties de 1 Mio, avec une limite de 64 Mio par envoi. Ils consomment le quota **disque de la base PostgreSQL**. Une copie d’un dossier partage les octets immuables de ses pièces. La suppression de la dernière référence efface ces octets dans la même transaction.
 
 Les fichiers passent par les routes Django, qui contrôlent le propriétaire et l’étape du dossier. Le rôle `hpa_rating_guest` gère les dossiers et les sessions des campings. Le formulaire public écrit les demandes par une fonction dédiée. Leur lecture est réservée au service d’administration.

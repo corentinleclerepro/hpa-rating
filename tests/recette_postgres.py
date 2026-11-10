@@ -27,6 +27,10 @@ def run(port, password):
         setup.execute((ROOT/"deploy"/"supabase"/"schema.sql").read_text(encoding="utf8"))
         for change in ("access_requests.sql", "web_admin.sql"):
             setup.execute((ROOT/"deploy"/"supabase"/change).read_text(encoding="utf8"))
+        setup.execute("""INSERT INTO hpa_rating.access_requests (id,camping,email,created_at,status)
+                         VALUES (repeat('a',32),'Fictif','ancien@example.test','2026-01-01','declined')""")
+        setup.execute((ROOT/"deploy"/"supabase"/"erase_refused_requests.sql").read_text(encoding="utf8"))
+        assert setup.execute("SELECT count(*) FROM hpa_rating.access_requests WHERE status='declined'").fetchone()[0] == 0
         for role in ("hpa_rating_guest", "hpa_rating_admin", "hpa_rating_webadmin"):
             setup.execute(sql.SQL("ALTER ROLE {} LOGIN PASSWORD {}").format(sql.Identifier(role),sql.Literal(password)))
     invite_key = secrets.token_urlsafe(48)
@@ -49,6 +53,8 @@ def run(port, password):
     form = {"camping":"Test postal","email":"test@example.test","csrfmiddlewaretoken":visitor.cookies["hpa_csrf"].value}
     for _ in range(2):
         assert visitor.post("/demande-acces",form,secure=True,HTTP_ORIGIN="https://"+SITE).status_code == 303
+    declined_form = {**form, "camping": "Autre camping fictif", "email": "refus@example.test"}
+    assert visitor.post("/demande-acces",declined_form,secure=True,HTTP_ORIGIN="https://"+SITE).status_code == 303
     subprocess.run([sys.executable,"-B",str(ROOT/"tests"/"recette_admin_postgres.py")],check=True,
                    env={**os.environ,"HPA_TEST_PG_PORT":str(port),"HPA_CLOUD_APP_KEY":secrets.token_urlsafe(48)})
     with psycopg.connect(user="hpa_rating_guest",**default) as guest_sql:

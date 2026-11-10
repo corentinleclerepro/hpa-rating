@@ -166,7 +166,7 @@
     const records = ref.criteria.map(indexCriterion);
     let filters = readFilters(ref);
     render(`<div class="wrap ref-page">
-      <header class="ref-heading"><div><h1>Référentiel</h1><p>Critères Atout France pour les campings et les parcs résidentiels de loisirs.</p></div>
+      <header class="ref-heading"><div><h1>Référentiel</h1>${HPA.referenceNote(ref.publication)}</div>
         <a class="textlink" href="${esc(ref.meta.source_url)}" target="_blank" rel="noopener noreferrer">Ouvrir le tableau officiel ↗</a></header>
       ${toolbar(ref, filters)}
       <div class="ref-results-head"><div><strong id="ref-count" role="status" aria-live="polite" aria-atomic="true"></strong>
