@@ -47,6 +47,11 @@ def snapshot_legacy(root):
 
 @lru_cache(maxsize=1)
 def store():
+    if settings.CLOUD_ROLE:
+        from hpa_shared.postgres import PgStore
+        class PostgresDossiers(PgStore, DB):
+            pass
+        return PostgresDossiers("default")
     snapshot_legacy(settings.DATA_DIR)
     return DB(str(settings.DATA_DIR / "app.db"))
 
@@ -64,10 +69,15 @@ def sample_audit(db, owner):
             db.log(aid, f"Critère {row['criterion_id']} repris de l’exemple · {STATUS_LABELS[row['status']]}.", "criteria", row["criterion_id"])
         for proof in spec["evidences"]:
             cid = proof["criterion_id"]
-            location = folder / "evidences" / cid
-            location.mkdir(parents=True, exist_ok=True)
-            shutil.copyfile(SAMPLE / proof["original_name"], location / proof["filename"])
-            db.add_evidence(aid, cid, proof["kind"], proof["filename"], proof["original_name"], caption=proof["caption"])
+            if settings.CLOUD_ROLE:
+                from . import cloudfiles
+                key = cloudfiles.save_bytes(db, (SAMPLE / proof["original_name"]).read_bytes())
+                cloudfiles.attach(db, aid, cid, key, proof["original_name"], proof["filename"], proof["caption"], proof["kind"])
+            else:
+                location = folder / "evidences" / cid
+                location.mkdir(parents=True, exist_ok=True)
+                shutil.copyfile(SAMPLE / proof["original_name"], location / proof["filename"])
+                db.add_evidence(aid, cid, proof["kind"], proof["filename"], proof["original_name"], caption=proof["caption"])
             db.log(aid, "Justificatif importé · " + proof["original_name"], "proofs", cid)
         db.log(aid, "Exemple 3 étoiles créé avec 7 critères renseignés et 3 justificatifs.")
         db.conn.execute("UPDATE audits SET profile_confirmed=1 WHERE id=?", (aid,))

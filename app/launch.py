@@ -8,11 +8,13 @@ def configure():
     from .storage import store
     from .legacy_sessions import import_guest_sessions
     from hpa_shared.registry import registry
+    from django.conf import settings
     registry()
+    if settings.CLOUD_ROLE:
+        return store()
     import_guest_sessions()
     db = store()
     # Finish or restore a deletion interrupted between the filesystem move and SQLite commit.
-    from django.conf import settings
     removed = settings.DATA_DIR / ".removed"
     if removed.is_dir():
         for pending in removed.iterdir():

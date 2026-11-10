@@ -6,6 +6,11 @@ SECRET_KEY = hmac.new(APPLICATION_KEY.encode(), b"hpa/operator-session/v1", hash
 ROOT_URLCONF = "administration.urls"
 # Keep the existing password, authenticator and Django user IDs.
 DATABASES = sqlite_database("access.sqlite3")
+if CLOUD_ROLE:
+    if CLOUD_ROLE != "admin":
+        raise ValueError("La console exige son propre rôle.")
+    from hpa_shared.postgres import database
+    DATABASES["hpa_registry"] = database("admin")
 INSTALLED_APPS = ["django.contrib.auth", "django.contrib.contenttypes", "django.contrib.sessions",
                   "django_otp", "django_otp.plugins.otp_totp"]
 MIDDLEWARE = ["django.middleware.security.SecurityMiddleware", "django.middleware.common.CommonMiddleware",

@@ -95,7 +95,7 @@ class DB:
                     self.conn.execute(f"ALTER TABLE items ADD COLUMN {col} INTEGER")
 
     @contextmanager
-    def atomic(self):
+    def atomic(self, owner=None):
         with self.lock:
             outer = not self.depth
             if outer:
@@ -131,7 +131,7 @@ class DB:
                 (SELECT COUNT(*) FROM items i WHERE i.audit_id = a.id) AS nb_items,
                 (SELECT COUNT(*) FROM items i WHERE i.audit_id = a.id AND i.status = 'VALIDATED') AS nb_validated,
                 (SELECT COUNT(*) FROM evidences e WHERE e.audit_id = a.id) AS nb_evidences
-               FROM audits a WHERE (? IS NULL OR a.owner_id = ?) ORDER BY a.updated_at DESC,
+               FROM audits a WHERE (CAST(? AS TEXT) IS NULL OR a.owner_id = ?) ORDER BY a.updated_at DESC,
                     (SELECT MAX(id) FROM activity WHERE audit_id=a.id) DESC, a.id""", (owner, owner)
         ).fetchall()
         return [self._audit_row(r) for r in rows]
@@ -200,6 +200,8 @@ class DB:
                 "INSERT INTO evidences (id, audit_id, criterion_id, kind, filename, original_name, url, caption, stale, created_at) VALUES (?,?,?,?,?,?,?,?,?,?)",
                 (new_eid, new["id"], ev["criterion_id"], ev["kind"], ev["filename"], ev["original_name"], ev["url"], ev["caption"], 1, now_iso()),
             )
+            if "object_key" in ev.keys() and ev["object_key"]:
+                self.conn.execute("UPDATE evidences SET object_key=? WHERE id=?", (ev["object_key"], new_eid))
         self._commit()
         return self.get_audit(new["id"])
 

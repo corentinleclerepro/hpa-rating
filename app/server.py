@@ -84,6 +84,8 @@ class DossierAPI:
     def stage_deletion(self, aid):
         if not re.fullmatch(r"[0-9a-f]+", aid):
             raise ValueError("Dossier invalide.")
+        if settings.CLOUD_ROLE:
+            return  # PostgreSQL removes file chunks in the same transaction as the dossier.
         for kind in ("dossiers", "exports"):
             source = settings.DATA_DIR / kind / aid
             if source.is_dir():
@@ -113,6 +115,7 @@ class DossierAPI:
 
     def api_meta(self, match, query):
         return JsonResponse({
+            "chunked_upload": bool(settings.CLOUD_ROLE),
             "statuses": STATUSES,
             "status_labels": {
                 "TODO": "À traiter", "IN_PROGRESS": "En cours",
@@ -215,7 +218,7 @@ class DossierAPI:
         new = self.db.clone_audit(audit["id"], new_name)
         src_dir = os.path.join(settings.DATA_DIR, "dossiers", audit["id"], "evidences")
         dst_dir = os.path.join(settings.DATA_DIR, "dossiers", new["id"], "evidences")
-        if os.path.isdir(src_dir):
+        if not settings.CLOUD_ROLE and os.path.isdir(src_dir):
             try:
                 shutil.copytree(src_dir, dst_dir)
             except OSError:
@@ -346,11 +349,17 @@ class DossierAPI:
                 files.append((original, part.get_payload(decode=True)))
         if not files:
             return self.failure(400, "aucun fichier reçu")
+        if not isinstance(captions, dict) or not all(isinstance(v, str) for v in captions.values()):
+            raise ValueError("Légendes invalides")
+        if settings.CLOUD_ROLE:
+            from . import cloudfiles
+            created = [cloudfiles.register(self.db, audit["id"], cid, cloudfiles.save_bytes(self.db, contents),
+                                           original, captions.get(original, "")) for original, contents in files]
+            self.revisit_proofs(audit["id"])
+            return JsonResponse({"evidences":created}, status=201)
         ev_dir = os.path.join(settings.DATA_DIR, "dossiers", audit["id"], "evidences", cid)
         os.makedirs(ev_dir, exist_ok=True)
         existing = self.db.list_evidences(audit["id"], cid)
-        if not isinstance(captions, dict) or not all(isinstance(v, str) for v in captions.values()):
-            raise ValueError("Légendes invalides")
         seq = max((int(m.group(1)) for e in existing
                    if (m := re.match(r"^C\d+_(\d+)_", e["filename"]))), default=0)
         paths, records = [], []
@@ -425,7 +434,7 @@ class DossierAPI:
             return locked
         criterion = criteria_index(for_audit(audit)).get(ev["criterion_id"], {})
         self.db.delete_evidence(ev, scoring.is_ajo(criterion, self._profile_of(audit)))
-        if ev["filename"] and not any(e["filename"] == ev["filename"]
+        if not settings.CLOUD_ROLE and ev["filename"] and not any(e["filename"] == ev["filename"]
                 for e in self.db.list_evidences(ev["audit_id"], ev["criterion_id"])):
             try:
                 os.remove(path)
@@ -444,11 +453,14 @@ class DossierAPI:
             return locked
         if ev["kind"] == "URL":
             return HttpResponseRedirect(ev["url"])
+        ext = os.path.splitext(ev["filename"])[1].lower()
+        mime = CONTENT_TYPES.get(ext, "application/octet-stream")
+        if settings.CLOUD_ROLE:
+            from .cloudfiles import download
+            return download(self.db, ev, mime)
         path = os.path.join(settings.DATA_DIR, "dossiers", audit["id"], "evidences", ev["criterion_id"], ev["filename"])
         if not os.path.exists(path):
             return self.failure(404, "fichier introuvable")
-        ext = os.path.splitext(ev["filename"])[1].lower()
-        mime = CONTENT_TYPES.get(ext, "application/octet-stream")
         return FileResponse(open(path, "rb"), content_type=mime, filename=ev["original_name"],
                             as_attachment=mime == "application/octet-stream")
 
@@ -464,12 +476,28 @@ class DossierAPI:
         evs = self.db.list_evidences(audit["id"])
         stream = tempfile.TemporaryFile()
         try:
-            name = build_zip(audit, ref, items, evs, score, settings.DATA_DIR, stream=stream)
+            from .cloudfiles import chunks
+            reader = (lambda proof: chunks(self.db, proof["object_key"])) if settings.CLOUD_ROLE else None
+            name = build_zip(audit, ref, items, evs, score, settings.DATA_DIR, stream=stream, read_chunks=reader)
             stream.seek(0)
             return FileResponse(stream, as_attachment=True, content_type="application/zip", filename=name)
         except BaseException:
             stream.close()
             raise
+
+    def api_evidence_transfer(self, match, query):
+        from . import cloudfiles
+        audit = self._get_audit_or_404(match[1])
+        cid = match[2]
+        if not settings.CLOUD_ROLE or cid not in criteria_index(for_audit(audit)):
+            raise FileNotFoundError
+        if (locked := self.criterion_lock(audit, cid, piece=True)) is not None:
+            return locked
+        if self.request.method == "PUT":
+            return cloudfiles.put_part(self, audit["id"], cid, match[3], int(match[4]))
+        if self.request.path.endswith("/complete"):
+            return cloudfiles.finish(self, audit["id"], cid)
+        return cloudfiles.prepare(self, audit["id"], cid)
 
     def api_export_book(self, match, query):
         audit = self._get_audit_or_404(match.group(1))

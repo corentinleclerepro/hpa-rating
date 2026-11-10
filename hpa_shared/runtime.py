@@ -5,6 +5,9 @@ def prepare(module):
     os.environ["DJANGO_SETTINGS_MODULE"] = module
     import django
     django.setup()
+    from django.conf import settings
+    if settings.CLOUD_ROLE == "guest":
+        return  # The restricted public role never creates tables on the shared project.
     from django.core.management import call_command
     call_command("migrate", interactive=False, verbosity=0)
 

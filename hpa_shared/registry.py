@@ -1,6 +1,8 @@
 """Invitation identities shared between the public app and the operator console."""
 import hashlib
 import hmac
+import ipaddress
+import os
 import sqlite3
 import threading
 import time
@@ -84,18 +86,31 @@ def init_invitations(conn, old):
 
 @lru_cache(maxsize=1)
 def registry():
+    if settings.CLOUD_ROLE:
+        from .postgres import PgStore
+        return PgStore("hpa_registry" if settings.CLOUD_ROLE == "admin" else "default")
     return Store("invitations.sqlite3", init_invitations, settings.REGISTRY_DIR)
 
 
 def throttled(db, request, purpose):
-    bucket = digest("limits", purpose + "/" + request.META.get("REMOTE_ADDR", "local"))
+    address = request.META.get("REMOTE_ADDR", "local")
+    if settings.CLOUD_ROLE == "guest" and os.environ.get("VERCEL") == "1":
+        # Vercel overwrites this header at its public ingress.
+        forwarded = request.headers.get("X-Vercel-Forwarded-For", "").split(",")[-1].strip()
+        try:
+            address = str(ipaddress.ip_address(forwarded))
+        except ValueError:
+            pass
+    bucket = digest("limits", purpose + "/" + address)
+    if hasattr(db, "lock_key"):
+        db.lock_key("tentatives/" + bucket)
     now = int(time.time())
     db.conn.execute("DELETE FROM login_limits WHERE since < ?", (now - 600,))
     row = db.conn.execute("SELECT failures FROM login_limits WHERE bucket=?", (bucket,)).fetchone()
-    if row and row[0] >= 10:
+    if row and row["failures"] >= 10:
         return None
     db.conn.execute("""INSERT INTO login_limits VALUES(?,?,1) ON CONFLICT(bucket)
-                       DO UPDATE SET failures=failures+1""", (bucket, now))
+                   DO UPDATE SET failures=login_limits.failures+1""", (bucket, now))
     return bucket
 
 

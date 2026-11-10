@@ -4,6 +4,11 @@ from hpa_shared.settings import *
 SECRET_KEY = APPLICATION_KEY
 ROOT_URLCONF = "app.urls"
 DATABASES = sqlite_database("guest-sessions.sqlite3")
+if CLOUD_ROLE:
+    if CLOUD_ROLE != "guest":
+        raise ValueError("Le serveur invité exige son propre rôle.")
+    from hpa_shared.postgres import database
+    DATABASES = {"default": database("guest")}
 INSTALLED_APPS = ["django.contrib.sessions"]
 MIDDLEWARE = ["django.middleware.security.SecurityMiddleware", "django.middleware.common.CommonMiddleware",
               "django.contrib.sessions.middleware.SessionMiddleware", "app.http.EvidenceBody",
@@ -19,3 +24,8 @@ if PRODUCTION:
     SECURE_SSL_REDIRECT = True
     SECURE_SSL_HOST = urlsplit(GUEST_ORIGIN).netloc
     SECURE_HSTS_SECONDS = 86400
+    if CLOUD_ROLE and os.environ.get("VERCEL") == "1":
+        SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+        public_alias = os.environ.get("VERCEL_PROJECT_PRODUCTION_URL", "")
+        if re.fullmatch(r"[a-z0-9-]+\.vercel\.app", public_alias):
+            ALLOWED_HOSTS.append(public_alias)

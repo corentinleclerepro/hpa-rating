@@ -181,5 +181,5 @@ def invitations(request, gid=None, action=None):
             if action == "revoke":
                 db.conn.execute("UPDATE guests SET revoked=1,digest=NULL,version=version+1 WHERE id=?", (gid,))
                 return JsonResponse({"ok": True})
-            gid, code = issue_guest(db, row[0], gid)
+            gid, code = issue_guest(db, row["label"], gid)
         return JsonResponse({"id": gid, "code": code, "login_url": settings.GUEST_LOGIN_URL}, status=201)

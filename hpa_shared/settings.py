@@ -2,14 +2,19 @@ import os
 import re
 import secrets
 import time
+import tempfile
 from pathlib import Path
 from urllib.parse import urlsplit
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-PRODUCTION = os.environ.get("HPA_ENV") == "production"
-DATA_DIR = Path(os.environ.get("HPA_DATA_DIR", BASE_DIR / "data")).resolve()
+CLOUD_ROLE = os.environ.get("HPA_SUPABASE_ROLE", "")
+if CLOUD_ROLE not in ("", "guest", "admin"):
+    raise ValueError("Rôle Hpa Rating inconnu.")
+PRODUCTION = os.environ.get("HPA_ENV") == "production" or CLOUD_ROLE == "guest"
+default_data = Path(tempfile.gettempdir()) / "hpa-rating-runtime" if CLOUD_ROLE == "guest" else BASE_DIR / "data"
+DATA_DIR = Path(os.environ.get("HPA_DATA_DIR", default_data)).resolve()
 REGISTRY_DIR = Path(os.environ.get("HPA_REGISTRY_DIR", DATA_DIR)).resolve()
-if PRODUCTION and (not os.environ.get("HPA_DATA_DIR") or not os.environ.get("HPA_REGISTRY_DIR")
+if PRODUCTION and not CLOUD_ROLE and (not os.environ.get("HPA_DATA_DIR") or not os.environ.get("HPA_REGISTRY_DIR")
                    or DATA_DIR == REGISTRY_DIR or DATA_DIR in REGISTRY_DIR.parents or REGISTRY_DIR in DATA_DIR.parents):
     raise ValueError("La production exige deux répertoires persistants distincts : HPA_DATA_DIR et HPA_REGISTRY_DIR.")
 
@@ -56,8 +61,17 @@ def local_key(target, protected_state=()):
     return key
 
 
-APPLICATION_KEY = local_key(DATA_DIR / "application.key", ("app.db", "access.sqlite3", "guest-sessions.sqlite3", "console-state.sqlite3"))
-INVITATION_KEY = APPLICATION_KEY if REGISTRY_DIR == DATA_DIR else local_key(REGISTRY_DIR / "invitation.key", ("invitations.sqlite3",))
+def required_key(name):
+    value = os.environ.get(name, "")
+    if len(value) < 40:
+        raise ValueError(f"Configuration privée manquante : {name}")
+    return value
+
+
+APPLICATION_KEY = (required_key("HPA_CLOUD_APP_KEY") if CLOUD_ROLE == "guest" else
+                   local_key(DATA_DIR / "application.key", ("app.db", "access.sqlite3", "guest-sessions.sqlite3", "console-state.sqlite3")))
+INVITATION_KEY = (required_key("HPA_INVITATION_KEY") if CLOUD_ROLE else APPLICATION_KEY if REGISTRY_DIR == DATA_DIR
+                  else local_key(REGISTRY_DIR / "invitation.key", ("invitations.sqlite3",)))
 DEBUG = False
 ALLOWED_HOSTS = ["localhost", "127.0.0.1", "[::1]"]
 SESSION_ENGINE = "django.contrib.sessions.backends.db"

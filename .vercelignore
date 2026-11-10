@@ -1,0 +1,15 @@
+.git
+.venv
+**/__pycache__
+administration
+run_admin.py
+init_local.py
+deploy
+tests
+data/*
+!data/referentiel.json
+!data/referentiel-v1.json
+**/*.sqlite3*
+**/*.db
+**/*.key
+**/*.dpapi

@@ -7,6 +7,7 @@
 !deploy/Dockerfile
 !hpa_shared
 !hpa_shared/*.py
+!hpa_shared/supabase-root-2021.crt
 !hpa_shared/static
 !hpa_shared/static/*.css
 !hpa_shared/static/*.js

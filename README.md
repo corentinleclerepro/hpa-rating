@@ -40,6 +40,8 @@ Il est possible de corriger une réponse antérieure. Remettre un critère « À
 
 ## Hébergement HTTPS
 
+L’[installation Vercel et Supabase](deploy/supabase/README.md) réutilise un projet PostgreSQL existant et son stockage privé. L’application invitée s’exécute sur Vercel et l’administration sur le poste de l’opérateur.
+
 Le [guide de déploiement sur une VM](deploy/README.md) décrit la mise en service de `hpa-rating.campcompagnon.fr`, la vérification du certificat et les sauvegardes. Seul l’espace invité est publié. L’administration s’ouvre par un tunnel SSH et possède son propre stockage ; elle partage uniquement le registre d’invitations avec l’espace invité.
 
 ## Lancement sur localhost

@@ -211,7 +211,7 @@ def build_manifest(audit, ref, items, evidences, score):
     }
 
 
-def build_zip(audit, ref, items, evidences, score, data_dir, out_dir=None, *, stream=None):
+def build_zip(audit, ref, items, evidences, score, data_dir, out_dir=None, *, stream=None, read_chunks=None):
     if stream is None:
         os.makedirs(out_dir, exist_ok=True)
     slug = slugify(audit["name"])
@@ -230,7 +230,13 @@ def build_zip(audit, ref, items, evidences, score, data_dir, out_dir=None, *, st
             if ev["kind"] == "URL" or not ev["filename"]:
                 continue
             crit = criteria_index(ref).get(ev["criterion_id"], {"id": ev["criterion_id"], "chapter": 0, "section": "", "title": ""})
+            name = os.path.join(root, zip_path_for(ref, crit, ev["filename"])).replace(os.sep, "/")
+            if read_chunks is not None:
+                with z.open(name,"w") as target:
+                    for chunk in read_chunks(ev):
+                        target.write(chunk)
+                continue
             src = os.path.join(data_dir, "dossiers", audit["id"], "evidences", ev["criterion_id"], ev["filename"])
             if os.path.exists(src):
-                z.write(src, os.path.join(root, zip_path_for(ref, crit, ev["filename"])))
+                z.write(src, name)
     return zip_path if stream is None else zip_name

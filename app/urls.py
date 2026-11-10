@@ -24,6 +24,9 @@ ROUTES = [
     (AID+"/review-proofs", {"POST":"review_proofs"}),
     (AID+"/criteria", {"GET":"criteria"}), (AID+"/score", {"GET":"score"}), (CID, {"PUT":"upsert_item"}),
     (CID+"/evidence", {"POST":"upload_evidence"}), (CID+"/evidence/url", {"POST":"add_url"}),
+    (CID+"/evidence/transfers", {"POST":"evidence_transfer"}),
+    (CID+"/evidence/transfers/complete", {"POST":"evidence_transfer"}),
+    (CID+r"/evidence/transfers/([0-9a-f]{32})/([0-9]{1,2})", {"PUT":"evidence_transfer"}),
     (r"evidence/([0-9a-f]+)", {"PATCH":"update_evidence","DELETE":"delete_evidence"}),
     (AID+r"/evidence/([0-9a-f]+)/file", {"GET":"evidence_file"}),
     (AID+"/export/zip", {"GET":"export_zip"}), (AID+"/export/book", {"GET":"export_book"}),
@@ -51,7 +54,7 @@ def domain(request, resource):
             if request.method == "GET":
                 return handler(match, query)
             try:
-                with db.atomic():
+                with db.atomic(guest["id"]):
                     response = handler(match, query)
             except BaseException:
                 for source, dest in reversed(api.staged):
