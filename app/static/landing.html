@@ -1,29 +1,8 @@
-<!doctype html>
-<html lang="fr">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#faf8f2">
-  <meta name="description" content="Préparez gratuitement le classement de votre camping de 1 à 5 étoiles. Hpa Rating vous guide parmi les 195 critères du référentiel Atout France.">
-  <title>Hpa Rating · Préparer le classement en étoiles de son camping</title>
-  <link rel="icon" href="/static/logo.png">
-  <link rel="stylesheet" href="/static/brand.css">
-  <link rel="stylesheet" href="/static/landing.css">
-  <script defer src="/static/landing.js"></script>
-</head>
-<body>
-  <a class="skip" href="#contenu">Aller au contenu</a>
-  <header class="site-mast public-mast">
-    <div class="nav-inner bound">
-      <a class="brand" href="/" aria-label="Hpa Rating, accueil">
-        <img src="/static/logo.png" alt="" width="44" height="44">
-        <span class="brand-words"><span class="brand-name">Hpa <span>Rating</span></span><span class="brand-caption">Camp Compagnon</span></span>
-      </a>
-      <nav aria-label="Navigation principale"><a href="#projet">Le projet</a><a href="#parcours">Le parcours</a><a href="#donnees">Vos données</a></nav>
-      <a class="nav-login" href="/connexion">Se connecter <span aria-hidden="true">↗</span></a>
-    </div>
-  </header>
-  <main id="contenu" tabindex="-1">
+{% extends "public_base.html" %}
+{% block title %}Hpa Rating · Préparer le classement en étoiles de son camping{% endblock %}
+{% block description %}Préparez gratuitement le classement de votre camping de 1 à 5 étoiles. Hpa Rating vous guide parmi les 195 critères du référentiel Atout France.{% endblock %}
+{% block scripts %}<script defer src="/static/landing.js"></script>{% endblock %}
+{% block content %}
     <section class="hero bound" aria-labelledby="hero-title">
       <div class="hero-text">
         <p class="eyebrow"><span class="rule"></span> Hôtellerie de plein air (HPA)</p>
@@ -101,7 +80,4 @@
         </div>
       </div>
     </section>
-  </main>
-  <footer class="bound"><strong>Hpa Rating <span>· Camp Compagnon</span></strong><a href="#contenu">Retour en haut <span aria-hidden="true">↑</span></a></footer>
-</body>
-</html>
+{% endblock %}

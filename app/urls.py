@@ -70,7 +70,7 @@ def domain(request, resource):
 # Only declared dossier routes are exposed; unknown APIs never enter guest authentication.
 resources = "|".join(pattern for pattern, _methods in ROUTES)
 urlpatterns = [
-    path("", landing.home), path("demande-acces", landing.request_access),
+    path("", landing.home), path("cgu", landing.terms, name="terms"), path("demande-acces", landing.request_access),
     path("connexion", page), path("espace", page), path("static/<str:name>", asset),
     path("api/session", access.session_info), path("api/login", access.guest_login), path("api/logout/guest", access.guest_logout),
     re_path(r"^api/(?P<resource>" + resources + r")$", domain),

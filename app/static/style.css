@@ -21,7 +21,13 @@
 body {
   margin: 0;
   line-height: 1.5;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
+body > main { flex: 1; }
+body > .site-footer { width: 100%; }
 button,
 input,
 select,
@@ -1008,7 +1014,7 @@ td {
   .ref-rule .ref-star-mobile { display: block; color: var(--muted); font-size: .74rem; margin: 2px 0; }
   .ref-table .ref-rule:nth-child(3):last-child { grid-column: 1 / -1; }
 }
-footer {
+.dossier > footer {
   margin-top: 25px;
   border-top: 1px solid var(--border);
   padding-top: 12px;

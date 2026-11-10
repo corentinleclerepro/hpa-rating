@@ -1,5 +1,22 @@
 html { scroll-padding-top: var(--mast-clearance, 6rem); }
 .site-mast { position: sticky; top: 0; z-index: 30; }
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem 2rem;
+  padding-block: 1.4rem;
+  border-top: 1px solid var(--line, var(--border));
+  font-size: .875rem;
+}
+.site-footer strong span { color: var(--muted); font-weight: 400; }
+.site-footer nav { display: flex; flex-wrap: wrap; gap: .15rem 1.35rem; }
+.site-footer a { display: inline-block; padding-block: .4rem; color: inherit; text-decoration: underline; text-underline-offset: .2em; }
+.site-footer a:hover, .site-footer a:focus-visible { color: var(--red); }
+@media (max-width: 700px) {
+  .site-footer { flex-direction: column; align-items: flex-start; }
+}
 .skip:focus { z-index: 50; }
 @media (max-width: 760px) { html { --mast-clearance: 8rem; } }
 .brand {

@@ -1,4 +1,3 @@
-from functools import lru_cache
 from pathlib import Path
 from uuid import uuid4
 
@@ -11,26 +10,29 @@ from django.views.decorators.http import require_http_methods
 from hpa_shared.registry import now_iso, registry, throttled
 
 
+public_templates = Engine(dirs=[Path(__file__).parent / "static"])
+
+
 class AccessRequestForm(forms.Form):
     camping = forms.CharField(max_length=140)
     email = forms.EmailField(max_length=254)
     website = forms.CharField(required=False)
 
 
-@lru_cache(maxsize=1)
-def landing_template():
-    return Engine(dirs=[Path(__file__).parent / "static"]).get_template("landing.html")
-
-
 def render_page(request, form=None, message="", status=200):
     context = {"csrf_token": get_token(request), "received": request.GET.get("demande") == "recue",
                "message": message, "form": form}
-    return HttpResponse(landing_template().render(Context(context)), status=status)
+    return HttpResponse(public_templates.get_template("landing.html").render(Context(context)), status=status)
 
 
 @require_http_methods(["GET", "HEAD"])
 def home(request):
     return render_page(request)
+
+
+@require_http_methods(["GET", "HEAD"])
+def terms(request):
+    return HttpResponse(public_templates.get_template("terms.html").render(Context({"current_page": "terms"})))
 
 
 @require_http_methods(["POST"])

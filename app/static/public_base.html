@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#faf8f2">
+  <meta name="description" content="{% block description %}{% endblock %}">
+  <title>{% block title %}{% endblock %}</title>
+  <link rel="icon" href="/static/logo.png">
+  <link rel="stylesheet" href="/static/brand.css">
+  <link rel="stylesheet" href="/static/landing.css">
+  {% block scripts %}{% endblock %}
+</head>
+<body>
+  <a class="skip" href="#contenu">Aller au contenu</a>
+  <header class="site-mast public-mast">
+    <div class="nav-inner bound">
+      <a class="brand" href="/" aria-label="Hpa Rating, accueil">
+        <img src="/static/logo.png" alt="" width="44" height="44">
+        <span class="brand-words"><span class="brand-name">Hpa <span>Rating</span></span><span class="brand-caption">Camp Compagnon</span></span>
+      </a>
+      <nav aria-label="Navigation principale"><a href="/#projet">Le projet</a><a href="/#parcours">Le parcours</a><a href="/#donnees">Vos données</a></nav>
+      <a class="nav-login" href="/connexion">Se connecter <span aria-hidden="true">↗</span></a>
+    </div>
+  </header>
+  <main id="contenu" tabindex="-1">
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="site-footer bound">
+    <strong>Hpa Rating <span>· Camp Compagnon</span></strong>
+    <nav aria-label="Liens de pied de page">
+      <a href="https://devora-agency.fr/">Devora Agency</a>
+      <a href="/cgu"{% if current_page == "terms" %} aria-current="page"{% endif %}>Conditions générales d’utilisation</a>
+      <a href="#contenu">Retour en haut <span aria-hidden="true">↑</span></a>
+    </nav>
+  </footer>
+</body>
+</html>
