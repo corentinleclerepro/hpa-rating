@@ -69,8 +69,6 @@ h1 em, h2 em { color: var(--red); font-weight: 400; }
 .desk img { aspect-ratio: 1.27; border-radius: 8px; }
 h2 { font-size: clamp(3.1rem,4.4vw,4.7rem); line-height: 1.04; letter-spacing: -.055em; margin: 18px 0 24px; }
 .story-text > p + p { margin-top: 13px; }
-.story-text > p.makers { margin-top: 22px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--ink); font-weight: 650; font-size: .9rem; }
-.makers span { display: block; font-size: .75rem; font-weight: 400; color: var(--muted); }
 .route-section { background: #e9ece2; }
 .route-layout { align-items: start; }
 .steps { margin: 0; padding: 0; display: grid; gap: 16px; list-style: none; }
