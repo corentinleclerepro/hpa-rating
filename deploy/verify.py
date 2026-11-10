@@ -26,13 +26,15 @@ def verify(origin, *, connect_to=None, ca_file=None, http_port=80, tls_connect_p
     finally:
         plain.close()
     context = ssl.create_default_context(cafile=ca_file)
-    def request(path, method="GET", body=None):
+    def request(path, method="GET", body=None, cookie=None):
         # SNI and certificate validation always use the real public hostname.
         conn = http.client.HTTPConnection(url.hostname, url.port or 443, timeout=10)
         try:
             raw = socket.create_connection((connect_to or url.hostname, tls_connect_port or url.port or 443), timeout=10)
             conn.sock = context.wrap_socket(raw, server_hostname=url.hostname)
             headers = {"Host":url.netloc}
+            if cookie:
+                headers["Cookie"] = cookie
             if body is not None:
                 headers.update({"Origin":origin,"Content-Type":"application/json"})
             conn.request(method,path,body=body,headers=headers)
@@ -48,6 +50,9 @@ def verify(origin, *, connect_to=None, ca_file=None, http_port=80, tls_connect_p
     require(cookies.get("hpa_csrf") and cookies["hpa_csrf"]["secure"], "Cookie de connexion non sécurisé.")
     require(headers.get("Strict-Transport-Security"), "En-tête HSTS absent.")
     require(request("/api/audits")[0] == 401, "Les dossiers doivent exiger une invitation.")
+    # A well-formed but nonexistent session makes Django consult its actual session store.
+    require(request("/api/audits", cookie="hpa_session=zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")[0] == 401,
+            "La vérification de session côté serveur ne répond pas normalement.")
     for path in ("/administration","/api/admin/invitations","/static/console.js"):
         require(request(path)[0] == 404, "La console est exposée : " + path)
     require(request("/api/login","POST",b"{}")[0] == 403, "La protection CSRF ne répond pas.")
