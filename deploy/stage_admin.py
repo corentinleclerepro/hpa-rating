@@ -1,5 +1,6 @@
 """Build the standalone Vercel source tree in a new, empty directory."""
 import argparse
+import json
 from pathlib import Path
 from shutil import copyfile
 
@@ -17,7 +18,10 @@ def stage(target):
             dest = target / source.relative_to(ROOT)
             dest.parent.mkdir(parents=True, exist_ok=True)
             copyfile(source, dest)
-    copyfile(ROOT / "vercel.json", target / "vercel.json")
+    vercel = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
+    vercel["framework"] = "django"
+    (target / "vercel.json").write_text(json.dumps(vercel, indent=2) + "\n", encoding="utf-8")
+    (target / ".vercelignore").write_text(".env*\n.vercel\n.git*\n**/__pycache__\n**/*.pyc\n", encoding="ascii")
     deps = (ROOT / "requirements.txt").read_text().splitlines()
     (target / "pyproject.toml").write_text(
         '[project]\nname = "hpa-rating-administration"\nversion = "0.1.0"\nrequires-python = ">=3.12,<3.13"\n'
