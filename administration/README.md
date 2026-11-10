@@ -1,6 +1,8 @@
-# Hpa Rating · Camp Compagnon — Console privée d’invitations
+# Hpa Rating · Camp Compagnon — Espace administration
 
-Cette application peut tourner sans le serveur des campings. Elle gère uniquement les invitations. Le premier accès utilise une clé locale, un mot de passe et une application d’authentification.
+L’opérateur se connecte depuis son navigateur avec son mot de passe et son application d’authentification. Il peut accepter ou refuser les demandes d’accès, copier les invitations à envoyer par e-mail, remplacer les codes perdus et révoquer un accès. [Installation de l’administration HTTPS](../deploy/supabase/README.md)
+
+## Essai local
 
 Depuis le répertoire qui contient `run_admin.py`, avec Python 3.10 ou ultérieur :
 

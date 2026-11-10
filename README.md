@@ -8,6 +8,8 @@ selon le tableau de classement officiel (arrêté du 10 avril 2019, annexe I).
 
 ## Fonctionnalités
 
+La vitrine publique présente les cinq étapes et reçoit les demandes d’accès. Les campings déjà invités retrouvent leurs dossiers sur `/connexion`. Dans l’administration web séparée, l’opérateur accepte ou refuse les demandes, copie les invitations à envoyer et gère les codes actifs.
+
 Chaque dossier suit cinq étapes obligatoires : **Profil → Prérequis → Critères → Justificatifs → Synthèse et export**. Confirmer le profil (au moins le nombre total d’emplacements) ouvre le premier numéro applicable. Les fiches sont renseignées une à une dans l’ordre du référentiel ; enregistrer un constat autre que « À traiter » ouvre la suivante, même si le constat est défavorable. Les critères non applicables sont sautés. Les boutons **?** expliquent la démarche et ses effets.
 
 Il est possible de corriger une réponse antérieure. Remettre un critère « À traiter » ou modifier les données d’applicabilité recalcule le point de reprise sans effacer les réponses ni les pièces. La revue explicite des justificatifs ouvre la synthèse et les exports, sans déclarer un dossier éligible. La synthèse signale les blocages ; la simulation ne modifie pas le parcours.
@@ -40,7 +42,7 @@ Il est possible de corriger une réponse antérieure. Remettre un critère « À
 
 ## Hébergement HTTPS
 
-L’[installation Vercel et Supabase](deploy/supabase/README.md) réutilise un projet PostgreSQL existant et son stockage privé. L’application invitée s’exécute sur Vercel et l’administration sur le poste de l’opérateur.
+L’installation Vercel utilise deux projets HTTPS distincts pour les campings et l’administration. L’administration protège ses sessions par mot de passe et second facteur. Les dossiers et les pièces sont conservés sur PostgreSQL pour permettre la reprise du travail. [Configuration Vercel et Supabase](deploy/supabase/README.md)
 
 Le [guide de déploiement sur une VM](deploy/README.md) décrit la mise en service de `hpa-rating.campcompagnon.fr`, la vérification du certificat et les sauvegardes. Seul l’espace invité est publié. L’administration s’ouvre par un tunnel SSH et possède son propre stockage ; elle partage uniquement le registre d’invitations avec l’espace invité.
 

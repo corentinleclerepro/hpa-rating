@@ -9,7 +9,7 @@
       split(
         "Retrouvez vos dossiers.",
         "Saisissez le code personnel que vous avez reçu par e-mail.",
-        `<form id="guest-login"><label>Code personnel<input name="code" placeholder="HPA-…" autocomplete="current-password" type="password" required maxlength="100"></label><button class="primary wide">Ouvrir mon espace <span aria-hidden="true">→</span></button><p data-feedback class="feedback" role="status"></p></form>`,
+        `<form id="guest-login"><label>Code personnel<input name="code" placeholder="HPA-…" autocomplete="current-password" type="password" required maxlength="100"></label><button class="primary wide">Ouvrir mon espace <span aria-hidden="true">→</span></button><p data-feedback class="feedback" role="status"></p></form><p><a href="/#acces">Demander un accès gratuit</a></p>`,
       ),
     );
   }

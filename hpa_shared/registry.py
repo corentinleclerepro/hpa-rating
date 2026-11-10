@@ -89,12 +89,20 @@ def registry():
     if settings.CLOUD_ROLE:
         from .postgres import PgStore
         return PgStore("hpa_registry" if settings.CLOUD_ROLE == "admin" else "default")
-    return Store("invitations.sqlite3", init_invitations, settings.REGISTRY_DIR)
+    db = Store("invitations.sqlite3", init_invitations, settings.REGISTRY_DIR)
+    with db.atomic():
+        db.conn.execute("""CREATE TABLE IF NOT EXISTS access_requests (
+            id TEXT PRIMARY KEY, camping TEXT NOT NULL, email TEXT NOT NULL, created_at TEXT NOT NULL,
+            status TEXT NOT NULL DEFAULT 'pending' CHECK(status IN ('pending','approved','declined')),
+            decided_at TEXT, guest_id TEXT REFERENCES guests(id))""")
+        db.conn.execute("""CREATE UNIQUE INDEX IF NOT EXISTS pending_access_email
+                           ON access_requests(email) WHERE status IN ('pending','approved')""")
+    return db
 
 
 def throttled(db, request, purpose):
     address = request.META.get("REMOTE_ADDR", "local")
-    if settings.CLOUD_ROLE == "guest" and os.environ.get("VERCEL") == "1":
+    if settings.CLOUD_ROLE and os.environ.get("VERCEL") == "1":
         # Vercel overwrites this header at its public ingress.
         forwarded = request.headers.get("X-Vercel-Forwarded-For", "").split(",")[-1].strip()
         try:

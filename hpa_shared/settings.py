@@ -8,10 +8,11 @@ from urllib.parse import urlsplit
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 CLOUD_ROLE = os.environ.get("HPA_SUPABASE_ROLE", "")
-if CLOUD_ROLE not in ("", "guest", "admin"):
+if CLOUD_ROLE not in ("", "guest", "admin", "webadmin"):
     raise ValueError("Rôle Hpa Rating inconnu.")
-PRODUCTION = os.environ.get("HPA_ENV") == "production" or CLOUD_ROLE == "guest"
-default_data = Path(tempfile.gettempdir()) / "hpa-rating-runtime" if CLOUD_ROLE == "guest" else BASE_DIR / "data"
+WEB_ADMIN = CLOUD_ROLE == "webadmin"
+PRODUCTION = os.environ.get("HPA_ENV") == "production" or CLOUD_ROLE in ("guest", "webadmin")
+default_data = Path(tempfile.gettempdir()) / "hpa-rating-runtime" if CLOUD_ROLE in ("guest", "webadmin") else BASE_DIR / "data"
 DATA_DIR = Path(os.environ.get("HPA_DATA_DIR", default_data)).resolve()
 REGISTRY_DIR = Path(os.environ.get("HPA_REGISTRY_DIR", DATA_DIR)).resolve()
 if PRODUCTION and not CLOUD_ROLE and (not os.environ.get("HPA_DATA_DIR") or not os.environ.get("HPA_REGISTRY_DIR")
@@ -68,7 +69,7 @@ def required_key(name):
     return value
 
 
-APPLICATION_KEY = (required_key("HPA_CLOUD_APP_KEY") if CLOUD_ROLE == "guest" else
+APPLICATION_KEY = (required_key("HPA_CLOUD_APP_KEY") if CLOUD_ROLE in ("guest", "webadmin") else
                    local_key(DATA_DIR / "application.key", ("app.db", "access.sqlite3", "guest-sessions.sqlite3", "console-state.sqlite3")))
 INVITATION_KEY = (required_key("HPA_INVITATION_KEY") if CLOUD_ROLE else APPLICATION_KEY if REGISTRY_DIR == DATA_DIR
                   else local_key(REGISTRY_DIR / "invitation.key", ("invitations.sqlite3",)))

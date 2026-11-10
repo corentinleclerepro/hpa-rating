@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import secrets
+import subprocess
 import sys
 from zipfile import ZipFile
 
@@ -24,7 +25,9 @@ def run(port, password):
             raise RuntimeError("Cette recette exige une base de test neuve.")
         setup.execute("CREATE ROLE anon; CREATE ROLE authenticated; CREATE ROLE service_role")
         setup.execute((ROOT/"deploy"/"supabase"/"schema.sql").read_text(encoding="utf8"))
-        for role in ("hpa_rating_guest", "hpa_rating_admin"):
+        for change in ("access_requests.sql", "web_admin.sql"):
+            setup.execute((ROOT/"deploy"/"supabase"/change).read_text(encoding="utf8"))
+        for role in ("hpa_rating_guest", "hpa_rating_admin", "hpa_rating_webadmin"):
             setup.execute(sql.SQL("ALTER ROLE {} LOGIN PASSWORD {}").format(sql.Identifier(role),sql.Literal(password)))
     invite_key = secrets.token_urlsafe(48)
     os.environ.update(HPA_SUPABASE_ROLE="guest",HPA_GUEST_ORIGIN="https://"+SITE,HPA_INVITATION_KEY=invite_key,
@@ -40,6 +43,20 @@ def run(port, password):
     from django.test import Client
     from django.db import connections
     from hpa_shared.registry import canonical
+
+    visitor = Client(enforce_csrf_checks=True, HTTP_HOST=SITE)
+    assert visitor.get("/",secure=True).status_code == 200
+    form = {"camping":"Test postal","email":"test@example.test","csrfmiddlewaretoken":visitor.cookies["hpa_csrf"].value}
+    for _ in range(2):
+        assert visitor.post("/demande-acces",form,secure=True,HTTP_ORIGIN="https://"+SITE).status_code == 303
+    subprocess.run([sys.executable,"-B",str(ROOT/"tests"/"recette_admin_postgres.py")],check=True,
+                   env={**os.environ,"HPA_TEST_PG_PORT":str(port),"HPA_CLOUD_APP_KEY":secrets.token_urlsafe(48)})
+    with psycopg.connect(user="hpa_rating_guest",**default) as guest_sql:
+        assert not guest_sql.execute("SELECT has_table_privilege(current_user,'hpa_rating.access_requests','SELECT')").fetchone()[0]
+        assert not guest_sql.execute("SELECT has_schema_privilege(current_user,'hpa_rating_staff','USAGE')").fetchone()[0]
+    with psycopg.connect(user="hpa_rating_webadmin",**default) as staff_sql:
+        assert not staff_sql.execute("SELECT has_table_privilege(current_user,'hpa_rating.file_chunks','SELECT')").fetchone()[0]
+        assert not staff_sql.execute("SELECT has_table_privilege(current_user,'hpa_rating.django_session','SELECT')").fetchone()[0]
 
     def api(client, method, path, data=None, expected=200, binary=False):
         headers={"HTTP_HOST":SITE, "HTTP_ORIGIN":"https://"+SITE,

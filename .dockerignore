@@ -19,6 +19,8 @@
 !app/static/*.css
 !app/static/*.js
 !app/static/camping.jpg
+!app/static/clairiere.jpg
+!app/static/preparation.jpg
 !app/static/dossier.png
 !app/sample
 !app/sample/camping.json

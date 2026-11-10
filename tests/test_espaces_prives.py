@@ -2,6 +2,7 @@ import base64
 import io
 import unittest
 import zipfile
+from urllib.parse import urlencode
 from pathlib import Path
 from django_otp.oath import totp
 from http_fixture import Browser, PrivateServer
@@ -27,6 +28,39 @@ class EspacesPrives(unittest.TestCase):
         obj=self.admin.call("POST","/api/admin/invitations",{"label":label},expected=201)
         self.assertEqual(obj["login_url"], self.server.guest_origin + "/connexion")
         return obj,Browser(self.server.port).enter(obj["code"])
+
+    def test_vitrine_demande_et_decision(self):
+        visitor = Browser(self.server.port)
+        self.assertIn(b'action="/demande-acces#acces"', visitor.call("GET", "/"))
+        for name in ("clairiere.jpg", "preparation.jpg"):
+            self.assertTrue(visitor.call("GET", "/static/"+name).startswith(b"\xff\xd8"))
+        def send(email, **options):
+            fields = {"camping": "La Pinède", "email": email, "website": ""}
+            return visitor.call("POST", "/demande-acces", mime="application/x-www-form-urlencoded",
+                                body=urlencode(fields).encode(), **options)
+        self.assertIn("La Pinède".encode(), send("invalide", expected=400))
+        send("camping@example.test", csrf=False, expected=403)
+        send("Camping@Example.test", expected=303)
+        send("camping@example.test", expected=303)
+        listing = "/api/admin/demandes"
+        visitor.call("GET", listing, expected=404)
+        Browser(self.server.admin_port, console=True).call("GET", listing, expected=403)
+        rows = self.admin.call("GET", listing)["requests"]
+        matches = [r for r in rows if r["email"] == "camping@example.test"]
+        self.assertEqual(len(matches), 1)
+        self.assertEqual(matches[0]["status"], "pending")
+        decision = listing + "/" + matches[0]["id"] + "/approve"
+        issued = self.admin.call("POST", decision, {}, expected=201)
+        self.admin.call("POST", decision, {}, expected=409)
+        guest = Browser(self.server.port).enter(issued["code"])
+        self.assertEqual(guest.call("GET", "/api/session")["guest"]["label"], "La Pinède")
+        send("camping@example.test", expected=303)
+        send("refus@example.test", expected=303)
+        rows = self.admin.call("GET", listing)["requests"]
+        self.assertEqual(len([r for r in rows if r["email"] == issued["email"]]), 1)
+        refused = next(r for r in rows if r["email"] == "refus@example.test")
+        self.admin.call("POST", listing+"/"+refused["id"]+"/decline", {})
+        self.admin.call("POST", listing+"/"+refused["id"]+"/approve", {}, expected=409)
 
     def test_admin_second_facteur_et_codes_de_secours(self):
         anon=Browser(self.server.admin_port, console=True)

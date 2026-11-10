@@ -63,14 +63,15 @@ def setup_ticket(db):
         return None
     ticket = secrets.token_urlsafe(32)
     with db.atomic():
-        db.conn.execute("INSERT OR REPLACE INTO local_setup VALUES(1,?,?)",
+        db.conn.execute("""INSERT INTO local_setup VALUES(1,?,?) ON CONFLICT(id)
+                           DO UPDATE SET digest=excluded.digest, expires=excluded.expires""",
                         (digest("setup", ticket), int(time.time()) + 86400))
     return ticket
 
 
 def setup_allowed(db, value):
     row = db.conn.execute("SELECT digest FROM local_setup WHERE id=1 AND expires>?", (int(time.time()),)).fetchone()
-    return bool(row and hmac.compare_digest(row[0], value) and not get_user_model().objects.filter(is_staff=True).exists())
+    return bool(row and hmac.compare_digest(row["digest"], value) and not get_user_model().objects.filter(is_staff=True).exists())
 
 
 @endpoint(["POST"])
@@ -82,8 +83,9 @@ def begin_setup(request):
         if not bucket:
             return limited()
         fingerprint = digest("setup", str(data.get("ticket", "")))
-        if request.META.get("REMOTE_ADDR") not in ("127.0.0.1", "::1") or not setup_allowed(db, fingerprint):
-            return error("La clé locale d’initialisation est invalide ou expirée.", 403)
+        trusted_origin = settings.WEB_ADMIN or request.META.get("REMOTE_ADDR") in ("127.0.0.1", "::1")
+        if not trusted_origin or not setup_allowed(db, fingerprint):
+            return error("La clé de première configuration est invalide ou expirée.", 403)
         password = data.get("password", "")
         if not isinstance(password, str) or len(password) > 512:
             raise ValueError("Mot de passe invalide.")
@@ -115,11 +117,13 @@ def finish_setup(request):
     pending = request.session.get("setup") or {}
     db = private_store()
     with db.atomic():
+        if hasattr(db, "lock_key"):
+            db.lock_key("initialisation-administration")
         bucket = throttled(db, request, "confirmer-initialisation")
         if not bucket:
             return limited()
         if pending.get("until", 0) < time.time() or not setup_allowed(db, pending.get("ticket", "")):
-            return error("Recommencez l’initialisation avec la clé locale.", 403)
+            return error("Recommencez la configuration avec votre clé personnelle.", 403)
         with transaction.atomic():
             user = get_user_model().objects.create(username="administration", password=pending["password"], is_staff=True)
             device = TOTPDevice.objects.create(user=user, name="Application", key=pending["key"], confirmed=True)
@@ -146,7 +150,10 @@ def admin_login(request):
         user = authenticate(request, username="administration", password=str(data.get("password", ""))[:512])
         if user and user.is_staff:
             token = str(data.get("otp", "")).strip()
-            device = TOTPDevice.objects.filter(user=user, confirmed=True).first()
+            devices = TOTPDevice.objects.filter(user=user, confirmed=True)
+            if settings.WEB_ADMIN:
+                devices = devices.select_for_update()
+            device = devices.first()
             valid = False
             if device:
                 if len(token) == 6 and token.isdecimal():
@@ -183,3 +190,31 @@ def invitations(request, gid=None, action=None):
                 return JsonResponse({"ok": True})
             gid, code = issue_guest(db, row["label"], gid)
         return JsonResponse({"id": gid, "code": code, "login_url": settings.GUEST_LOGIN_URL}, status=201)
+
+
+@endpoint(["GET", "POST"])
+def access_requests(request, rid=None, action=None):
+    if not verified_admin(request):
+        return error("Connectez-vous à l’administration.", 403)
+    db = registry()
+    with db.atomic():
+        if not rid and request.method == "GET":
+            rows = db.conn.execute("""SELECT id,camping,email,created_at,status,decided_at FROM access_requests
+                                      ORDER BY CASE WHEN status='pending' THEN 0 ELSE 1 END, created_at DESC, id""")
+            return JsonResponse({"requests": [dict(row) for row in rows]})
+        if not rid or request.method != "POST":
+            return error("Méthode non autorisée.", 405)
+        if hasattr(db, "lock_key"):
+            db.lock_key("demande-acces/" + rid)
+        row = db.conn.execute("SELECT camping,email,status FROM access_requests WHERE id=?", (rid,)).fetchone()
+        if not row:
+            raise FileNotFoundError
+        if row["status"] != "pending":
+            return error("Cette demande a déjà été traitée.", 409)
+        if action == "approve":
+            gid, code = issue_guest(db, row["camping"])
+            db.conn.execute("UPDATE access_requests SET status='approved',decided_at=?,guest_id=? WHERE id=?",
+                            (now_iso(), gid, rid))
+            return JsonResponse({"id": gid, "email": row["email"], "code": code, "login_url": settings.GUEST_LOGIN_URL}, status=201)
+        db.conn.execute("UPDATE access_requests SET status='declined',decided_at=? WHERE id=?", (now_iso(), rid))
+        return JsonResponse({"ok": True})

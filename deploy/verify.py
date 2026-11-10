@@ -42,6 +42,9 @@ def verify(origin, *, connect_to=None, ca_file=None, http_port=80, tls_connect_p
             return reply.status, reply.read(), reply.headers
         finally:
             conn.close()
+    status, homepage, _ = request("/")
+    require(status == 200 and b'action="/demande-acces#acces"' in homepage and b'href="/connexion"' in homepage,
+            "La vitrine et son formulaire ne sont pas disponibles.")
     status, page, headers = request("/connexion")
     require(status == 200 and b"Hpa Rating" in page, "La page de connexion Hpa Rating n’est pas servie.")
     cookies = SimpleCookie()
@@ -53,7 +56,7 @@ def verify(origin, *, connect_to=None, ca_file=None, http_port=80, tls_connect_p
     # A well-formed but nonexistent session makes Django consult its actual session store.
     require(request("/api/audits", cookie="hpa_session=zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz")[0] == 401,
             "La vérification de session côté serveur ne répond pas normalement.")
-    for path in ("/administration","/api/admin/invitations","/static/console.js"):
+    for path in ("/administration","/api/admin/invitations","/api/admin/demandes","/static/console.js"):
         require(request(path)[0] == 404, "La console est exposée : " + path)
     require(request("/api/login","POST",b"{}")[0] == 403, "La protection CSRF ne répond pas.")
     print("Redirection HTTP, certificat TLS, page Hpa Rating, cookies sécurisés, dossiers privés et console absente : OK.")

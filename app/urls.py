@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 from django.conf import settings
 from django.urls import path, re_path
-from . import access
+from . import access, landing
 from .access import guest_from
 from hpa_shared.http import endpoint, error
 from hpa_shared.webfiles import frontend
@@ -11,7 +11,8 @@ from .server import DossierAPI
 from .storage import store
 
 page, asset = frontend(Path(__file__).parent / "static", (
-    "app.js", "style.css", "dossier.png", "workspace.js", "guide.js", "reference.js", "access.js", "ui.js", "camping.jpg"))
+    "app.js", "style.css", "dossier.png", "workspace.js", "guide.js", "reference.js", "access.js", "ui.js", "camping.jpg",
+    "landing.css", "landing.js", "clairiere.jpg", "preparation.jpg"))
 
 
 AID = r"audits/([0-9a-f]+)"
@@ -69,7 +70,8 @@ def domain(request, resource):
 # Only declared dossier routes are exposed; unknown APIs never enter guest authentication.
 resources = "|".join(pattern for pattern, _methods in ROUTES)
 urlpatterns = [
-    path("", page), path("connexion", page), path("espace", page), path("static/<str:name>", asset),
+    path("", landing.home), path("demande-acces", landing.request_access),
+    path("connexion", page), path("espace", page), path("static/<str:name>", asset),
     path("api/session", access.session_info), path("api/login", access.guest_login), path("api/logout/guest", access.guest_logout),
     re_path(r"^api/(?P<resource>" + resources + r")$", domain),
 ]

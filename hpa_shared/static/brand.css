@@ -1,4 +1,7 @@
-/* Both entrances carry the same mark; each header supplies its own surface colours. */
+html { scroll-padding-top: var(--mast-clearance, 6rem); }
+.site-mast { position: sticky; top: 0; z-index: 30; }
+.skip:focus { z-index: 50; }
+@media (max-width: 760px) { html { --mast-clearance: 8rem; } }
 .brand {
   display: inline-flex;
   align-items: center;

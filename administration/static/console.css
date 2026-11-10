@@ -36,6 +36,9 @@ dialog { width: min(470px,calc(100% - 28px)); max-height: 85vh; color: inherit }
 .qr { display: block; width: 185px; max-width: 100%; margin: 12px auto; height: auto } details { margin: 10px 0 20px } code { overflow-wrap: anywhere }
 #notice { position: fixed; left: 50%; bottom: 20px; margin: 0; transform: translateX(-50%); pointer-events: none; background: #29232a; border-radius: 8px; color: white; padding: 9px 16px; opacity: 0 } #notice.shown { opacity: 1 }
 .skeleton { color: var(--muted) }
+.inbox { margin: 20px 0; }
+.inbox .request-email { margin: 4px 0; overflow-wrap: anywhere; }
+.inbox summary { cursor: pointer; }
 @media(max-width:720px) { .admin-grid { grid-template-columns: 1fr } }
 @media(max-width:460px) {
   .bar { gap: 5px 8px }

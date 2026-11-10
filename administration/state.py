@@ -1,4 +1,5 @@
 from functools import lru_cache
+from django.conf import settings
 from hpa_shared.registry import Store, copy_limits, legacy_columns
 
 
@@ -14,4 +15,7 @@ def initialize(conn, old):
 
 @lru_cache(maxsize=1)
 def private_store():
+    if settings.WEB_ADMIN:
+        from hpa_shared.postgres import PgStore
+        return PgStore("default")
     return Store("console-state.sqlite3", initialize)
