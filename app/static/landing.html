@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#faf8f2">
-  <meta name="description" content="Préparez gratuitement le classement de votre camping avec Hpa Rating. Un parcours guidé pour retrouver vos critères, vos justificatifs et votre dossier sur invitation.">
-  <title>Hpa Rating · Préparer le classement de son camping</title>
+  <meta name="description" content="Préparez gratuitement le classement de votre camping de 1 à 5 étoiles. Hpa Rating vous guide parmi les 195 critères du référentiel Atout France.">
+  <title>Hpa Rating · Préparer le classement en étoiles de son camping</title>
   <link rel="icon" href="/static/logo.png">
   <link rel="stylesheet" href="/static/brand.css">
   <link rel="stylesheet" href="/static/landing.css">
@@ -26,10 +26,10 @@
   <main id="contenu" tabindex="-1">
     <section class="hero bound" aria-labelledby="hero-title">
       <div class="hero-text">
-        <p class="eyebrow"><span class="rule"></span> Le carnet de classement des campings</p>
-        <h1 id="hero-title">Votre classement,<br><em>critère par critère.</em></h1>
-        <p class="lede">Un plan dans un classeur, des photos sur un téléphone et 195 critères à parcourir. Hpa Rating vous aide à réunir vos preuves et à savoir quoi préparer ensuite.</p>
-        <div class="actions"><a class="button" href="#acces">Demander un accès <span aria-hidden="true">→</span></a><a class="text-link" href="#parcours">Découvrir le parcours <span aria-hidden="true">↓</span></a></div>
+        <p class="eyebrow"><span class="rule"></span> Hôtellerie de plein air (HPA)</p>
+        <h1 id="hero-title">Préparez le classement <em>en étoiles</em> de votre camping.</h1>
+        <p class="lede">Hpa Rating vous guide parmi les <strong>195 critères du référentiel Atout France</strong>. Choisissez la catégorie que vous visez, de 1 à 5 étoiles, puis vérifiez chaque critère applicable et rassemblez vos justificatifs pour la visite.</p>
+        <div class="actions"><a class="button" href="#acces">Demander un accès gratuit <span aria-hidden="true">→</span></a><a class="text-link" href="#parcours">Découvrir le parcours <span aria-hidden="true">↓</span></a></div>
         <p class="free"><i aria-hidden="true"></i> Outil gratuit, accessible sur invitation.</p>
       </div>
       <figure class="cover">
@@ -90,7 +90,7 @@
           <div class="receipt" role="status"><span class="tick" aria-hidden="true">✓</span><h3>Demande reçue</h3><p>Votre demande sera examinée. Si elle est acceptée, votre invitation arrivera à l’adresse indiquée.</p><a href="/connexion" class="text-link">Ouvrir la connexion <span aria-hidden="true">→</span></a></div>
           {% else %}
           <form method="post" action="/demande-acces#acces">
-            <h3>Demander un accès</h3>
+            <h3>Demander un accès gratuit</h3>
             <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
             {% if message %}<p class="form-error" role="alert">{{ message }}</p>{% endif %}
             <label for="camping">Nom du camping</label><input id="camping" name="camping" autocomplete="organization" required maxlength="140" value="{{ form.camping.value|default:'' }}">

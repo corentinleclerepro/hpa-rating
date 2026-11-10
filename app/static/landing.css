@@ -37,7 +37,7 @@ button, a { touch-action: manipulation; }
 .eyebrow { gap: .65rem; font-size: .69rem; font-weight: 750; line-height: 1.4; letter-spacing: .14em; text-transform: uppercase; color: #8f2631; }
 .rule { flex: none; width: 25px; height: 2px; background: currentColor; }
 h1, h2, .sample strong, .steps h3 { font-family: var(--serif); font-weight: 400; }
-h1 { margin: clamp(18px,2vw,30px) 0 23px; font-size: clamp(3.4rem,5.05vw,5.25rem); line-height: 1.02; letter-spacing: -.062em; }
+h1 { margin: clamp(18px,2vw,30px) 0 23px; font-size: clamp(3.4rem,5.05vw,5.25rem); line-height: 1.02; letter-spacing: -.062em; text-wrap: balance; }
 h1 em, h2 em { color: var(--red); font-weight: 400; }
 .lede, .story-text > p:not(.eyebrow), .route-intro > p:last-child, .access-grid > div:first-child > p:not(.eyebrow) { max-width: 47ch; color: var(--muted); font-size: clamp(1rem,1.21vw,1.14rem); line-height: 1.67; }
 .actions { flex-wrap: wrap; gap: 16px 26px; margin: 29px 0 14px; }
