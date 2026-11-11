@@ -35,6 +35,7 @@ class Store:
         directory = directory or settings.DATA_DIR
         self.conn = sqlite3.connect(directory / filename, check_same_thread=False, timeout=20)
         self.conn.row_factory = sqlite3.Row
+        self.conn.execute("PRAGMA foreign_keys=ON")
         with self.atomic():
             if self.conn.execute("PRAGMA user_version").fetchone()[0] == 0:
                 legacy = directory / "app.db"
@@ -103,7 +104,22 @@ def registry():
                 BEGIN DELETE FROM access_requests WHERE id=NEW.id AND status='declined'; END""")
             db.conn.execute("DELETE FROM access_requests WHERE status='declined'")
             db.conn.execute("PRAGMA user_version = 2")
+        if db.conn.execute("PRAGMA user_version").fetchone()[0] < 3:
+            db.conn.execute("""CREATE TABLE request_starters (
+                request_id TEXT PRIMARY KEY REFERENCES access_requests(id) ON DELETE CASCADE, content TEXT NOT NULL)""")
+            db.conn.execute("""CREATE TABLE starter_daily (
+                day TEXT NOT NULL, event TEXT NOT NULL, total INTEGER NOT NULL, PRIMARY KEY(day,event))""")
+            db.conn.execute("PRAGMA user_version = 3")
     return db
+
+
+def count_starter(db, event, *, attached=False):
+    if settings.CLOUD_ROLE:
+        db.conn.execute("SELECT hpa_rating.count_starter_event(?)", (event,))
+    else:
+        table = "invites.starter_daily" if attached else "starter_daily"
+        db.conn.execute(f"""INSERT INTO {table}(day,event,total) VALUES(?,?,1)
+            ON CONFLICT(day,event) DO UPDATE SET total=total+1""", (now_iso()[:10], event))
 
 
 def throttled(db, request, purpose):

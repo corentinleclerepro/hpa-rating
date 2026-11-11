@@ -33,7 +33,7 @@
   const activeRows = (key) => view.criteria.filter(c => c.code !== "NA" && G.stepOf(c) === key).sort((a,b) => Number(a.id)-Number(b.id));
   const continueLink = () => G.entry(flow(), link);
 
-  function list(audits) {
+  function list(audits, attached) {
     render(
       `<div class="wrap"><section class="dashcover"><div><div class="eyebrow light"><i></i>Espace invité</div><h1>Mes dossiers</h1><p>${audits.length ? `${audits.length} dossier${audits.length > 1 ? "s" : ""} de classement` : "Préparez le classement de votre établissement."}</p></div>${photoCredit}</section><div class="sectionhead"><h2>${audits.length ? "Dossiers en préparation" : "Votre premier dossier"}</h2><button data-act="create">＋ Nouveau dossier</button></div>${
         audits.length
@@ -48,6 +48,18 @@
           : `<div class="onboard"><article class="panel"><div class="foldericon">＋</div><h3>Créer mon premier dossier</h3><p>Renseignez le profil de votre camping pour découvrir les critères qui s’appliquent.</p><button data-act="create">Créer mon premier dossier →</button></article><article class="panel"><div class="foldericon">☆</div><h3>Explorer un exemple 3 étoiles</h3><p>Visitez la Clairière Bleue avec sept critères déjà renseignés et trois justificatifs conservés.</p><button class="secondary" data-act="sample">Explorer l’exemple →</button></article></div>`
       }</div>`,
     );
+    const local = HpaDraft.read();
+    const target = document.querySelector(".dashcover");
+    const offers = [];
+    if (local?.ready) offers.push({source:"local", id:local.id, label:"Brouillon de ce navigateur",
+      detail:local.pitches + " emplacements · " + local.stars + " ★. Ajoutez ces réponses à votre espace."});
+    if (attached && (!local?.ready || attached.id !== local.id)) offers.unshift({source:"invitation", id:attached.id,
+      label:"Brouillon joint à votre demande", detail:attached.name + " · Vos premières réponses sont prêtes."});
+    for (const item of offers.reverse()) {
+      target.insertAdjacentHTML("afterend", '<section class="panel starter-offer"><div><h2>' + esc(item.label) +
+        '</h2><p>' + esc(item.detail) + '</p></div><button data-act="claim-draft" data-source="' + esc(item.source) +
+        '" data-draft="' + esc(item.id) + '">Reprendre mon brouillon →</button></section>');
+    }
     view.list = audits;
   }
   function fields(a) {

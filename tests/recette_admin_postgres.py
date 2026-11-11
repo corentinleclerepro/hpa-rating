@@ -30,6 +30,7 @@ def run():
                            HTTP_ORIGIN="https://"+host, HTTP_X_CSRFTOKEN=client.cookies["hpa_console_csrf"].value)
     assert client.get("/api/session",secure=True).json() == {"admin":False,"setup_required":True}
     assert client.get("/api/admin/demandes",secure=True).status_code == 403
+    assert client.get("/api/admin/parcours",secure=True).status_code == 403
     assert post("/api/admin/setup/start",{"ticket":"intrus","password":"Test indépendant du camping 32"}).status_code == 403
     start = post("/api/admin/setup/start",{"ticket":ticket,"password":"Test indépendant du camping 32"}).json()
     otp = str(totp(base64.b32decode(start["manual_key"]))).zfill(6)
@@ -47,6 +48,8 @@ def run():
     path = "/api/admin/demandes/" + entry["id"] + "/approve"
     invitation = post(path,{}).json()
     assert invitation["code"].startswith("HPA-") and invitation["email"] == "test@example.test"
+    Path(os.environ["HPA_TEST_INVITATION"]).write_text(invitation["code"], encoding="ascii")
+    assert client.get("/api/admin/parcours",secure=True).json() == {"home":0,"start":0,"request":3,"continued":0}
     assert post(path,{}).status_code == 409
     assert post("/api/logout/admin",{}).status_code == 200
     assert client.get("/api/session",secure=True).json() == {"admin":False,"setup_required":False}

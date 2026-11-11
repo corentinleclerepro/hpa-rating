@@ -1267,3 +1267,5 @@ dialog textarea {
   cursor: pointer;
   font-weight: 650;
 }
+.starter-offer { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:1rem; margin:1rem 0; }
+.starter-offer h2,.starter-offer p { margin:0 0 .25rem; }

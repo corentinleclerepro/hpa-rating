@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 from django.conf import settings
 from django.urls import path, re_path
-from . import access, demo, landing
+from . import access, demo, landing, starter
 from .access import guest_from
 from hpa_shared.http import endpoint, error
 from hpa_shared.webfiles import frontend
@@ -12,7 +12,7 @@ from .storage import store
 
 page, asset = frontend(Path(__file__).parent / "static", (
     "app.js", "style.css", "dossier.png", "workspace.js", "guide.js", "reference.js", "access.js", "ui.js", "camping.jpg",
-    "landing.css", "landing.js", "clairiere.jpg", "preparation.jpg", "apercu-dossier.jpg",
+    "landing.css", "landing.js", "draft-store.js", "starter.js", "starter.css", "clairiere.jpg", "preparation.jpg", "apercu-dossier.jpg",
     "demo-plan-reperage.png", "demo-releve-surfaces.png", "demo-fiche-location-velos.png"))
 
 
@@ -21,6 +21,7 @@ CID = AID + r"/items/([0-9]+)"
 ROUTES = [
     ("meta", {"GET":"meta"}), ("referentiel", {"GET":"referentiel"}), ("referentiel/stats", {"GET":"ref_stats"}),
     ("audits", {"GET":"list_audits", "POST":"create_audit"}), ("audits/demo", {"POST":"demo"}),
+    ("audits/brouillon", {"GET":"starter","POST":"starter"}),
     (AID, {"GET":"get_audit","PATCH":"update_audit","DELETE":"delete_audit"}),
     (AID+"/clone", {"POST":"clone_audit"}), (AID+"/resume", {"PUT":"resume"}),
     (AID+"/review-proofs", {"POST":"review_proofs"}),
@@ -51,6 +52,8 @@ def domain(request, resource):
             if int(request.META.get("CONTENT_LENGTH") or 0) > settings.DATA_UPLOAD_MAX_MEMORY_SIZE:
                 return error("Envoyez au maximum 64 Mo à la fois.", 413)
             api = DossierAPI(request, db, guest["id"])
+            if methods.get(request.method) in ("starter","upsert_item"):
+                starter.attach_registry(db)
             handler = getattr(api, "api_" + methods[request.method])
             query = dict(request.GET.lists())
             if request.method == "GET":
@@ -75,6 +78,7 @@ urlpatterns = [
     path("mentions-legales", landing.information, {"page": "legal"}),
     path("confidentialite", landing.information, {"page": "privacy"}), path("demande-acces", landing.request_access),
     path("demo", demo.demo), path("demo/justificatifs/<str:name>", demo.proof),
+    path("commencer", starter.page), path("parcours/compter/<str:event>", starter.public_event),
     path("robots.txt", landing.robots), path("sitemap.xml", landing.sitemap),
     path("connexion", landing.connection), path("espace", page), path("static/<str:name>", asset),
     path("api/session", access.session_info), path("api/login", access.guest_login), path("api/logout/guest", access.guest_logout),

@@ -51,6 +51,6 @@
     <details class="demo-records"><summary>Consulter les {{ records|length }} critères renseignés au départ</summary>
       {% for item in records %}<article><p class="eyebrow">Critère {{ item.number }} · {{ item.status }}</p><h3>{{ item.title }}</h3><p>{{ item.notes }}</p></article>{% endfor %}
     </details>
-    <div class="demo-next"><div><h2>Préparer votre propre camping</h2><p>Votre invitation vous permet d’enregistrer vos réponses et de joindre vos pièces.</p></div><a class="button" href="/#acces">Demander un accès gratuit <span aria-hidden="true">→</span></a></div>
+    <div class="demo-next"><div><h2>Préparer votre propre camping</h2><p>Commencez les trois premières fiches de votre établissement, sans code ni e-mail.</p></div><a class="button" href="/commencer">Commencer mon dossier gratuitement <span aria-hidden="true">→</span></a></div>
   </article>
 {% endblock %}

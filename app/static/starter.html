@@ -1,0 +1,66 @@
+{% extends "public_base.html" %}
+{% block title %}Commencer mon dossier de classement · Hpa Rating{% endblock %}
+{% block description %}Préparez les trois premières fiches de votre camping ou parc résidentiel de loisirs. Commencez gratuitement, sans code ni e-mail.{% endblock %}
+{% block scripts %}<link rel="stylesheet" href="/static/starter.css"><script defer src="/static/draft-store.js"></script><script defer src="/static/starter.js"></script>{% endblock %}
+{% block content %}
+<article class="starter bound">
+  <header class="starter-heading"><p class="eyebrow"><span class="rule"></span> Mon dossier de classement</p>
+    <h1>Les premières fiches de <em>votre terrain.</em></h1>
+    <p class="lede">Décrivez votre établissement, puis préparez vos trois premières réponses au référentiel Atout France.</p>
+  </header>
+  <noscript><p class="demo-card">Activez JavaScript pour conserver le brouillon dans votre navigateur. Vous pouvez aussi <a href="/demo">essayer la démo sans code</a> ou <a href="/#acces">demander un accès gratuit</a>.</p></noscript>
+  {{ grid|json_script:"starter-grid" }}
+  <div class="starter-layout" id="starter-app" hidden>
+    <div class="starter-card">
+      <section id="profile-step" aria-labelledby="profile-title">
+        <h2 id="profile-title" tabindex="-1">Votre établissement</h2>
+        <form id="starter-profile">
+          <label>Type de terrain<select name="type"><option value="camping">Camping</option><option value="prl">Parc résidentiel de loisirs (PRL)</option></select></label>
+          <div class="starter-pair"><label>Mention<select name="mention"><option value="tourisme">Tourisme</option><option value="loisirs">Loisirs</option></select></label>
+          <label>Étoiles visées<select name="stars">{% for n in "12345" %}<option value="{{ n }}"{% if n == "3" %} selected{% endif %}>{{ n }} étoile{% if n != "1" %}s{% endif %}</option>{% endfor %}</select></label></div>
+          <label>Nombre total d’emplacements<input name="pitches" type="number" inputmode="numeric" min="1" max="1000000" step="1" required></label>
+          <button class="button">Enregistrer le profil et continuer →</button>
+        </form>
+      </section>
+      <section id="sheet-step" hidden aria-labelledby="sheet-title">
+        <p class="eyebrow" id="sheet-number"></p><h2 id="sheet-title" tabindex="-1"></h2><p id="sheet-guide"></p>
+        <details><summary>Lire le libellé du référentiel</summary><p id="official-wording"></p></details>
+        <form id="starter-sheet"><fieldset><legend>Votre constat</legend><div id="choices"></div></fieldset>
+          <button class="button">Enregistrer et continuer →</button></form>
+        <button type="button" class="starter-link" id="back-sheet">← Retour</button>
+      </section>
+      <section id="summary-step" {% if not form_retry %}hidden{% endif %} aria-labelledby="summary-title">
+        <h2 id="summary-title" tabindex="-1">Votre dossier est commencé.</h2>
+        <p id="summary-profile"></p><ul class="answer-list" id="answer-list"></ul>
+        <p id="next-action"></p>
+        <a class="button" id="open-request" href="#mini-demande">Demander un accès gratuit pour continuer →</a>
+        <button type="button" class="starter-link" id="edit-summary">Revoir mes réponses</button>
+      </section>
+      <section id="mini-demande" {% if not form_retry %}hidden{% endif %} aria-labelledby="request-title" data-retry="{% if form_retry %}yes{% endif %}">
+        <h2 id="request-title" tabindex="-1">Demander un accès gratuit</h2>
+        <p>Devora Agency examine votre demande. Si elle est acceptée, vous recevrez votre code personnel par e-mail pour poursuivre le dossier et joindre vos pièces.</p>
+        <form id="starter-request" method="post" action="/demande-acces#mini-demande">
+          <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}"><input type="hidden" name="origin" value="starter">
+          {% if message %}<p class="form-error" role="alert">{{ message }}</p>{% endif %}
+          <label>Nom du camping<input name="camping" autocomplete="organization" required maxlength="140" value="{{ form.camping.value|default:'' }}"></label>
+          <label>Adresse e-mail<input type="email" name="email" autocomplete="email" required maxlength="254" value="{{ form.email.value|default:'' }}"></label>
+          <div class="honey" aria-hidden="true"><label>Site web<input name="website" tabindex="-1" autocomplete="off"></label></div>
+          <label class="attach-choice"><input type="checkbox" name="attach" value="yes" {% if form.data.attach == "yes" %}checked{% endif %}> Joindre mon brouillon pour le retrouver sur un autre appareil</label>
+          <input type="hidden" name="draft" disabled value="{% if form.data.attach == 'yes' %}{{ form.data.draft|default:'' }}{% endif %}">
+          <p class="form-note">Seuls le nom et l’e-mail sont nécessaires pour examiner la demande. Avec votre accord, une copie des réponses rejoindra votre espace. <a href="/confidentialite">Confidentialité et contact</a>.</p>
+          <p id="request-feedback" class="form-error" role="alert" hidden></p>
+          <button class="button">Envoyer ma demande →</button>
+        </form>
+      </section>
+    </div>
+    <aside class="starter-side" aria-labelledby="progress-title">
+      <h2 id="progress-title">Mon avancement</h2><p id="profile-recap"></p>
+      <strong id="draft-progress">0 sur 3 fiches renseignées</strong><progress max="3" value="0" aria-label="Fiches renseignées"></progress>
+      <p id="save-state" role="status">Brouillon conservé dans ce navigateur.</p>
+      <p class="limitation">Utilisez le même navigateur pour reprendre. Effacer ses données ou fermer une fenêtre privée peut supprimer le brouillon.</p>
+      <button type="button" class="side-link" id="forget" hidden>Effacer ce brouillon</button>
+      <div id="confirm-forget" hidden><p>Effacer le brouillon de ce navigateur ?</p><button type="button" class="side-link" id="cancel-forget">Annuler</button> <button type="button" class="side-link" id="yes-forget">Effacer</button></div>
+    </aside>
+  </div>
+</article>
+{% endblock %}

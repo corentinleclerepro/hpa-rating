@@ -5,6 +5,7 @@ from io import BytesIO
 import json
 import os
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import secrets
 import subprocess
 import sys
@@ -30,6 +31,7 @@ def run(port, password):
         setup.execute("""INSERT INTO hpa_rating.access_requests (id,camping,email,created_at,status)
                          VALUES (repeat('a',32),'Fictif','ancien@example.test','2026-01-01','declined')""")
         setup.execute((ROOT/"deploy"/"supabase"/"erase_refused_requests.sql").read_text(encoding="utf8"))
+        setup.execute((ROOT/"deploy"/"supabase"/"starter.sql").read_text(encoding="utf8"))
         assert setup.execute("SELECT count(*) FROM hpa_rating.access_requests WHERE status='declined'").fetchone()[0] == 0
         for role in ("hpa_rating_guest", "hpa_rating_admin", "hpa_rating_webadmin"):
             setup.execute(sql.SQL("ALTER ROLE {} LOGIN PASSWORD {}").format(sql.Identifier(role),sql.Literal(password)))
@@ -50,19 +52,34 @@ def run(port, password):
 
     visitor = Client(enforce_csrf_checks=True, HTTP_HOST=SITE)
     assert visitor.get("/",secure=True).status_code == 200
-    form = {"camping":"Test postal","email":"test@example.test","csrfmiddlewaretoken":visitor.cookies["hpa_csrf"].value}
+    draft = {"id":"a"*32, "reference":"atout-france-2019-195", "type":"camping", "mention":"tourisme",
+             "stars":3, "pitches":62, "answers":{"1":"IN_PROGRESS","2":"EVIDENCE_MISSING","4":"VALIDATED"}}
+    form = {"camping":"Test postal","email":"test@example.test","csrfmiddlewaretoken":visitor.cookies["hpa_csrf"].value,
+            "origin":"starter", "attach":"yes","draft":json.dumps(draft)}
     for _ in range(2):
         assert visitor.post("/demande-acces",form,secure=True,HTTP_ORIGIN="https://"+SITE).status_code == 303
     declined_form = {**form, "camping": "Autre camping fictif", "email": "refus@example.test"}
     assert visitor.post("/demande-acces",declined_form,secure=True,HTTP_ORIGIN="https://"+SITE).status_code == 303
-    subprocess.run([sys.executable,"-B",str(ROOT/"tests"/"recette_admin_postgres.py")],check=True,
-                   env={**os.environ,"HPA_TEST_PG_PORT":str(port),"HPA_CLOUD_APP_KEY":secrets.token_urlsafe(48)})
+    private_form = {**form, "email":"sans-copie@example.test", "attach":""}
+    assert visitor.post("/demande-acces",private_form,secure=True,HTTP_ORIGIN="https://"+SITE).status_code == 303
+    with TemporaryDirectory() as temp:
+        issued = Path(temp) / "invitation"
+        subprocess.run([sys.executable,"-B",str(ROOT/"tests"/"recette_admin_postgres.py")],check=True,
+                       env={**os.environ,"HPA_TEST_PG_PORT":str(port),"HPA_CLOUD_APP_KEY":secrets.token_urlsafe(48),
+                            "HPA_TEST_INVITATION":str(issued)})
+        guest_code = issued.read_text(encoding="ascii")
     with psycopg.connect(user="hpa_rating_guest",**default) as guest_sql:
         assert not guest_sql.execute("SELECT has_table_privilege(current_user,'hpa_rating.access_requests','SELECT')").fetchone()[0]
         assert not guest_sql.execute("SELECT has_schema_privilege(current_user,'hpa_rating_staff','USAGE')").fetchone()[0]
     with psycopg.connect(user="hpa_rating_webadmin",**default) as staff_sql:
         assert not staff_sql.execute("SELECT has_table_privilege(current_user,'hpa_rating.file_chunks','SELECT')").fetchone()[0]
         assert not staff_sql.execute("SELECT has_table_privilege(current_user,'hpa_rating.django_session','SELECT')").fetchone()[0]
+        assert not staff_sql.execute("SELECT has_table_privilege(current_user,'hpa_rating.request_starters','SELECT')").fetchone()[0]
+        assert staff_sql.execute("SELECT total FROM hpa_rating.starter_daily WHERE event='request'").fetchone()[0] == 3
+    with psycopg.connect(user="postgres", **default) as audit_sql:
+        assert audit_sql.execute("SELECT count(*) FROM hpa_rating.request_starters").fetchone()[0] == 1
+        assert audit_sql.execute("""SELECT s.request_id FROM hpa_rating.request_starters s JOIN
+            hpa_rating.access_requests r ON r.id=s.request_id WHERE r.email='sans-copie@example.test'""").fetchone() is None
 
     def api(client, method, path, data=None, expected=200, binary=False):
         headers={"HTTP_HOST":SITE, "HTTP_ORIGIN":"https://"+SITE,
@@ -85,6 +102,23 @@ def run(port, password):
             api(visitor,"POST","/api/login",{"code":code})
             users.append(visitor)
         a,b=users
+        claimant = Client(enforce_csrf_checks=True)
+        api(claimant,"GET","/connexion")
+        api(claimant,"POST","/api/login",{"code":guest_code})
+        endpoint = "/api/audits/brouillon"
+        assert api(b,"GET",endpoint)["attached"] is None
+        claim = {"source":"invitation","id":draft["id"]}
+        api(b,"POST",endpoint,claim,404)
+        assert api(claimant,"GET",endpoint)["attached"]["id"] == draft["id"]
+        imported = api(claimant,"POST",endpoint,claim)["id"]
+        assert api(claimant,"POST",endpoint,claim)["id"] == imported
+        assert api(claimant,"GET",endpoint)["attached"] is None
+        imported_base = "/api/audits/"+imported
+        assert api(claimant,"GET",imported_base)["audit"]["workflow"]["next_id"] == "5"
+        for _ in range(2):
+            api(claimant,"PUT",imported_base+"/items/5",{"status":"IN_PROGRESS","advance":True})
+        with psycopg.connect(user="hpa_rating_webadmin",**default) as stats:
+            assert stats.execute("SELECT total FROM hpa_rating.starter_daily WHERE event='continued'").fetchone()[0] == 1
         data=api(a,"POST","/api/audits/demo",{},201)
         aid=data["audit"]["id"]
         base="/api/audits/"+aid

@@ -10,7 +10,7 @@ from email import policy
 from email.parser import BytesParser
 from django.conf import settings
 from django.http import FileResponse, HttpResponse, HttpResponseRedirect, JsonResponse
-from . import scoring, workflow
+from . import scoring, workflow, starter
 from .db import STATUSES
 from .exporters import STATUS_LABELS, build_book_html, build_zip, evidence_kind, safe_filename
 from hpa_shared.http import error, payload
@@ -53,6 +53,9 @@ class DossierAPI:
 
     def failure(self, status, message):
         return error(message, status)
+
+    def api_starter(self, match, query):
+        return starter.claim(self.request, self.db, self.owner)
 
     def summary(self, audit, items=None):
         items = self.db.list_items(audit["id"]) if items is None else items
@@ -319,7 +322,10 @@ class DossierAPI:
                     raise ValueError(f"Indiquez la bonification obtenue, entre 1 et {limit} points")
         else:
             points = None
+        previous = self.db.get_item(audit["id"], cid)
         item = self.db.upsert_item(audit["id"], cid, status, body.get("notes", ""), body.get("validated_by", ""), points, stars)
+        if status != "TODO" and (not previous or previous["status"] == "TODO"):
+            starter.count_continuation(self.db, audit["id"])
         self.revisit_proofs(audit["id"])
         self.db.log(audit["id"], f"Critère {cid} · {STATUS_LABELS[status]}.", "criteria", cid)
         return JsonResponse({"item": dict(item), "workflow": self.guide(self.db.get_audit(audit["id"]))})

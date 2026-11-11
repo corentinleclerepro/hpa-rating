@@ -4,6 +4,7 @@ import io
 import secrets
 import time
 import uuid
+from datetime import datetime, timedelta, timezone
 
 import qrcode
 import qrcode.image.svg
@@ -220,3 +221,18 @@ def access_requests(request, rid=None, action=None):
         if db.conn.execute("SELECT 1 FROM access_requests WHERE id=?", (rid,)).fetchone():
             raise ValueError("L’effacement n’a pas abouti. La demande est conservée.")
         return JsonResponse({"ok": True})
+
+
+@endpoint(["GET"])
+def starter_stats(request):
+    if not verified_admin(request):
+        return error("Connectez-vous à l’administration.", 403)
+    today = datetime.now(timezone.utc).date()
+    since = today - timedelta(days=29)
+    db = registry()
+    with db.atomic():
+        table = "hpa_rating.starter_daily" if settings.CLOUD_ROLE else "starter_daily"
+        rows = db.conn.execute(f"""SELECT event,SUM(total) AS n FROM {table}
+            WHERE day BETWEEN ? AND ? GROUP BY event""", (since.isoformat(), today.isoformat()))
+        totals = {row["event"]: int(row["n"]) for row in rows}
+    return JsonResponse({event: totals.get(event, 0) for event in ("home","start","request","continued")})

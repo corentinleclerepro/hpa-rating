@@ -47,6 +47,28 @@
         ${history.length ? `<details><summary>Demandes traitées (${history.length})</summary>${history.map(requestRow).join("")}</details>` : ""}
       </section><div class="admin-grid"><section class="panel"><h2>Inviter directement</h2><form id="invite-create"><label>Nom ou adresse e-mail<input name="label" required maxlength="160" placeholder="Nom du destinataire"></label><button>Générer un code</button><p data-feedback role="status"></p></form></section><section class="panel"><h2>Invitations <small>${guests.length}</small></h2>${guests.length ? guests.map((g) => `<article class="invit"><div><strong>${esc(g.label)}</strong><span class="pill ${g.revoked ? "red" : g.code_used ? "green" : ""}">${g.revoked ? "Révoqué" : g.code_used ? "Actif" : "Jamais utilisé"}</span><p class="meta">Dernière utilisation · ${date(g.last_seen)}</p></div><div class="tools"><button class="secondary" data-access="rotate" data-id="${g.id}">Remplacer</button>${g.revoked ? "" : `<button class="textbtn danger" data-access="revoke" data-id="${g.id}">Révoquer</button>`}</div></article>`).join("") : "<p>Aucune invitation créée.</p>"}</section></div></div>`,
     );
+    void showStarterStats();
+  }
+  async function showStarterStats() {
+    const host = document.querySelector(".admin-grid");
+    const panel = document.createElement("section");
+    panel.className = "panel inbox";
+    panel.setAttribute("aria-label", "Suivi du mini-dossier");
+    host.before(panel);
+    panel.innerHTML = "<h2>Suivi du mini-dossier</h2><p role='status'>Chargement des statistiques…</p>";
+    try {
+      const counts = await api("/api/admin/parcours");
+      const cells = [["Affichages de l’accueil",counts.home],["Brouillons commencés",counts.start],
+        ["Demandes depuis le brouillon",counts.request],["Dossiers poursuivis",counts.continued]];
+      const rate = counts.home ? (100*counts.continued/counts.home).toLocaleString("fr-FR",{maximumFractionDigits:1}) : null;
+      panel.innerHTML = '<h2>Suivi du mini-dossier <small>30 derniers jours</small></h2><dl class="funnel">' +
+        cells.map(([label,n]) => "<div><dt>" + label + "</dt><dd>" + Number(n) + "</dd></div>").join("") +
+        '</dl><p>' + (rate === null ? 'Le ratio sera disponible après le premier affichage de l’accueil.' :
+          '<strong>' + rate + '</strong> dossiers poursuivis pour 100 affichages de l’accueil.') +
+        '</p><p class="meta">Un dossier est compté une seule fois, au premier nouveau critère renseigné après la reprise. Les affichages incluent les retours sur l’accueil.</p>';
+    } catch {
+      panel.querySelector('[role="status"]').textContent = "Les statistiques sont momentanément indisponibles.";
+    }
   }
   function issued(code, loginUrl, email = "") {
     const invite = `Bonjour,\n\nVoici votre accès personnel à Hpa Rating · Camp Compagnon.\n\nMon espace : ${loginUrl}\nCode personnel : ${code}\n\nConservez ce code pour retrouver vos dossiers à chaque visite.`;

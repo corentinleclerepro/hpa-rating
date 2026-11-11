@@ -104,8 +104,8 @@
         const step = W.steps.some((x) => x[0] === parts[2]) ? parts[2] : "overview";
         await dossier(parts[1], step, /^\d+$/.test(parts[3] || "") ? parts[3] : null, index, opts.stars);
       } else {
-        const { audits } = await api("/api/audits");
-        if (index === state.screen) W.list(audits);
+        const [{ audits }, { attached }] = await Promise.all([api("/api/audits"),api("/api/audits/brouillon")]);
+        if (index === state.screen) W.list(audits,attached);
       }
     } catch (e) {
       if (index === state.screen) showErr(e);
@@ -257,6 +257,20 @@
         return;
       }
       switch (b.dataset.act) {
+        case "claim-draft":
+          await busy(b, async () => {
+            const draft = HpaDraft.read(), source = b.dataset.source;
+            if (source === "local" && (!draft?.ready || draft.id !== b.dataset.draft)) {
+              throw new Error("Le brouillon de cet appareil a changé. Rechargez votre espace.");
+            }
+            const body = source === "local" ? {source, draft:HpaDraft.packet(draft)} : {source, id:b.dataset.draft};
+            const result = await api("/api/audits/brouillon","POST",body);
+            HpaDraft.erase(result.draft_id);
+            const {audit} = await api("/api/audits/" + result.id);
+            go(HPA.guide.entry(audit.workflow, (step,cid) =>
+              "#/dossier/" + result.id + "/" + step + (cid ? "/" + cid : "")));
+          }, "Reprise du brouillon…");
+          break;
         case "retry":
           await route();
           break;

@@ -45,6 +45,10 @@ CREATE TABLE IF NOT EXISTS activity (
     created_at TEXT NOT NULL, message TEXT NOT NULL, criterion_id TEXT, step TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS activity_by_audit ON activity(audit_id, id DESC);
+CREATE TABLE IF NOT EXISTS starter_imports (
+    owner_id TEXT NOT NULL, draft_id TEXT NOT NULL, audit_id TEXT NOT NULL UNIQUE REFERENCES audits(id) ON DELETE CASCADE,
+    continued INTEGER NOT NULL DEFAULT 0, PRIMARY KEY(owner_id, draft_id)
+);
 """
 
 STATUSES = ["TODO", "IN_PROGRESS", "EVIDENCE_MISSING", "NON_COMPLIANT", "VALIDATED"]

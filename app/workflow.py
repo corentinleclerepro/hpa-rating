@@ -11,15 +11,19 @@ def profile_ready(profile):
     return type(total) is int and total > 0
 
 
+def ordered_groups(ref, rows):
+    chapters = {c["id"]: c.get("chapter") for c in ref["criteria"]}
+    active = sorted((r for r in rows if r["code"] != "NA"), key=lambda r: int(r["id"]))
+    return {key: [r for r in active if (chapters[r["id"]] == 0) == (key == "prerequisites")]
+            for key in ("prerequisites", "criteria")}
+
+
 def progress(audit, items, rows=None):
     ref = for_audit(audit)
     if rows is None:
         profile = {**audit["profile"], "type": audit["type"], "mention": audit["mention"]}
         rows = applicable_criteria(ref, profile, audit["target_stars"], items)
-    chapters = {c["id"]: c.get("chapter") for c in ref["criteria"]}
-    active = sorted((r for r in rows if r["code"] != "NA"), key=lambda r: int(r["id"]))
-    groups = {key: [r for r in active if (chapters[r["id"]] == 0) == (key == "prerequisites")]
-              for key in ("prerequisites", "criteria")}
+    groups = ordered_groups(ref, rows)
     confirmed = bool(audit.get("profile_confirmed")) and profile_ready(audit["profile"])
     current = "profile" if not confirmed else None
     allowed, counts = [], {}

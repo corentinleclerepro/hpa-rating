@@ -1,15 +1,15 @@
 {% extends "public_base.html" %}
 {% block title %}Hpa Rating · Préparer le classement en étoiles de son camping{% endblock %}
 {% block description %}Préparez gratuitement le classement de votre camping de 1 à 5 étoiles. Hpa Rating vous guide parmi les 195 critères du référentiel Atout France.{% endblock %}
-{% block scripts %}<script defer src="/static/landing.js"></script>{% endblock %}
+{% block scripts %}<script defer src="/static/draft-store.js"></script><script defer src="/static/landing.js"></script>{% endblock %}
 {% block content %}
     <section class="hero bound" aria-labelledby="hero-title">
       <div class="hero-text">
         <p class="eyebrow"><span class="rule"></span> Hôtellerie de plein air (HPA)</p>
         <h1 id="hero-title">Préparez le classement <em>en étoiles</em> de votre camping.</h1>
         <p class="lede">Hpa Rating vous guide parmi les <strong>195 critères du référentiel Atout France</strong>. Choisissez la catégorie que vous visez, de 1 à 5 étoiles, puis vérifiez chaque critère applicable et rassemblez vos justificatifs pour la visite.</p>
-        <div class="actions"><a class="button" href="/demo">Essayer la démo sans code <span aria-hidden="true">→</span></a><a class="button outlined" href="#acces">Demander un accès gratuit</a></div>
-        <p class="free"><i aria-hidden="true"></i> Outil gratuit, accessible sur invitation.</p>
+        <div class="actions"><a class="button" href="/commencer"><span id="start-label">Commencer mon dossier gratuitement</span> <span aria-hidden="true">→</span></a><a class="text-link" href="/demo">Voir l’exemple 3 étoiles <span aria-hidden="true">→</span></a></div>
+        <p class="free"><i aria-hidden="true"></i> Trois premières fiches sans code ni e-mail. <a href="#acces">Demander un accès gratuit</a></p>
       </div>
       <figure class="cover">
         <img src="/static/clairiere.jpg" width="1536" height="1024" alt="Une caravane crème installée sous les pins d’un camping." fetchpriority="high">
@@ -58,7 +58,7 @@
     <section id="donnees" class="privacy bound section">
       <div><p class="eyebrow"><span class="rule"></span> Vos données</p><h2>Ce que garde<br><em>votre espace.</em></h2></div>
       <div class="answers">
-        <details open><summary>Où sont conservés mes documents ?</summary><p>Vos réponses, votre progression et vos justificatifs sont enregistrés sur le serveur de Hpa Rating pour que vous puissiez les retrouver à votre prochaine connexion. Votre code personnel donne accès à vos dossiers.</p></details>
+        <details open><summary>Où sont conservés mon brouillon et mes documents ?</summary><p>Les trois premières fiches restent dans votre navigateur. Vous pouvez joindre une copie à votre demande pour la retrouver sur un autre appareil. Dans l’espace sur invitation, les dossiers et les pièces sont enregistrés sur le serveur de Hpa Rating.</p></details>
         <details><summary>Qui peut consulter ou supprimer mon dossier ?</summary><p>Les autres invités ne peuvent pas l’ouvrir. L’espace d’administration permet de gérer les invitations et les demandes d’accès. Depuis « Mes dossiers », vous pouvez supprimer un dossier et les pièces qui lui sont rattachées.</p></details>
         <a class="text-link" href="/confidentialite">Lire la politique de confidentialité <span aria-hidden="true">→</span></a>
       </div>

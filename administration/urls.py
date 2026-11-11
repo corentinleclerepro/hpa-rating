@@ -11,6 +11,7 @@ urlpatterns = [
     path("api/admin/setup/start", views.begin_setup), path("api/admin/setup/finish", views.finish_setup),
     path("api/admin/invitations", views.invitations),
     path("api/admin/demandes", views.access_requests),
+    path("api/admin/parcours", views.starter_stats),
     re_path(r"^api/admin/demandes/(?P<rid>[0-9a-f]{32})/(?P<action>approve|decline)$", views.access_requests),
     re_path(r"^api/admin/invitations/(?P<gid>[0-9a-f]{32})/(?P<action>rotate|revoke)$", views.invitations),
 ]

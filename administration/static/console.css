@@ -44,3 +44,7 @@ dialog { width: min(470px,calc(100% - 28px)); max-height: 85vh; color: inherit }
   .bar { gap: 5px 8px }
   .bar:has(.logout-button:not([hidden])) .badge { order: 3; flex-basis: 100%; border: 0; padding: 0 }
 }
+.funnel { display:grid; grid-template-columns:repeat(auto-fit,minmax(9rem,1fr)); gap:1rem; }
+.funnel > div { border-inline-start:2px solid var(--red); padding-inline-start:.75rem; }
+.funnel dt { font-size:.88rem; }
+.funnel dd { margin:.25rem 0 0; font-size:1.8rem; font-weight:700; }
