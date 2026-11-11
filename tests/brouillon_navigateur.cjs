@@ -66,8 +66,8 @@ async function run() {
     p = await mobile.newPage();
     await p.goto(test.guest);
     await p.getByRole("link",{name:"Reprendre mon dossier"}).click();
-    assert.equal(await p.locator("#draft-progress").innerText(),"1 sur 3 fiches renseignées");
     await p.getByRole("heading",{name:"Permis d’aménager et emplacements"}).waitFor();
+    assert.equal(await p.locator("#draft-progress").innerText(),"1 sur 3 fiches renseignées");
     await answer(p,"Preuve manquante");
     await answer(p,"Validé");
     await p.getByRole("link",{name:"Demander un accès gratuit pour continuer"}).click();
