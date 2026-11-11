@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="/static/landing.css">
   {% block scripts %}{% endblock %}
 </head>
-<body>
+<body id="haut" tabindex="-1">
   <a class="skip" href="#contenu">Aller au contenu</a>
   <header class="site-mast public-mast">
     <div class="nav-inner bound">
@@ -27,15 +27,14 @@
   <main id="contenu" tabindex="-1">
     {% block content %}{% endblock %}
   </main>
-  <footer class="site-footer bound">
-    <strong>Hpa Rating <span>· Camp Compagnon</span></strong>
-    <nav aria-label="Liens de pied de page">
-      <a href="https://devora-agency.fr/">Devora Agency</a>
+  <footer class="site-footer" id="pied-de-page">
+    <p class="footer-credit">Projet développé par <a href="https://devora-agency.fr/">Devora-Agency</a></p>
+    <nav aria-label="Informations légales">
       <a href="/cgu"{% if current_page == "terms" %} aria-current="page"{% endif %}>Conditions générales d’utilisation</a>
       <a href="/mentions-legales"{% if current_page == "legal" %} aria-current="page"{% endif %}>Mentions légales</a>
       <a href="/confidentialite"{% if current_page == "privacy" %} aria-current="page"{% endif %}>Confidentialité</a>
-      <a href="#contenu">Retour en haut <span aria-hidden="true">↑</span></a>
     </nav>
+    <a class="footer-top" href="#haut"><span aria-hidden="true">↑</span> Revenir en haut</a>
   </footer>
 </body>
 </html>

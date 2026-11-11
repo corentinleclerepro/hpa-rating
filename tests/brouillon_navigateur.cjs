@@ -98,6 +98,13 @@ async function run() {
     await enter(guest,match[0]);
     await guest.getByRole("button",{name:"Reprendre mon brouillon"}).click();
     await guest.waitForURL(/dossier\/[a-f0-9]+\/criteria\/5$/);
+    const criterionUrl = guest.url();
+    const notes = guest.locator(".criterion-form textarea[name=notes]");
+    await notes.fill("Note en cours de saisie");
+    await guest.getByRole("button",{name:"Revenir en haut"}).click();
+    await guest.waitForFunction(()=>scrollY===0 && document.activeElement.id==="main");
+    assert.equal(guest.url(),criterionUrl);
+    assert.equal(await notes.inputValue(),"Note en cours de saisie");
     await guest.locator(".criterion-form select[name=status]").selectOption("IN_PROGRESS");
     await guest.locator(".criterion-form button[value=advance]").click();
     await guest.waitForURL(/\/criteria\/6$/);

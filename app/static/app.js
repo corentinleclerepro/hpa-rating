@@ -257,6 +257,10 @@
         return;
       }
       switch (b.dataset.act) {
+        case "back-to-top":
+          main.focus({ preventScroll: true });
+          window.scrollTo({ top: 0, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+          break;
         case "claim-draft":
           await busy(b, async () => {
             const draft = HpaDraft.read(), source = b.dataset.source;
