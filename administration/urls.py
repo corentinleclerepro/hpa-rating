@@ -7,6 +7,7 @@ page, asset = frontend(Path(__file__).parent / "static", ("console.js", "console
 urlpatterns = [
     path("", page), path("administration", page), path("static/<str:name>", asset),
     path("api/session", views.session_info), path("api/admin/login", views.admin_login),
+    path("api/admin/login/confirm", views.confirm_login), path("api/admin/email/resend", views.resend_email),
     path("api/logout/admin", views.admin_logout),
     path("api/admin/setup/start", views.begin_setup), path("api/admin/setup/finish", views.finish_setup),
     path("api/admin/invitations", views.invitations),

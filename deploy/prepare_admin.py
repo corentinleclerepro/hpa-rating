@@ -29,8 +29,8 @@ def prepare_admin(ticket_file):
                 raise RuntimeError("Le compte administrateur est déjà activé.")
             output.write("Activer votre espace administration Hpa Rating\n\nhttps://" + settings.ALLOWED_HOSTS[0] +
                          "/\n\nClé personnelle de première configuration, valable 24 heures et utilisable une fois\n" + ticket +
-                         "\n\nChoisissez votre mot de passe sur le site, associez votre application d’authentification "
-                         "et conservez vos codes de secours en lieu sûr.\n")
+                         "\n\nChoisissez votre mot de passe sur le site, puis saisissez le code à six chiffres reçu par e-mail. "
+                         "Conservez ensuite vos codes de secours en lieu sûr.\n")
     return True
 
 

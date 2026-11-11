@@ -75,7 +75,7 @@ sudo docker compose -f deploy/compose.yaml exec -T admin python run_admin.py --p
 sudo docker compose -f deploy/compose.yaml exec -T admin cat /tmp/premier-acces.txt
 ```
 
-Sur son PC, ouvrir [la console par le tunnel](http://127.0.0.1:18001/). Saisir la clé (valable 24 h), définir son mot de passe, associer son application d’authentification et conserver ses codes de secours. Après configuration, effacer la fiche du conteneur : `sudo docker compose -f deploy/compose.yaml exec -T admin rm /tmp/premier-acces.txt`.
+Configurer `HPA_ADMIN_EMAIL` et `HPA_ADMIN_MAIL_KEY` pour le service admin. Sur son PC, ouvrir [la console par le tunnel](http://127.0.0.1:18001/). Saisir la clé valable 24 h, choisir son mot de passe, confirmer le code reçu par e-mail et conserver ses codes de secours. Après activation, effacer la fiche privée du conteneur avec `sudo docker compose -f deploy/compose.yaml exec -T admin rm /tmp/premier-acces.txt`.
 
 Créer une invitation d’essai, la copier et l’utiliser dans une fenêtre privée sur le domaine HTTPS. Ouvrir l’exemple, vérifier un justificatif puis révoquer le code dans la console : au prochain accès, la fenêtre invitée doit refuser le dossier. Les invitations suivantes pourront être copiées puis envoyées personnellement aux campings. Fermer le tunnel ne coupe pas leur accès.
 

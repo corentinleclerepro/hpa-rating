@@ -1,5 +1,4 @@
 """Exercise the real production processes with separate stores and a simulated TLS upstream."""
-import base64
 from contextlib import ExitStack
 from http.client import HTTPConnection
 from http.cookies import SimpleCookie
@@ -12,7 +11,7 @@ import sys
 import tempfile
 import unittest
 
-from django_otp.oath import totp
+from fixture_mail import latest_code
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -62,7 +61,8 @@ class PublicHttps(unittest.TestCase):
             def role_env(role):
                 return {**env, "HPA_DATA_DIR": str(state/role)}
             def start(role):
-                proc = subprocess.Popen([sys.executable, "-B", "run_production.py", role, "--port", "0"],
+                wrapper = ["tests/fixture_mail.py"] if role == "admin" else []
+                proc = subprocess.Popen([sys.executable, "-B", *wrapper, "run_production.py", role, "--port", "0"],
                                         env=role_env(role), cwd=ROOT, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
                                         text=True, encoding="utf-8")
                 def stop():
@@ -91,9 +91,9 @@ class PublicHttps(unittest.TestCase):
             admin.call("GET","/api/audits",expected=404)
             guest.call("GET","/api/audits",expected=401)
             admin.call("GET","/api/session")
-            auth, _ = admin.call("POST","/api/admin/setup/start",{"ticket":ticket.read_text("utf-8-sig").splitlines()[-1],
+            admin.call("POST","/api/admin/setup/start",{"ticket":ticket.read_text("utf-8-sig").splitlines()[-1],
                                                                   "password":"Seulement pour cet essai HTTPS ! 819"})
-            admin.call("POST","/api/admin/setup/finish",{"otp":str(totp(base64.b32decode(auth["manual_key"]))).zfill(6)})
+            admin.call("POST","/api/admin/setup/finish",{"code":latest_code(state/"admin")})
             first, _ = admin.call("POST","/api/admin/invitations",{"label":"Essai HTTPS jetable"},expected=201)
             self.assertEqual(first["login_url"], ORIGIN + "/connexion")
             guest.call("POST","/api/login",{"code":first["code"]},origin="https://autre.example",expected=403)

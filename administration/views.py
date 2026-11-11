@@ -1,13 +1,10 @@
 import base64
 import hmac
-import io
 import secrets
 import time
 import uuid
 from datetime import datetime, timedelta, timezone
 
-import qrcode
-import qrcode.image.svg
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.hashers import make_password
@@ -16,10 +13,9 @@ from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie
-from django_otp import login as verify_session
-from django_otp.plugins.otp_totp.models import TOTPDevice
 from hpa_shared.registry import now_iso, registry, digest, canonical, throttled, limited
 from hpa_shared.http import endpoint, error, payload
+from . import email_codes
 from .state import private_store
 
 
@@ -43,14 +39,19 @@ def issue_guest(db, label, existing=None):
 
 
 def verified_admin(request):
-    return bool(request.user.is_authenticated and request.user.is_staff and request.user.is_verified()
+    return bool(request.user.is_authenticated and request.user.is_staff and request.user.is_active
+                and request.session.get("admin_factor") in ("email", "recovery")
                 and request.session.get("admin_until", 0) > time.time())
 
 
 @ensure_csrf_cookie
 @endpoint(["GET"])
 def session_info(request):
-    return JsonResponse({"admin": verified_admin(request), "setup_required": not get_user_model().objects.filter(is_staff=True).exists()})
+    info = {"admin": verified_admin(request), "setup_required": not get_user_model().objects.filter(is_staff=True).exists()}
+    challenge = email_codes.pending(request)
+    if challenge and not info["admin"]:
+        info["email_pending"] = challenge["stage"]
+    return JsonResponse(info)
 
 
 @endpoint(["POST"])
@@ -95,27 +96,21 @@ def begin_setup(request):
         except ValidationError as ex:
             return error(" ".join(ex.messages))
         db.conn.execute("DELETE FROM login_limits WHERE bucket=?", (bucket,))
-        key = secrets.token_hex(20)
-        user = get_user_model()(username="administration")
-        device = TOTPDevice(user=user, name=settings.OTP_TOTP_ISSUER, key=key)
-        buffer = io.BytesIO()
-        qrcode.make(device.config_url, image_factory=qrcode.image.svg.SvgPathImage).save(buffer)
-        request.session.cycle_key()
-        request.session["setup"] = {"ticket": fingerprint, "password": make_password(password), "key": key, "until": time.time()+900}
-        return JsonResponse({"qr": "data:image/svg+xml;base64," + base64.b64encode(buffer.getvalue()).decode(),
-                             "manual_key": base64.b32encode(bytes.fromhex(key)).decode()})
+    return email_codes.issue(request, {"stage": "setup", "ticket": fingerprint,
+        "password": make_password(password), "until": int(time.time()) + 1800})
 
 
-def start_admin(request, user, device):
+def start_admin(request, user, factor):
+    request.session.pop(email_codes.SESSION_KEY, None)
     login(request, user, backend="django.contrib.auth.backends.ModelBackend")
-    verify_session(request, device)
+    request.session["admin_factor"] = factor
     request.session["admin_until"] = int(time.time()) + 12 * 3600
 
 
 @endpoint(["POST"])
 def finish_setup(request):
     data = payload(request)
-    pending = request.session.get("setup") or {}
+    pending = email_codes.pending(request)
     db = private_store()
     with db.atomic():
         if hasattr(db, "lock_key"):
@@ -123,20 +118,17 @@ def finish_setup(request):
         bucket = throttled(db, request, "confirmer-initialisation")
         if not bucket:
             return limited()
-        if pending.get("until", 0) < time.time() or not setup_allowed(db, pending.get("ticket", "")):
+        if pending.get("stage") != "setup" or not setup_allowed(db, pending["ticket"]):
             return error("Recommencez la configuration avec votre clé personnelle.", 403)
+        if not email_codes.consume(db, pending, data.get("code")):
+            return error("Le code est incorrect, expiré ou déjà utilisé.", 401)
         with transaction.atomic():
             user = get_user_model().objects.create(username="administration", password=pending["password"], is_staff=True)
-            device = TOTPDevice.objects.create(user=user, name="Application", key=pending["key"], confirmed=True)
-            if not device.verify_token(str(data.get("otp", ""))):
-                transaction.set_rollback(True)
-                return error("Le code à six chiffres est incorrect.", 401)
             codes = [secrets.token_hex(8).upper() for _ in range(8)]
             db.conn.executemany("INSERT INTO recovery_codes VALUES(?,?)", [(digest("recovery", c),user.pk) for c in codes])
             db.conn.execute("DELETE FROM local_setup")
             db.conn.execute("DELETE FROM login_limits WHERE bucket=?", (bucket,))
-        request.session.pop("setup", None)
-        start_admin(request, user, device)
+        start_admin(request, user, "email")
         return JsonResponse({"recovery_codes": codes})
 
 
@@ -148,25 +140,64 @@ def admin_login(request):
         bucket = throttled(db, request, "administration")
         if not bucket:
             return limited()
-        user = authenticate(request, username="administration", password=str(data.get("password", ""))[:512])
-        if user and user.is_staff:
-            token = str(data.get("otp", "")).strip()
-            devices = TOTPDevice.objects.filter(user=user, confirmed=True)
-            if settings.WEB_ADMIN:
-                devices = devices.select_for_update()
-            device = devices.first()
-            valid = False
-            if device:
-                if len(token) == 6 and token.isdecimal():
-                    valid = device.verify_token(token)
-                elif len(token) == 16:
-                    valid = db.conn.execute("DELETE FROM recovery_codes WHERE user_id=? AND digest=?",
-                                            (user.pk, digest("recovery", token.upper()))).rowcount == 1
-            if valid:
-                db.conn.execute("DELETE FROM login_limits WHERE bucket=?", (bucket,))
-                start_admin(request, user, device)
-                return JsonResponse({"ok": True})
-        return error("Mot de passe ou code d’authentification incorrect.", 401)
+        password = data.get("password")
+        if not isinstance(password, str) or len(password) > 512:
+            return error("Mot de passe incorrect.", 401)
+        user = authenticate(request, username="administration", password=password)
+        if not user or not user.is_staff:
+            return error("Mot de passe incorrect.", 401)
+        if "recovery" in data:
+            token = str(data["recovery"]).strip().upper()
+            if len(token) != 16 or not db.conn.execute("DELETE FROM recovery_codes WHERE user_id=? AND digest=?",
+                    (user.pk, digest("recovery", token))).rowcount:
+                return error("Le code de secours est incorrect ou déjà utilisé.", 401)
+            email_codes.lock(db)
+            db.conn.execute("DELETE FROM admin_email_challenge WHERE id=1")
+            db.conn.execute("DELETE FROM login_limits WHERE bucket=?", (bucket,))
+            start_admin(request, user, "recovery")
+            return JsonResponse({"ok": True})
+    return email_codes.issue(request, {"stage": "login", "user": user.pk, "auth": user.get_session_auth_hash(), "password_bucket": bucket,
+                                       "until": int(time.time()) + 1800})
+
+
+def pending_user(entry):
+    user = get_user_model().objects.filter(pk=entry["user"], is_active=True, is_staff=True).first()
+    if user and hmac.compare_digest(user.get_session_auth_hash(), entry["auth"]):
+        return user
+    return None
+
+
+@endpoint(["POST"])
+def confirm_login(request):
+    entry = email_codes.pending(request)
+    if entry.get("stage") != "login":
+        return error("Saisissez à nouveau votre mot de passe.", 401)
+    db = private_store()
+    with db.atomic():
+        bucket = throttled(db, request, "confirmer-administration")
+        if not bucket:
+            return limited()
+        user = pending_user(entry)
+        if not user or not email_codes.consume(db, entry, payload(request).get("code")):
+            return error("Le code est incorrect, expiré ou déjà utilisé.", 401)
+        db.conn.execute("DELETE FROM login_limits WHERE bucket IN (?,?)", (bucket, entry["password_bucket"]))
+        start_admin(request, user, "email")
+    return JsonResponse({"ok": True})
+
+
+@endpoint(["POST"])
+def resend_email(request):
+    entry = email_codes.pending(request)
+    if entry.get("until", 0) < time.time() + email_codes.LIFETIME:
+        return error("Reprenez la première étape pour recevoir un nouveau code.", 401)
+    db = private_store()
+    with db.atomic():
+        if not throttled(db, request, "renvoi-code-administration"):
+            return limited()
+        valid = setup_allowed(db, entry["ticket"]) if entry["stage"] == "setup" else pending_user(entry)
+        if not valid:
+            return error("Reprenez la première étape pour recevoir un nouveau code.", 401)
+    return email_codes.issue(request, entry)
 
 
 @endpoint(["GET", "POST"])

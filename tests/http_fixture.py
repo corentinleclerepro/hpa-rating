@@ -75,7 +75,8 @@ class PrivateServer:
         self.guest_code=lines[-1]
         self.ticket=lines[lines.index("Clé de première configuration (24 h) :")+1]
         def start(script, env):
-            proc = subprocess.Popen([*cmd,script,"--port","0"], cwd=root, env=env, stdout=subprocess.PIPE,
+            wrapper = ["tests/fixture_mail.py"] if script == "run_admin.py" else []
+            proc = subprocess.Popen([*cmd,*wrapper,script,"--port","0"], cwd=root, env=env, stdout=subprocess.PIPE,
                                     stderr=subprocess.DEVNULL,text=True,encoding="utf-8")
             case.addClassCleanup(self.stop, proc)
             line = proc.stdout.readline()

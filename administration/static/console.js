@@ -7,26 +7,41 @@
   function split(title, description, form) {
     return `<div class="entry"><section class="panel gateform"><div class="eyebrow"><i></i>Espace administration</div><h1>${title}</h1><p class="intro">${description}</p>${form}</section></div>`;
   }
-  function adminGate() {
+  function adminGate(recovery = false) {
     const setup = state.session.setup_required;
+    const button = setup || !recovery ? "Recevoir un code par e-mail" : "Ouvrir l’administration";
     render(
       split(
         setup ? "Activer l’administration" : "Connexion à l’administration",
         setup
-          ? "Utilisez votre clé personnelle de première configuration, puis associez votre application d’authentification."
-          : "Renseignez votre mot de passe et votre second facteur pour gérer les demandes et les invitations.",
-        `<form id="${setup ? "setup-start" : "admin-login"}">${setup ? '<label>Clé de première configuration<input name="ticket" type="password" autocomplete="off" required></label>' : ""}<label>${setup ? "Choisissez un mot de passe" : "Mot de passe"}<input name="password" type="password" autocomplete="${setup ? "new-password" : "current-password"}" ${setup ? 'minlength="12" placeholder="12 caractères minimum"' : ""} required></label>${setup ? "" : '<label>Code de l’application ou code de secours<input name="otp" autocomplete="one-time-code" required></label>'}<button class="wide">${setup ? "Configurer l’application d’authentification" : "Ouvrir l’administration"} <span aria-hidden="true">→</span></button><p data-feedback role="status"></p></form>`,
+          ? "Saisissez votre clé d’activation et choisissez un mot de passe. Nous vous enverrons ensuite un code par e-mail."
+          : recovery ? "Saisissez votre mot de passe et l’un de vos codes de secours."
+            : "Saisissez votre mot de passe pour recevoir un code dans la boîte e-mail de l’administration.",
+        `<form id="${setup ? "setup-start" : "admin-login"}">
+          ${setup ? '<label>Clé d’activation<input name="ticket" type="password" autocomplete="off" required></label>' : ""}
+          <label>${setup ? "Choisissez un mot de passe" : "Mot de passe"}<input name="password" type="password"
+            autocomplete="${setup ? "new-password" : "current-password"}" ${setup ? 'minlength="12" placeholder="12 caractères minimum"' : ""} required></label>
+          ${recovery ? '<label>Code de secours<input name="recovery" autocomplete="one-time-code" maxlength="16" required></label>' : ""}
+          <button class="wide">${button} <span aria-hidden="true">→</span></button>
+          <p data-feedback role="status"></p></form>
+          ${setup ? "" : `<button type="button" class="textbtn" data-access="${recovery ? "use-email" : "use-recovery"}">${recovery ? "Recevoir un code par e-mail" : "Utiliser un code de secours"}</button>`}`,
       ),
     );
   }
-  function otpStep(result) {
+  function emailStep(stage) {
     render(
       split(
-        "Associez votre application.",
-        "Scannez ce QR code avec votre application d’authentification, puis saisissez les six chiffres qu’elle affiche.",
-        `<form id="setup-finish"><img class="qr" src="${esc(result.qr)}" alt="QR code à scanner avec votre application"><details><summary>Saisir la clé manuellement</summary><code>${esc(result.manual_key)}</code></details><label>Code à six chiffres<input name="otp" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" required></label><button>Activer l’administration</button><p data-feedback role="status"></p></form>`,
+        "Vérifiez votre e-mail",
+        "Entrez les six chiffres envoyés par Hpa Rating. Le code est valable 10 minutes dans ce navigateur.",
+        `<form id="${stage === "setup" ? "setup-finish" : "login-finish"}">
+          <label>Code reçu par e-mail<input name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" required></label>
+          <button class="wide">${stage === "setup" ? "Activer l’administration" : "Ouvrir l’administration"}</button>
+          <button type="button" class="secondary" data-access="resend-email">Renvoyer le code</button>
+          <p data-feedback role="status"></p></form>
+          <button type="button" class="textbtn" data-access="use-email">Revenir à la première étape</button>`,
       ),
     );
+    $("input[name=code]").focus();
   }
   function requestRow(entry) {
     const pending = entry.status === "pending";
@@ -83,12 +98,18 @@
       button,
       async () => {
         if (form.id === "admin-login") {
-          await api("/api/admin/login", "POST", body);
-          await route();
+          const result = await api("/api/admin/login", "POST", body);
+          if (result.email_pending) emailStep(result.email_pending); else await route();
           return;
         }
         if (form.id === "setup-start") {
-          otpStep(await api("/api/admin/setup/start", "POST", body));
+          const result = await api("/api/admin/setup/start", "POST", body);
+          emailStep(result.email_pending);
+          return;
+        }
+        if (form.id === "login-finish") {
+          await api("/api/admin/login/confirm", "POST", body);
+          await route();
           return;
         }
         if (form.id === "setup-finish") {
@@ -97,7 +118,7 @@
           header();
           await adminPanel();
           dialog(
-            `<h2>Vos codes de secours</h2><p>Conservez ces codes en lieu sûr. Chacun peut remplacer une fois le code de votre application.</p><textarea rows="8" readonly>${esc(recovery_codes.join("\n"))}</textarea><button data-act="close">J’ai conservé mes codes</button>`,
+            `<h2>Vos codes de secours</h2><p>Conservez ces codes en lieu sûr. Si votre boîte e-mail est indisponible, chacun permet une connexion avec votre mot de passe.</p><textarea rows="8" readonly>${esc(recovery_codes.join("\n"))}</textarea><button data-act="close">J’ai conservé mes codes</button>`,
           );
           return;
         }
@@ -112,6 +133,19 @@
   }
   async function action(button) {
     const op = button.dataset.access;
+    if (op === "use-email" || op === "use-recovery") {
+      adminGate(op === "use-recovery");
+      return;
+    }
+    if (op === "resend-email") {
+      await busy(button, async () => {
+        await api("/api/admin/email/resend", "POST", {});
+        const field = button.form.elements.code;
+        field.value = ""; field.focus();
+        toast("Nouveau code envoyé. Utilisez le dernier e-mail reçu.");
+      }, "Envoi…");
+      return;
+    }
     if (op === "copy") {
       const text = $("#invitation-text");
       try {
@@ -157,7 +191,9 @@
     try {
       state.session = await api("/api/session");
       header();
-      if (state.session.admin) await adminPanel(); else adminGate();
+      if (state.session.admin) await adminPanel();
+      else if (state.session.email_pending) emailStep(state.session.email_pending);
+      else adminGate();
     } catch (e) { showErr(e); }
   }
   state.onHttpError = (status, path) => {

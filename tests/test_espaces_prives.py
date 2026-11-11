@@ -1,10 +1,10 @@
-import base64
 import io
+import sqlite3
 import unittest
 import zipfile
 from urllib.parse import urlencode
 from pathlib import Path
-from django_otp.oath import totp
+from fixture_mail import latest_code
 from http_fixture import Browser, PrivateServer
 
 
@@ -16,10 +16,9 @@ class EspacesPrives(unittest.TestCase):
         cls.admin.call("GET","/api/session")
         password="Un essai de classement ! 319"
         proof=cls.admin.call("POST","/api/admin/setup/start",{"ticket":cls.server.ticket,"password":password})
-        cls.key=base64.b32decode(proof["manual_key"])
-        assert proof["qr"].startswith("data:image/svg+xml;base64,")
-        cls.admin.call("POST","/api/admin/setup/finish",{"otp":"impossible"},expected=401)
-        reply=cls.admin.call("POST","/api/admin/setup/finish",{"otp":str(totp(cls.key)).zfill(6)})
+        assert proof == {"email_pending":"setup","expires_in":600}
+        cls.admin.call("POST","/api/admin/setup/finish",{"code":"impossible"},expected=401)
+        reply=cls.admin.call("POST","/api/admin/setup/finish",{"code":latest_code(cls.server.storage.name)})
         cls.backups=reply["recovery_codes"]
         assert len(cls.backups)==8
         cls.password=password
@@ -107,14 +106,47 @@ class EspacesPrives(unittest.TestCase):
     def test_admin_second_facteur_et_codes_de_secours(self):
         anon=Browser(self.server.admin_port, console=True)
         anon.call("GET","/api/session")
-        anon.call("POST","/api/admin/login",{"password":self.password,"otp":"invalide"},expected=401)
+        anon.call("POST","/api/admin/login",{"password":self.password,"recovery":"invalide"},expected=401)
         code=self.backups[0]
-        anon.call("POST","/api/admin/login",{"password":self.password,"otp":code})
+        anon.call("POST","/api/admin/login",{"password":self.password,"recovery":code})
         self.assertTrue(anon.call("GET","/api/session")["admin"])
         anon.call("GET","/api/audits",expected=404)
         anon.call("POST","/api/logout/admin",{})
         anon.call("GET","/api/session")
-        anon.call("POST","/api/admin/login",{"password":self.password,"otp":code},expected=401)
+        anon.call("POST","/api/admin/login",{"password":self.password,"recovery":code},expected=401)
+
+    def test_code_email_prive_limite_et_utilisable_une_fois(self):
+        first, other = [Browser(self.server.admin_port, console=True) for _ in range(2)]
+        for browser in (first, other):
+            browser.call("GET","/api/session")
+        root = "/api/admin/"
+        mailbox = Path(self.server.storage.name) / "test-mail"
+        count = len(list(mailbox.glob("*.log")))
+        first.call("POST",root+"login",{"password":"incorrect"},expected=401)
+        self.assertEqual(len(list(mailbox.glob("*.log"))), count)
+        first.call("POST",root+"login",{"password":self.password, "email":"autre@example.invalid"})
+        self.assertEqual(first.call("GET","/api/session")["email_pending"],"login")
+        first.call("GET",root+"invitations",expected=403)
+        code = latest_code(self.server.storage.name)
+        other.call("POST",root+"login/confirm",{"code":code},expected=401)
+        first.call("POST",root+"email/resend",{},expected=429)
+        with sqlite3.connect(Path(self.server.storage.name)/"console-state.sqlite3") as conn:
+            conn.execute("UPDATE admin_email_challenge SET expires=0, sent_at=0")
+        first.call("POST",root+"login/confirm",{"code":code},expected=401)
+        first.call("POST",root+"email/resend",{})
+        code = latest_code(self.server.storage.name)
+        wrong = "999999" if code != "999999" else "000000"
+        for _ in range(5):
+            first.call("POST",root+"login/confirm",{"code":wrong},expected=401)
+        first.call("POST",root+"login/confirm",{"code":code},expected=401)
+        with sqlite3.connect(Path(self.server.storage.name)/"console-state.sqlite3") as conn:
+            conn.execute("UPDATE admin_email_challenge SET sent_at=0")
+        first.call("POST",root+"email/resend",{})
+        valid = latest_code(self.server.storage.name)
+        first.call("POST",root+"login/confirm",{"code":valid})
+        self.assertTrue(first.call("GET","/api/session")["admin"])
+        first.call("POST","/api/logout/admin",{})
+        first.call("POST",root+"login/confirm",{"code":valid},expected=401)
 
     def test_espaces_pieces_exports_et_suppression(self):
         _,a=self.invite("Camping A")

@@ -18,4 +18,9 @@ def private_store():
     if settings.WEB_ADMIN:
         from hpa_shared.postgres import PgStore
         return PgStore("default")
-    return Store("console-state.sqlite3", initialize)
+    db = Store("console-state.sqlite3", initialize)
+    with db.atomic():
+        db.conn.execute("""CREATE TABLE IF NOT EXISTS admin_email_challenge (
+            id INTEGER PRIMARY KEY CHECK (id=1), nonce TEXT NOT NULL, proof TEXT NOT NULL,
+            sent_at INTEGER NOT NULL, expires INTEGER NOT NULL, failures INTEGER NOT NULL)""")
+    return db

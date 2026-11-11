@@ -18,7 +18,7 @@ def main():
         from administration.views import setup_ticket
         from django.contrib.auth import get_user_model
         if get_user_model().objects.filter(is_staff=True).exists():
-            parser.exit(message="L’administration est déjà configurée. Utilisez votre mot de passe et votre application.\n")
+            parser.exit(message="L’administration est déjà configurée. Connectez-vous avec votre mot de passe et le code reçu par e-mail.\n")
         with open(args.setup_key, "x", encoding="utf-8-sig",
                   opener=lambda path, flags: os.open(path, flags, 0o600)) as output, private_store().atomic():
             ticket = setup_ticket(private_store())

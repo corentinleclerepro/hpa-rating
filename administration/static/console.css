@@ -33,7 +33,7 @@ button:hover { filter: brightness(.93) } button:disabled { opacity: .68; cursor:
 .feedback, [data-feedback] { font-size: .87rem } [data-feedback]:empty { display: none } .error { color: #a51326 }
 dialog { width: min(470px,calc(100% - 28px)); max-height: 85vh; color: inherit } dialog::backdrop { background: #25202b75 }
 .modal-head { display: flex; justify-content: flex-end } .close { min-height: 30px; padding: 1px 8px; font-size: 1.1rem }
-.qr { display: block; width: 185px; max-width: 100%; margin: 12px auto; height: auto } details { margin: 10px 0 20px } code { overflow-wrap: anywhere }
+details { margin: 10px 0 20px } code { overflow-wrap: anywhere }
 #notice { position: fixed; left: 50%; bottom: 20px; margin: 0; transform: translateX(-50%); pointer-events: none; background: #29232a; border-radius: 8px; color: white; padding: 9px 16px; opacity: 0 } #notice.shown { opacity: 1 }
 .skeleton { color: var(--muted) }
 .inbox { margin: 20px 0; }

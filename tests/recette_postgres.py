@@ -26,7 +26,7 @@ def run(port, password):
             raise RuntimeError("Cette recette exige une base de test neuve.")
         setup.execute("CREATE ROLE anon; CREATE ROLE authenticated; CREATE ROLE service_role")
         setup.execute((ROOT/"deploy"/"supabase"/"schema.sql").read_text(encoding="utf8"))
-        for change in ("access_requests.sql", "web_admin.sql"):
+        for change in ("access_requests.sql", "web_admin.sql", "admin_email.sql"):
             setup.execute((ROOT/"deploy"/"supabase"/change).read_text(encoding="utf8"))
         setup.execute("""INSERT INTO hpa_rating.access_requests (id,camping,email,created_at,status)
                          VALUES (repeat('a',32),'Fictif','ancien@example.test','2026-01-01','declined')""")

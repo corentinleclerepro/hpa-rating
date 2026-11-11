@@ -2,7 +2,7 @@
 name = "hpa-rating"
 version = "0.1.0"
 requires-python = ">=3.12,<3.13"
-# Guest runtime on Vercel. The local operator also installs the OTP dependencies in requirements.txt.
+# Guest runtime on Vercel.
 dependencies = [
     "Django==5.2.19",
     "psycopg[binary]==3.3.8",

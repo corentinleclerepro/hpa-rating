@@ -57,7 +57,7 @@ python -m venv .venv
 
 1. **Espace invité** : lancer `.venv\Scripts\python run.py`, puis ouvrir [Mes dossiers](http://localhost:8000/espace). Seul ce service ouvre les dossiers, pièces, synthèses et exports.
 2. **Console privée** : dans un autre terminal, lancer `.venv\Scripts\python run_admin.py`, puis ouvrir [la console](http://127.0.0.1:8001/). Aucun lien vers elle ne figure dans l’espace invité. L’ancienne adresse sur le port 8000 ne sert plus de page.
-3. **Première configuration uniquement** : si l’administrateur n’a pas encore de mot de passe, lancer `.venv\Scripts\python run_admin.py --setup-key ..\configuration-hpa.txt`. La fiche est privée, valable 24 heures et doit avoir un nouveau nom. Saisir la clé dans la console, choisir un mot de passe, associer l’application d’authentification, puis conserver les huit codes de secours. Un administrateur déjà configuré garde son mot de passe et son second facteur.
+3. **Première configuration** — Configurer l’adresse du propriétaire et l’expéditeur dans [l’environnement de l’administration](administration/README.md). Pour la première activation, lancer `.venv\Scripts\python run_admin.py --setup-key ..\configuration-hpa.txt`. La fiche privée est valable 24 heures. Saisir sa clé, choisir un mot de passe, confirmer les six chiffres reçus par e-mail et conserver les huit codes de secours. Les comptes déjà configurés gardent leur mot de passe et leurs codes de secours.
 
 Dans la console, générer un code puis copier l’invitation pour l’envoyer soi-même. Le lien copié pointe sur **l’espace invité** ; pour un port personnalisé, configurer `HPA_GUEST_ORIGIN` avant de lancer la console. La révocation et le remplacement d’un code invalident les sessions correspondantes. Ils ne suppriment aucun dossier.
 

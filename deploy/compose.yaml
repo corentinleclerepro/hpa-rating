@@ -20,6 +20,10 @@ services:
       - invitations:/state/registry
   admin:
     <<: *python
+    environment:
+      HPA_GUEST_ORIGIN: https://${HPA_DOMAIN:-hpa-rating.campcompagnon.fr}
+      HPA_ADMIN_EMAIL: ${HPA_ADMIN_EMAIL:-}
+      HPA_ADMIN_MAIL_KEY: ${HPA_ADMIN_MAIL_KEY:-}
     build: {context: .., dockerfile: deploy/Dockerfile, target: admin}
     volumes:
       - admin_state:/state/private

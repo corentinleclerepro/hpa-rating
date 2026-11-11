@@ -1,8 +1,10 @@
 # Hpa Rating · Camp Compagnon — Espace administration
 
-L’opérateur se connecte depuis son navigateur avec son mot de passe et son application d’authentification. Il peut accepter ou refuser les demandes d’accès, copier les invitations à envoyer par e-mail, remplacer les codes perdus et révoquer un accès. [Installation de l’administration HTTPS](../deploy/supabase/README.md)
+L’opérateur saisit son mot de passe, puis les six chiffres reçus par e-mail. Le code est valable dix minutes dans le navigateur qui l’a demandé. Un code de secours permet aussi une connexion avec le mot de passe. Depuis l’administration, l’opérateur peut traiter les demandes d’accès, copier les invitations, remplacer les codes perdus et révoquer un accès. [Installation de l’administration HTTPS](../deploy/supabase/README.md)
 
 ## Essai local
+
+Configurer dans l’environnement de l’administration `HPA_ADMIN_EMAIL` (boîte de réception du propriétaire) et `HPA_ADMIN_MAIL_KEY` (clé Resend d’envoi sur le domaine de l’expéditeur). L’expéditeur est `administration@devora-agency.fr`.
 
 Depuis le répertoire qui contient `run_admin.py`, avec Python 3.10 ou ultérieur :
 

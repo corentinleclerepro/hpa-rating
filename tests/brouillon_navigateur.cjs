@@ -1,10 +1,16 @@
 const assert = require("node:assert/strict");
-const {readFileSync} = require("node:fs");
+const {readFileSync,readdirSync,statSync} = require("node:fs");
 const path = require("node:path");
 const {chromium} = require(process.env.HPA_PLAYWRIGHT_CORE || "playwright-core");
 const test = JSON.parse(readFileSync(0, "utf8"));
 const mobileSize = {width:390,height:844}, desktopSize = {width:1280,height:800};
 const outputs = process.env.HPA_QA_OUTPUT;
+
+function fixtureMailCode() {
+  const files = readdirSync(test.mail).map(f=>path.join(test.mail,f));
+  const latest = files.sort((a,b)=>statSync(b).mtimeMs-statSync(a).mtimeMs)[0];
+  return readFileSync(latest,"utf8").match(/^([0-9]{6})\r?$/m)[1];
+}
 
 async function checkStack(page, width) {
   await page.setViewportSize(width === 390 ? mobileSize : desktopSize);
@@ -86,9 +92,20 @@ async function run() {
 
     const staff = await desktop.newContext(), admin = await staff.newPage();
     await admin.goto(test.admin);
+    await admin.getByLabel("Clé d’activation").fill(test.ticket);
+    await admin.getByLabel("Choisissez un mot de passe").fill(test.password);
+    await admin.getByRole("button",{name:"Recevoir un code par e-mail"}).click();
+    await admin.getByLabel("Code reçu par e-mail").waitFor();
+    await admin.getByLabel("Code reçu par e-mail").fill(fixtureMailCode());
+    await admin.getByRole("button",{name:"Activer l’administration"}).click();
+    await admin.getByRole("button",{name:"J’ai conservé mes codes"}).click();
+    await admin.getByRole("button",{name:"Se déconnecter"}).click();
     await admin.locator("#admin-login [name=password]").fill(test.password);
-    await admin.locator("#admin-login [name=otp]").fill(test.recovery);
     await admin.locator("#admin-login button").click();
+    await admin.getByLabel("Code reçu par e-mail").waitFor();
+    await admin.reload();
+    await admin.getByLabel("Code reçu par e-mail").fill(fixtureMailCode());
+    await admin.getByRole("button",{name:"Ouvrir l’administration"}).click();
     await admin.getByRole("button",{name:"Accepter et créer un code"}).click();
     await admin.locator("#invitation-text").waitFor();
     const match = (await admin.locator("#invitation-text").inputValue()).match(/HPA-(?:[A-Z2-7]{4}-){5}[A-Z2-7]{4}/);
